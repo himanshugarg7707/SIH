@@ -1,0 +1,1749 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RailOptAI | Intelligent Railway Maintenance Block Optimization</title>
+  <meta name="description" content="AI-Powered Automatic Block Planning to Maximize Asset Availability for Train Operations on Indian Railways. Smart India Hackathon 2026 Prototype.">
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%230284C7'><path d='M4 15.5C4 14.1 5.1 13 6.5 13h11c1.4 0 2.5 1.1 2.5 2.5V19c0 1.1-.9 2-2 2H6c-1.1 0-2-.9-2-2v-3.5z'/><path d='M4 11V6c0-1.7 1.3-3 3-3h10c1.7 0 3 1.3 3 3v5'/><circle cx='8.5' cy='16.5' r='1.5'/><circle cx='15.5' cy='16.5' r='1.5'/></svg>">
+</head>
+<body>
+
+<div class="app-container">
+
+  <!-- ========================================================================
+       PERMANENT LEFT SIDEBAR
+       ======================================================================== -->
+  <aside class="sidebar" id="appSidebar">
+    
+    <!-- Sidebar Header & Logo -->
+    <div class="sidebar-header">
+      <div class="brand-logo-badge">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="4" y="3" width="16" height="16" rx="2"></rect>
+          <path d="M4 11h16"></path>
+          <path d="M12 3v8"></path>
+          <path d="m8 19-2 3"></path>
+          <path d="m16 19 2 3"></path>
+        </svg>
+      </div>
+      <div class="brand-text">
+        <h1>RailOpt<span>AI</span></h1>
+        <span class="subtitle">Railway Maintenance Intelligence</span>
+      </div>
+    </div>
+
+    <!-- Navigation Menu -->
+    <nav class="sidebar-nav">
+      
+      <!-- Overview -->
+      <div class="nav-group">
+        <div class="nav-section-title">Overview</div>
+        <ul class="nav-list">
+          <li class="nav-item">
+            <a href="#dashboard" class="active" data-tab="tab-dashboard" id="navDashboard">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="3" width="7" height="7" rx="1"></rect>
+                <rect x="14" y="3" width="7" height="7" rx="1"></rect>
+                <rect x="14" y="14" width="7" height="7" rx="1"></rect>
+                <rect x="3" y="14" width="7" height="7" rx="1"></rect>
+              </svg>
+              <span>Dashboard</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Maintenance -->
+      <div class="nav-group">
+        <div class="nav-section-title">Maintenance</div>
+        <ul class="nav-list">
+          <li class="nav-item">
+            <a href="#tasks" data-tab="tab-tasks" id="navTasks">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M9 11l3 3L22 4"></path>
+                <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path>
+              </svg>
+              <span>Maintenance Tasks</span>
+              <span class="badge badge-danger">48</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="#planner" data-tab="tab-planner" id="navPlanner">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="3" y1="12" x2="21" y2="12"></line>
+                <line x1="3" y1="6" x2="21" y2="6"></line>
+                <line x1="3" y1="18" x2="21" y2="18"></line>
+                <rect x="7" y="4" width="6" height="4" rx="1" fill="currentColor" opacity="0.2"></rect>
+                <rect x="11" y="10" width="8" height="4" rx="1" fill="currentColor" opacity="0.2"></rect>
+              </svg>
+              <span>Block Planner</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="#ai-recom" data-tab="tab-ai-recom" id="navAiRecom">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"></path>
+              </svg>
+              <span>AI Recommendations</span>
+              <span class="badge badge-info">Score 94</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="#bundling" data-tab="tab-bundling" id="navBundling">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
+                <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+              </svg>
+              <span>Task Bundling</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="#replanning" data-tab="tab-replanning" id="navReplanning">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"></path>
+              </svg>
+              <span>Dynamic Re-Planning</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Operations -->
+      <div class="nav-group">
+        <div class="nav-section-title">Operations</div>
+        <ul class="nav-list">
+          <li class="nav-item">
+            <a href="#trains" data-tab="tab-schedule" id="navSchedule">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="4" y="3" width="16" height="16" rx="2"></rect>
+                <path d="M4 11h16"></path>
+                <circle cx="8" cy="15" r="1"></circle>
+                <circle cx="16" cy="15" r="1"></circle>
+              </svg>
+              <span>Train Schedule</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="#resources" data-tab="tab-resources" id="navResources">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                <circle cx="9" cy="7" r="4"></circle>
+                <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+              </svg>
+              <span>Resources</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="#alerts" data-tab="tab-alerts" id="navAlerts">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+                <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+              </svg>
+              <span>Alerts</span>
+              <span class="badge badge-danger">4</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Insights -->
+      <div class="nav-group">
+        <div class="nav-section-title">Insights</div>
+        <ul class="nav-list">
+          <li class="nav-item">
+            <a href="#analytics" data-tab="tab-analytics" id="navAnalytics">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="18" y1="20" x2="18" y2="10"></line>
+                <line x1="12" y1="20" x2="12" y2="4"></line>
+                <line x1="6" y1="20" x2="6" y2="14"></line>
+              </svg>
+              <span>Analytics</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Approval -->
+      <div class="nav-group">
+        <div class="nav-section-title">Approval</div>
+        <ul class="nav-list">
+          <li class="nav-item">
+            <a href="#approval" data-tab="tab-approval" id="navApproval">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                <polyline points="22 4 12 14.01 9 11.01"></polyline>
+              </svg>
+              <span>Approval Center</span>
+              <span class="badge badge-info">1 Pending</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+
+    </nav>
+
+    <!-- Sidebar Footer Details -->
+    <div class="sidebar-footer">
+      <div class="zone-info-card">
+        <div class="zone-icon">NR</div>
+        <div class="zone-details">
+          <div class="zone-name">Northern Railway</div>
+          <div class="zone-div">Ambala Div • Section CHD-LDH</div>
+        </div>
+      </div>
+    </div>
+
+  </aside>
+
+  <!-- ========================================================================
+       MAIN WRAPPER
+       ======================================================================== -->
+  <main class="main-wrapper">
+    
+    <!-- Top Header -->
+    <header class="top-header">
+      <div class="header-left">
+        <div class="header-titles">
+          <h2>RailOptAI Operations Dashboard</h2>
+          <span class="subtitle">AI-assisted railway maintenance planning</span>
+        </div>
+        <div class="section-selector-badge">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"></circle>
+            <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"></polygon>
+          </svg>
+          <span>Corridor: CHD-LDH-04 (Up Main)</span>
+        </div>
+      </div>
+
+      <div class="header-right">
+        <!-- Prototype Badge -->
+        <span class="proto-badge">SIH 2026 Prototype</span>
+
+        <!-- System Status Indicator -->
+        <div class="system-status-pill">
+          <span class="status-dot"></span>
+          <span>System Operational</span>
+        </div>
+
+        <!-- Quick Dynamic Delay Simulator Shortcut -->
+        <button class="quick-delay-btn" id="headerSimulateDelayBtn" title="Simulate real-time delay of Shatabdi 12424">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+          </svg>
+          <span>Simulate Train Delay</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Scrollable Workspace Body -->
+    <div class="content-scrollable">
+
+      <!-- Evaluator Process Journey Bar -->
+      <div class="workflow-breadcrumb-bar">
+        <div class="workflow-label">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#0284C7" stroke-width="2.5">
+            <polyline points="13 17 18 12 13 7"></polyline>
+            <polyline points="6 17 11 12 6 7"></polyline>
+          </svg>
+          <span>SIH Concept Journey:</span>
+        </div>
+        <div class="workflow-steps">
+          <a class="step-chip active" data-tab="tab-tasks">
+            <span class="step-num">1</span>
+            <span>Maintenance Tasks</span>
+          </a>
+          <span class="step-separator">→</span>
+          <a class="step-chip" data-tab="tab-ai-recom">
+            <span class="step-num">2</span>
+            <span>AI Recommendation</span>
+          </a>
+          <span class="step-separator">→</span>
+          <a class="step-chip" data-tab="tab-planner">
+            <span class="step-num">3</span>
+            <span>Block Planner</span>
+          </a>
+          <span class="step-separator">→</span>
+          <a class="step-chip" data-tab="tab-schedule">
+            <span class="step-num">4</span>
+            <span>Train Conflict Check</span>
+          </a>
+          <span class="step-separator">→</span>
+          <a class="step-chip" data-tab="tab-bundling">
+            <span class="step-num">5</span>
+            <span>Smart Task Bundling</span>
+          </a>
+          <span class="step-separator">→</span>
+          <a class="step-chip" data-tab="tab-approval">
+            <span class="step-num">6</span>
+            <span>Approval</span>
+          </a>
+          <span class="step-separator">→</span>
+          <a class="step-chip" data-tab="tab-replanning">
+            <span class="step-num">7</span>
+            <span>Dynamic Re-planning</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- ====================================================================
+           1. DASHBOARD VIEW (MAIN LANDING PAGE)
+           ==================================================================== -->
+      <section class="tab-pane active" id="tab-dashboard">
+        
+        <!-- Hero Introduction Banner -->
+        <div class="hero-intro-card">
+          <div class="hero-rail-pattern">
+            <svg viewBox="0 0 200 200" fill="none" stroke="currentColor" stroke-width="3">
+              <line x1="20" y1="0" x2="20" y2="200"></line>
+              <line x1="80" y1="0" x2="80" y2="200"></line>
+              <line x1="140" y1="0" x2="140" y2="200"></line>
+              <line x1="0" y1="30" x2="200" y2="30"></line>
+              <line x1="0" y1="70" x2="200" y2="70"></line>
+              <line x1="0" y1="110" x2="200" y2="110"></line>
+              <line x1="0" y1="150" x2="200" y2="150"></line>
+              <line x1="0" y1="190" x2="200" y2="190"></line>
+            </svg>
+          </div>
+          <span class="badge-sih">Smart India Hackathon 2026 Prototype</span>
+          <h2>Smarter Maintenance. Fewer Conflicts. Higher Asset Availability.</h2>
+          <p>
+            RailOptAI brings maintenance tasks, train schedules, available blocks and resources into one intelligent planning interface.
+            Eliminate cross-departmental scheduling silos across Track, S&amp;T, and Traction to achieve higher punctuality and zero train conflicts.
+          </p>
+          <div class="hero-actions">
+            <a href="#planner" class="btn-hero-primary quick-tab-link" data-tab="tab-planner">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5">
+                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                <line x1="16" y1="2" x2="16" y2="6"></line>
+                <line x1="8" y1="2" x2="8" y2="6"></line>
+                <line x1="3" y1="10" x2="21" y2="10"></line>
+              </svg>
+              View Maintenance Plan
+            </a>
+            <a href="#ai-recom" class="btn-hero-secondary quick-tab-link" data-tab="tab-ai-recom">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5">
+                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+              </svg>
+              Explore AI Recommendations
+            </a>
+          </div>
+        </div>
+
+        <!-- 6 KPI CARDS -->
+        <div class="kpi-grid">
+          
+          <!-- KPI 1: Pending Maintenance -->
+          <div class="kpi-card">
+            <div class="kpi-header">
+              <span class="kpi-title">Pending Maintenance</span>
+              <div class="kpi-icon-wrap" style="background: #FEE2E2; color: #DC2626;">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <line x1="12" y1="8" x2="12" y2="12"></line>
+                  <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                </svg>
+              </div>
+            </div>
+            <div class="kpi-value" id="kpiPending">48</div>
+            <div class="kpi-footer">
+              <span class="kpi-trend trend-warning">↑ +4 from yesterday</span>
+              <span class="proto-label-micro">DEMO</span>
+            </div>
+          </div>
+
+          <!-- KPI 2: High Priority -->
+          <div class="kpi-card">
+            <div class="kpi-header">
+              <span class="kpi-title">High Priority</span>
+              <div class="kpi-icon-wrap" style="background: #FEF3C7; color: #D97706;">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
+                </svg>
+              </div>
+            </div>
+            <div class="kpi-value" id="kpiHighPriority">12</div>
+            <div class="kpi-footer">
+              <span class="kpi-trend trend-warning">Requires urgent block</span>
+              <span class="proto-label-micro">DEMO</span>
+            </div>
+          </div>
+
+          <!-- KPI 3: Scheduled Tasks -->
+          <div class="kpi-card">
+            <div class="kpi-header">
+              <span class="kpi-title">Scheduled Tasks</span>
+              <div class="kpi-icon-wrap" style="background: #E0F2FE; color: #0284C7;">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="9 11 12 14 22 4"></polyline>
+                  <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path>
+                </svg>
+              </div>
+            </div>
+            <div class="kpi-value" id="kpiScheduled">31</div>
+            <div class="kpi-footer">
+              <span class="kpi-trend trend-positive">64.5% bundled</span>
+              <span class="proto-label-micro">DEMO</span>
+            </div>
+          </div>
+
+          <!-- KPI 4: Available Block Hours -->
+          <div class="kpi-card">
+            <div class="kpi-header">
+              <span class="kpi-title">Available Block Hours</span>
+              <div class="kpi-icon-wrap" style="background: #F3E8FF; color: #7C3AED;">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <polyline points="12 6 12 12 16 14"></polyline>
+                </svg>
+              </div>
+            </div>
+            <div class="kpi-value" id="kpiBlockHours">18.5 hrs</div>
+            <div class="kpi-footer">
+              <span class="kpi-trend trend-blue">Across 4 sub-sections</span>
+              <span class="proto-label-micro">DEMO</span>
+            </div>
+          </div>
+
+          <!-- KPI 5: Asset Availability -->
+          <div class="kpi-card">
+            <div class="kpi-header">
+              <span class="kpi-title">Asset Availability</span>
+              <div class="kpi-icon-wrap" style="background: #ECFDF5; color: #059669;">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                  <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                </svg>
+              </div>
+            </div>
+            <div class="kpi-value" id="kpiAvailability">94.2%</div>
+            <div class="kpi-footer">
+              <span class="kpi-trend trend-positive">↑ +2.4% vs manual</span>
+              <span class="proto-label-micro">DEMO</span>
+            </div>
+          </div>
+
+          <!-- KPI 6: Train Conflicts -->
+          <div class="kpi-card">
+            <div class="kpi-header">
+              <span class="kpi-title">Train Conflicts</span>
+              <div class="kpi-icon-wrap" style="background: #FEF2F2; color: #DC2626;">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+                  <line x1="18" y1="6" x2="6" y2="18"></line>
+                  <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+              </div>
+            </div>
+            <div class="kpi-value" id="kpiConflicts">3</div>
+            <div class="kpi-footer">
+              <span class="kpi-trend trend-positive">↓ Down from 12 (75% drop)</span>
+              <span class="proto-label-micro">DEMO</span>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Dashboard Two-Column Widgets -->
+        <div class="dashboard-widget-grid">
+          
+          <!-- Left: Featured AI Recommended Block Preview -->
+          <div class="ui-card">
+            <div class="ui-card-header">
+              <div class="card-title-group">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#0284C7" stroke-width="2.5">
+                  <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                </svg>
+                <h3>Upcoming AI Block Recommendation</h3>
+              </div>
+              <span class="badge badge-info">Score: 94/100</span>
+            </div>
+            <div class="ui-card-body">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+                <div>
+                  <h4 style="font-size: 17px; font-weight: 800; color: var(--ir-navy);">BLOCK B-021 (02:00 — 05:00)</h4>
+                  <p style="font-size: 12.5px; color: var(--text-secondary);">Section: CHD-LDH-04 • 3 Tasks Bundled (Track + S&amp;T)</p>
+                </div>
+                <button class="btn-primary quick-tab-link" data-tab="tab-ai-recom">Review Recommendation →</button>
+              </div>
+              <div style="background: #F8FAFC; border: 1px solid var(--border-light); border-radius: 8px; padding: 14px; font-size: 13px;">
+                <div style="display: flex; gap: 8px; margin-bottom: 6px; align-items: center;">
+                  <span style="color: var(--signal-green); font-weight: 800;">✓</span>
+                  <span>Zero passenger train conflict (clears Shatabdi 12424 headway)</span>
+                </div>
+                <div style="display: flex; gap: 8px; margin-bottom: 6px; align-items: center;">
+                  <span style="color: var(--signal-green); font-weight: 800;">✓</span>
+                  <span>Resolves critical ultrasonic rail joint flaw MT-1042 before deadline</span>
+                </div>
+                <div style="display: flex; gap: 8px; align-items: center;">
+                  <span style="color: var(--signal-green); font-weight: 800;">✓</span>
+                  <span>Saves 2.0h total line downtime compared to unbundled isolated shifts</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right: Live Operational Status Summary -->
+          <div class="ui-card">
+            <div class="ui-card-header">
+              <div class="card-title-group">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#059669" stroke-width="2.5">
+                  <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
+                </svg>
+                <h3>Operational Corridor Readiness</h3>
+              </div>
+              <span class="system-status-pill"><span class="status-dot"></span> Active</span>
+            </div>
+            <div class="ui-card-body">
+              <div style="display: flex; flex-direction: column; gap: 12px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; padding-bottom: 8px; border-bottom: 1px solid var(--border-subtle);">
+                  <span style="font-weight: 600; color: var(--text-secondary);">Section Controllers (SCR)</span>
+                  <span class="status-badge status-completed">Cleared</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; align-items: center; padding-bottom: 8px; border-bottom: 1px solid var(--border-subtle);">
+                  <span style="font-weight: 600; color: var(--text-secondary);">Traction Power (TPC)</span>
+                  <span class="status-badge status-completed">Permit Ready</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; align-items: center; padding-bottom: 8px; border-bottom: 1px solid var(--border-subtle);">
+                  <span style="font-weight: 600; color: var(--text-secondary);">Available Maintenance Gangs</span>
+                  <span class="status-badge status-scheduled">Track T-01 &amp; S&amp;T S-03</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                  <span style="font-weight: 600; color: var(--text-secondary);">Active Train Movements (00-08h)</span>
+                  <span class="code-mono">6 Scheduled</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- 12. BEFORE VS AFTER COMPARISON SECTION -->
+        <div class="comparison-section">
+          <div style="margin-bottom: 14px;">
+            <h3 style="font-size: 16px; font-weight: 800; color: var(--ir-navy);">Indian Railways Planning Transformation Matrix</h3>
+            <p style="font-size: 12.5px; color: var(--text-secondary);">Demonstrating efficiency gains from manual departmental coordination to AI-assisted predictive block optimization.</p>
+          </div>
+
+          <div class="comparison-grid">
+            
+            <!-- Traditional Planning Card -->
+            <div class="comp-card traditional">
+              <div class="comp-header">
+                <h4>Traditional Planning</h4>
+                <span class="comp-badge">Legacy Process</span>
+              </div>
+              <ul class="comp-list">
+                <li>
+                  <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                  <span>Manual scheduling via telephonic coordination and paper memos</span>
+                </li>
+                <li>
+                  <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                  <span>Fixed rigid planning with minimal adaptability during train delays</span>
+                </li>
+                <li>
+                  <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                  <span>Separate departmental coordination (Civil, S&amp;T, Electrical in silos)</span>
+                </li>
+                <li>
+                  <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                  <span>Resource conflicts between tamping machines, tower wagons &amp; gangs</span>
+                </li>
+                <li>
+                  <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                  <span>Manual re-planning when passenger trains run late (frequent block cancellations)</span>
+                </li>
+                <li>
+                  <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                  <span>Delayed decisions causing unnecessary train detention and speed restrictions</span>
+                </li>
+              </ul>
+            </div>
+
+            <!-- RailOptAI Card -->
+            <div class="comp-card railoptai">
+              <div class="comp-header">
+                <h4>RailOptAI Solution</h4>
+                <span class="comp-badge">AI Optimized</span>
+              </div>
+              <ul class="comp-list">
+                <li>
+                  <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                  <span>AI-assisted planning leveraging multi-departmental constraints</span>
+                </li>
+                <li>
+                  <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                  <span>Dynamic re-planning responding to live train delay telemetry in seconds</span>
+                </li>
+                <li>
+                  <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                  <span>Cross-department coordination (bundles Track, S&amp;T, and Traction into 1 shadow block)</span>
+                </li>
+                <li>
+                  <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                  <span>Better resource utilization (91% crew and equipment concurrency)</span>
+                </li>
+                <li>
+                  <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                  <span>Train-aware planning with guaranteed safety headway and zero line halt</span>
+                </li>
+                <li>
+                  <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                  <span>Faster decision support with one-click Chief Controller approval</span>
+                </li>
+              </ul>
+            </div>
+
+          </div>
+        </div>
+
+      </section>
+
+      <!-- ====================================================================
+           2. MAINTENANCE TASKS VIEW
+           ==================================================================== -->
+      <section class="tab-pane" id="tab-tasks">
+        
+        <div style="margin-bottom: 18px;">
+          <h2 style="font-size: 20px; font-weight: 800; color: var(--ir-navy);">Maintenance Task Backlog &amp; Demands</h2>
+          <p style="font-size: 13px; color: var(--text-secondary);">Comprehensive catalog of pending track, signaling, and electrical works requiring block possession.</p>
+        </div>
+
+        <!-- Filter Toolbar -->
+        <div class="table-toolbar">
+          <div class="search-box-wrap">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="11" cy="11" r="8"></circle>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+            <input type="text" id="taskSearchInput" class="search-input" placeholder="Search tasks, assets, sections...">
+          </div>
+
+          <div class="filter-group">
+            <select id="filterDept" class="filter-select">
+              <option value="all">All Departments</option>
+              <option value="Track">Track (Civil)</option>
+              <option value="S&T">S&amp;T (Signals)</option>
+              <option value="Traction">Traction (OHE)</option>
+            </select>
+
+            <select id="filterPriority" class="filter-select">
+              <option value="all">All Priorities</option>
+              <option value="High">High Priority</option>
+              <option value="Medium">Medium Priority</option>
+              <option value="Low">Low Priority</option>
+            </select>
+
+            <select id="filterRisk" class="filter-select">
+              <option value="all">All Risks</option>
+              <option value="High">High Risk</option>
+              <option value="Medium">Medium Risk</option>
+              <option value="Low">Low Risk</option>
+            </select>
+
+            <select id="filterSection" class="filter-select">
+              <option value="all">All Sections</option>
+              <option value="CHD-LDH-04">CHD-LDH-04</option>
+              <option value="CHD-LDH-05">CHD-LDH-05</option>
+              <option value="LDH-UMB-01">LDH-UMB-01</option>
+              <option value="LDH-UMB-02">LDH-UMB-02</option>
+            </select>
+
+            <select id="filterStatus" class="filter-select">
+              <option value="all">All Statuses</option>
+              <option value="Pending">Pending</option>
+              <option value="Bundled">Bundled</option>
+              <option value="Scheduled">Scheduled</option>
+            </select>
+
+            <button id="btnResetFilters" class="btn-secondary">Reset</button>
+          </div>
+
+          <div id="taskFilteredCount" style="font-size: 12px; font-weight: 600; color: var(--text-secondary);">
+            Showing 8 tasks
+          </div>
+        </div>
+
+        <!-- Enterprise Tasks Table -->
+        <div class="table-responsive">
+          <table class="enterprise-table">
+            <thead>
+              <tr>
+                <th>Task ID</th>
+                <th>Department</th>
+                <th>Asset</th>
+                <th>Section</th>
+                <th>Maintenance Task</th>
+                <th>Priority</th>
+                <th>Risk</th>
+                <th>Duration</th>
+                <th>Deadline</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody id="tasksTableBody">
+              <!-- Dynamically rendered via data.js and app.js -->
+            </tbody>
+          </table>
+        </div>
+
+      </section>
+
+      <!-- ====================================================================
+           3. BLOCK PLANNER VIEW (FLAGSHIP GANTT TIMELINE)
+           ==================================================================== -->
+      <section class="tab-pane" id="tab-planner">
+        
+        <!-- Header Panel with Control Buttons -->
+        <div class="planner-header-panel">
+          <div class="planner-title-group">
+            <h3>
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#0284C7" stroke-width="2.5">
+                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                <line x1="16" y1="2" x2="16" y2="6"></line>
+                <line x1="8" y1="2" x2="8" y2="6"></line>
+                <line x1="3" y1="10" x2="21" y2="10"></line>
+              </svg>
+              Gantt Railway Maintenance Corridor Planner
+            </h3>
+            <p>Visualizing simultaneous multi-department possessions placed harmoniously between train schedules.</p>
+          </div>
+
+          <div class="planner-controls">
+            <button class="btn-secondary" id="btnEditBlock">
+              <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+              </svg>
+              Edit Block
+            </button>
+            <button class="btn-secondary" id="btnGeneratePlan">
+              <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2">
+                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+              </svg>
+              Generate Plan
+            </button>
+            <button class="btn-primary" id="btnApproveFromPlanner">
+              <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="20 6 9 17 4 12"></polyline>
+              </svg>
+              Approve
+            </button>
+          </div>
+        </div>
+
+        <!-- The Gantt Board -->
+        <div class="gantt-board-card">
+          
+          <!-- Legend Bar -->
+          <div class="gantt-legend-bar">
+            <div class="legend-items">
+              <div class="legend-item">
+                <div class="legend-swatch swatch-block"></div>
+                <span>Active AI Maintenance Block</span>
+              </div>
+              <div class="legend-item">
+                <div class="legend-swatch swatch-train"></div>
+                <span>Scheduled Train Movement</span>
+              </div>
+              <div class="legend-item">
+                <div class="legend-swatch swatch-delay"></div>
+                <span>Train Delay / Conflict Marker</span>
+              </div>
+              <div class="legend-item">
+                <div class="legend-swatch swatch-safe"></div>
+                <span>Shifted Safe Window</span>
+              </div>
+            </div>
+            <div style="font-size: 11.5px; color: var(--text-muted);">
+              Section: <strong>CHD-LDH-04</strong> • Timebase: 00:00 — 08:00 IST
+            </div>
+          </div>
+
+          <!-- Timeline Container -->
+          <div class="gantt-table-container">
+            
+            <!-- Horizontal Hour Ruler -->
+            <div class="timeline-ruler">
+              <div class="ruler-corner">Corridor Track</div>
+              <div class="time-slot">00:00</div>
+              <div class="time-slot">01:00</div>
+              <div class="time-slot">02:00</div>
+              <div class="time-slot">03:00</div>
+              <div class="time-slot">04:00</div>
+              <div class="time-slot">05:00</div>
+              <div class="time-slot">06:00</div>
+              <div class="time-slot">07:00</div>
+            </div>
+
+            <!-- Department and Train Movement Rows -->
+            <div id="ganttRowsContainer">
+              <!-- Rendered via JS -->
+            </div>
+
+          </div>
+
+        </div>
+
+        <!-- Interactive Callout -->
+        <div style="background: white; border: 1px solid var(--border-light); border-radius: var(--radius-lg); padding: 18px 22px; display: flex; align-items: center; justify-content: space-between; box-shadow: var(--shadow-sm);">
+          <div style="display: flex; align-items: center; gap: 14px;">
+            <div style="width: 40px; height: 40px; border-radius: 8px; background: #E0F2FE; color: #0284C7; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="12" y1="16" x2="12" y2="12"></line>
+                <line x1="12" y1="8" x2="12.01" y2="8"></line>
+              </svg>
+            </div>
+            <div>
+              <h4 style="font-size: 14px; font-weight: 700; color: var(--ir-navy);">Observation: Blocks Are Built Around Trains</h4>
+              <p style="font-size: 12.5px; color: var(--text-secondary);">
+                Notice how <strong>BLOCK B-021 (02:00—05:00)</strong> encapsulates rail inspection, geometry check, and signaling test directly after Train 12424 passes at 02:20, and wraps up before morning express surges.
+              </p>
+            </div>
+          </div>
+          <button class="btn-secondary quick-tab-link" data-tab="tab-replanning">Test Train Delay Simulation →</button>
+        </div>
+
+      </section>
+
+      <!-- ====================================================================
+           4. AI RECOMMENDATION & SMART TASK BUNDLING VIEW
+           ==================================================================== -->
+      <section class="tab-pane" id="tab-ai-recom">
+        
+        <!-- Prominent AI Recommendation Card -->
+        <div class="ai-recommendation-card">
+          <div class="ai-recom-top">
+            <div>
+              <div class="ai-spark-tag">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                </svg>
+                AI RECOMMENDATION
+              </div>
+              <div class="ai-recom-heading">
+                <h3>Recommended Maintenance Block B-021</h3>
+              </div>
+              <div class="ai-meta-pills">
+                <span class="ai-meta-pill highlight">Time Window: 02:00 — 05:00</span>
+                <span class="ai-meta-pill">Section: CHD-LDH-04</span>
+                <span class="ai-meta-pill">Bundled Tasks: 3</span>
+                <span class="ai-meta-pill">Duration: 3 Hours</span>
+              </div>
+            </div>
+
+            <!-- Circular Optimization Score Meter -->
+            <div class="opt-score-badge">
+              <div class="score-circle-wrapper">
+                <svg width="64" height="64" viewBox="0 0 64 64">
+                  <circle cx="32" cy="32" r="28" stroke="#E2E8F0" stroke-width="5" fill="none"></circle>
+                  <circle cx="32" cy="32" r="28" stroke="#059669" stroke-width="5" fill="none"
+                          stroke-dasharray="175.9" stroke-dashoffset="10.5" stroke-linecap="round"></circle>
+                </svg>
+                <span class="score-circle-text">94</span>
+              </div>
+              <div class="score-info">
+                <div class="score-label">Optimization Score</div>
+                <div class="score-rating">94/100 (Optimal)</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Why this window checklist -->
+          <div class="ai-checklist-title">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#0284C7" stroke-width="2">
+              <circle cx="12" cy="12" r="10"></circle>
+              <line x1="12" y1="16" x2="12" y2="12"></line>
+              <line x1="12" y1="8" x2="12.01" y2="8"></line>
+            </svg>
+            Why this window?
+          </div>
+          <ul class="ai-checklist">
+            <li>
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              <span><strong>No major train conflict</strong>: Timed smoothly after Train 12424 clears at 02:20</span>
+            </li>
+            <li>
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              <span><strong>High-priority task deadline approaching</strong>: Resolves MT-1042 ultrasonic inspection due in 18h</span>
+            </li>
+            <li>
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              <span><strong>Required manpower available</strong>: Track Team T-01 and S&amp;T Team S-03 co-located</span>
+            </li>
+            <li>
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              <span><strong>Compatible maintenance tasks combined</strong>: Joint Civil and Signaling track possession</span>
+            </li>
+            <li>
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              <span><strong>Better block utilization</strong>: 89% corridor possession efficiency vs 45% manual</span>
+            </li>
+          </ul>
+
+          <!-- Card Action Buttons -->
+          <div class="ai-recom-actions">
+            <button class="btn-approve-lg quick-tab-link" data-tab="tab-approval">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5">
+                <polyline points="20 6 9 17 4 12"></polyline>
+              </svg>
+              Approve Recommendation
+            </button>
+            <button class="btn-secondary" onclick="openModal('editBlockModal')">
+              <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="3"></circle>
+                <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+              </svg>
+              Modify
+            </button>
+          </div>
+        </div>
+
+      </section>
+
+      <!-- ====================================================================
+           5. SMART TASK BUNDLING VIEW
+           ==================================================================== -->
+      <section class="tab-pane" id="tab-bundling">
+        
+        <div style="margin-bottom: 18px;">
+          <h2 style="font-size: 20px; font-weight: 800; color: var(--ir-navy);">Smart Task Bundling Engine</h2>
+          <p style="font-size: 13px; color: var(--text-secondary);">Combine compatible civil, signaling, and traction work into a single unified block to minimize track possession frequency.</p>
+        </div>
+
+        <div class="task-bundle-card">
+          <div class="bundle-header-row">
+            <div class="bundle-title-group">
+              <h3>Smart Task Bundle: Bundle B-021</h3>
+              <span class="bundle-subtitle">Section: <strong>CHD-LDH-04</strong> • High-Density Main Line Corridor</span>
+            </div>
+            <span class="badge badge-info">3 tasks → 1 maintenance block</span>
+          </div>
+
+          <!-- Connected Tasks Flow -->
+          <div class="bundle-flow-container">
+            <div class="connected-tasks-list">
+              
+              <!-- Task 1 -->
+              <div class="bundle-task-node">
+                <span class="node-dept-tag" style="color: #0369A1; background: #E0F2FE; padding: 2px 8px; border-radius: 4px;">Track</span>
+                <h5>Rail joint inspection</h5>
+                <div class="node-meta">
+                  <span>Task: MT-1042</span> • <span>Duration: 2h</span>
+                </div>
+              </div>
+
+              <!-- Task 2 -->
+              <div class="bundle-task-node">
+                <span class="node-dept-tag" style="color: #0369A1; background: #E0F2FE; padding: 2px 8px; border-radius: 4px;">Track</span>
+                <h5>Track geometry inspection</h5>
+                <div class="node-meta">
+                  <span>Task: MT-1044</span> • <span>Duration: 1.5h</span>
+                </div>
+              </div>
+
+              <!-- Task 3 -->
+              <div class="bundle-task-node">
+                <span class="node-dept-tag" style="color: #6D28D9; background: #F5F3FF; padding: 2px 8px; border-radius: 4px;">S&amp;T</span>
+                <h5>Signal equipment check</h5>
+                <div class="node-meta">
+                  <span>Task: MT-1048</span> • <span>Duration: 1h</span>
+                </div>
+              </div>
+
+            </div>
+
+            <div style="text-align: center; margin-top: 14px;">
+              <span class="bundle-connector-tag">
+                ⚡ Simultaneous Track &amp; S&amp;T Possession • Co-scheduled in Parallel
+              </span>
+            </div>
+          </div>
+
+          <!-- Benefits Grid -->
+          <div class="bundle-benefits-grid">
+            
+            <div class="benefit-pill-card">
+              <div class="benefit-val">2h block time saved</div>
+              <div class="benefit-detail">Avoids 3 separate shutdowns; frees line capacity</div>
+            </div>
+
+            <div class="benefit-pill-card">
+              <div class="benefit-val">3 train conflicts avoided</div>
+              <div class="benefit-detail">Zero secondary detention on Shatabdi &amp; Kalka Exp</div>
+            </div>
+
+            <div class="benefit-pill-card">
+              <div class="benefit-val">91% resource utilization</div>
+              <div class="benefit-detail">Concurrent deployment of Track T-01 &amp; S&amp;T S-03</div>
+            </div>
+
+          </div>
+
+          <!-- Apply Bundle Button -->
+          <button class="btn-primary" id="btnApplyBundle" style="padding: 11px 24px; font-size: 13.5px;">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5">
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+            Apply Bundle
+          </button>
+        </div>
+
+      </section>
+
+      <!-- ====================================================================
+           6. TRAIN SCHEDULE VIEW
+           ==================================================================== -->
+      <section class="tab-pane" id="tab-schedule">
+        
+        <div style="margin-bottom: 18px;">
+          <h2 style="font-size: 20px; font-weight: 800; color: var(--ir-navy);">Indian Railways Train Schedule &amp; Headway</h2>
+          <p style="font-size: 13px; color: var(--text-secondary);">Real-time passenger and freight train occupancy used by RailOptAI to calculate conflict-free windows.</p>
+        </div>
+
+        <div class="table-responsive">
+          <table class="enterprise-table">
+            <thead>
+              <tr>
+                <th>Train</th>
+                <th>Route</th>
+                <th>Section</th>
+                <th>Arrival</th>
+                <th>Departure</th>
+                <th>Status</th>
+                <th>Delay</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- Row 1: Train 12424 -->
+              <tr id="trainRow12424">
+                <td>
+                  <strong>12424</strong><br>
+                  <span style="font-size: 11.5px; color: var(--text-secondary);">Amritsar Shatabdi Exp</span>
+                </td>
+                <td>New Delhi → Amritsar</td>
+                <td><span class="code-mono">CHD-LDH-04</span></td>
+                <td><span class="code-mono">02:00</span></td>
+                <td><span class="code-mono">02:20</span></td>
+                <td id="train12424StatusCell"><span class="status-badge status-scheduled">Running</span></td>
+                <td id="train12424DelayCell">—</td>
+              </tr>
+
+              <!-- Row 2: Train 14631 -->
+              <tr>
+                <td>
+                  <strong>14631</strong><br>
+                  <span style="font-size: 11.5px; color: var(--text-secondary);">Dehradun → Amritsar Exp</span>
+                </td>
+                <td>Delhi → Amritsar</td>
+                <td><span class="code-mono">CHD-LDH-04</span></td>
+                <td><span class="code-mono">03:20</span></td>
+                <td><span class="code-mono">03:45</span></td>
+                <td><span class="status-badge" style="background: #FEF3C7; color: #92400E;">Delayed</span></td>
+                <td><span style="color: var(--signal-amber); font-weight: 700;">10 min</span></td>
+              </tr>
+
+              <!-- Row 3: Train 12013 -->
+              <tr>
+                <td>
+                  <strong>12013</strong><br>
+                  <span style="font-size: 11.5px; color: var(--text-secondary);">New Delhi → Amritsar Shatabdi</span>
+                </td>
+                <td>New Delhi → Amritsar</td>
+                <td><span class="code-mono">CHD-LDH-05</span></td>
+                <td><span class="code-mono">05:30</span></td>
+                <td><span class="code-mono">05:50</span></td>
+                <td><span class="status-badge status-scheduled">Running</span></td>
+                <td>—</td>
+              </tr>
+
+              <!-- Row 4: Train 22461 -->
+              <tr>
+                <td>
+                  <strong>22461</strong><br>
+                  <span style="font-size: 11.5px; color: var(--text-secondary);">Katra Vande Bharat</span>
+                </td>
+                <td>New Delhi → Katra</td>
+                <td><span class="code-mono">LDH-UMB-02</span></td>
+                <td><span class="code-mono">06:15</span></td>
+                <td><span class="code-mono">06:25</span></td>
+                <td><span class="status-badge status-scheduled">Running</span></td>
+                <td>—</td>
+              </tr>
+
+              <!-- Row 5: Train 12925 -->
+              <tr>
+                <td>
+                  <strong>12925</strong><br>
+                  <span style="font-size: 11.5px; color: var(--text-secondary);">Paschim Superfast Exp</span>
+                </td>
+                <td>Mumbai Central → Amritsar</td>
+                <td><span class="code-mono">CHD-LDH-04</span></td>
+                <td><span class="code-mono">06:40</span></td>
+                <td><span class="code-mono">07:05</span></td>
+                <td><span class="status-badge status-scheduled">Running</span></td>
+                <td>—</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+      </section>
+
+      <!-- ====================================================================
+           7. DYNAMIC RE-PLANNING DEMO VIEW
+           ==================================================================== -->
+      <section class="tab-pane" id="tab-replanning">
+        
+        <div class="replanning-sandbox-card">
+          <div class="replanning-header">
+            <div class="replanning-title">
+              <h3>Dynamic Re-Planning Simulation</h3>
+              <p>Simulate unexpected operational disturbances in real time. Watch how RailOptAI adjusts block timings automatically.</p>
+            </div>
+
+            <div style="display: flex; gap: 10px;">
+              <button class="btn-simulate-delay" id="btnTriggerDelaySim">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+                </svg>
+                Simulate Train Delay
+              </button>
+              <button class="btn-reset-delay" id="btnResetDelaySim">Reset</button>
+            </div>
+          </div>
+
+          <!-- Dynamic Comparison Area -->
+          <div id="replanningDynamicArea">
+            <div class="dynamic-state-boxes">
+              <div class="state-box active-state">
+                <div class="state-badge-header">
+                  <span class="state-label">CURRENT SCHEDULED BLOCK</span>
+                  <span class="state-badge" style="background: #ECFDF5; color: #047857;">🟢 CONFLICT FREE</span>
+                </div>
+                <div class="state-block-display">02:00 — 05:00</div>
+                <p style="font-size: 13px; color: var(--text-secondary);">Section CHD-LDH-04 • Up Main Line</p>
+                <div style="margin-top: 14px; font-size: 12.5px; color: var(--text-secondary);">
+                  Normal baseline schedule. All passenger trains on-time. Click <strong>"Simulate Train Delay"</strong> above to test dynamic AI re-planning.
+                </div>
+              </div>
+
+              <div class="state-box" style="opacity: 0.7; border-style: dashed;">
+                <div class="state-badge-header">
+                  <span class="state-label">STANDBY RE-PLANNER</span>
+                  <span class="state-badge" style="background: #F1F5F9; color: var(--text-muted);">READY</span>
+                </div>
+                <div class="state-block-display" style="color: var(--text-muted);">--:-- — --:--</div>
+                <p style="font-size: 13px; color: var(--text-muted);">Awaiting real-time telemetry or delay event trigger</p>
+              </div>
+            </div>
+          </div>
+
+          <div style="margin-top: 24px; padding-top: 18px; border-top: 1px solid var(--border-light); font-size: 12.5px; color: var(--text-secondary);">
+            💡 <strong>Evaluator Tip:</strong> When the delay simulation fires, the timeline on the <a href="#planner" class="quick-tab-link" data-tab="tab-planner" style="color: var(--ir-blue); font-weight: 600;">Block Planner</a> will simultaneously reflect the shifted 03:00—06:00 slot.
+          </div>
+        </div>
+
+      </section>
+
+      <!-- ====================================================================
+           8. RESOURCES VIEW
+           ==================================================================== -->
+      <section class="tab-pane" id="tab-resources">
+        
+        <div style="margin-bottom: 20px;">
+          <h2 style="font-size: 20px; font-weight: 800; color: var(--ir-navy);">Corridor Maintenance Resources</h2>
+          <p style="font-size: 13px; color: var(--text-secondary);">Real-time availability of engineering crews, inspection trollies, and heavy track machinery.</p>
+        </div>
+
+        <!-- Manpower Section -->
+        <div class="resource-section">
+          <div class="resource-category-title">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#0284C7" stroke-width="2">
+              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+              <circle cx="9" cy="7" r="4"></circle>
+              <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+              <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+            </svg>
+            Manpower &amp; Engineering Teams
+          </div>
+
+          <div class="resource-cards-grid">
+            
+            <div class="resource-card">
+              <div class="resource-card-top">
+                <div>
+                  <div class="resource-name">Track Team T-01</div>
+                  <div class="resource-sub">Ambala Cantt Depot</div>
+                </div>
+                <span class="status-dot-sm status-available" title="Available"></span>
+              </div>
+              <div style="font-size: 12.5px; color: var(--signal-green); font-weight: 700;">🟢 Available</div>
+              <div class="resource-meta-row">
+                <span>Strength: 8 Personnel</span>
+                <span>Lead: SSE/P-Way</span>
+              </div>
+            </div>
+
+            <div class="resource-card">
+              <div class="resource-card-top">
+                <div>
+                  <div class="resource-name">Track Team T-02</div>
+                  <div class="resource-sub">Sirhind Junction</div>
+                </div>
+                <span class="status-dot-sm status-assigned" title="Assigned"></span>
+              </div>
+              <div style="font-size: 12.5px; color: var(--signal-amber); font-weight: 700;">🟡 Assigned</div>
+              <div class="resource-meta-row">
+                <span>Block: B-019 Active</span>
+                <span>Lead: JE/Track</span>
+              </div>
+            </div>
+
+            <div class="resource-card">
+              <div class="resource-card-top">
+                <div>
+                  <div class="resource-name">S&amp;T Team S-03</div>
+                  <div class="resource-sub">Chandigarh Depot</div>
+                </div>
+                <span class="status-dot-sm status-available" title="Available"></span>
+              </div>
+              <div style="font-size: 12.5px; color: var(--signal-green); font-weight: 700;">🟢 Available</div>
+              <div class="resource-meta-row">
+                <span>Strength: 4 Technicians</span>
+                <span>Lead: SSE/Signal</span>
+              </div>
+            </div>
+
+            <div class="resource-card">
+              <div class="resource-card-top">
+                <div>
+                  <div class="resource-name">Traction Team TR-02</div>
+                  <div class="resource-sub">Ludhiana Yard</div>
+                </div>
+                <span class="status-dot-sm status-unavailable" title="Unavailable"></span>
+              </div>
+              <div style="font-size: 12.5px; color: var(--signal-red); font-weight: 700;">🔴 Unavailable</div>
+              <div class="resource-meta-row">
+                <span>Reason: Rest Period</span>
+                <span>Resumes: 14:00</span>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Equipment Section -->
+        <div class="resource-section">
+          <div class="resource-category-title">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#7C3AED" stroke-width="2">
+              <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
+              <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+            </svg>
+            Equipment &amp; Heavy Track Machines
+          </div>
+
+          <div class="resource-cards-grid">
+            
+            <div class="resource-card">
+              <div class="resource-card-top">
+                <div>
+                  <div class="resource-name">Tamping Machine</div>
+                  <div class="resource-sub">CSM-955 Plasser India</div>
+                </div>
+                <span class="status-dot-sm status-available"></span>
+              </div>
+              <div style="font-size: 12.5px; color: var(--signal-green); font-weight: 700;">🟢 Available</div>
+              <div class="resource-meta-row">
+                <span>Location: LDH Siding</span>
+                <span>Fit Cert: Valid</span>
+              </div>
+            </div>
+
+            <div class="resource-card">
+              <div class="resource-card-top">
+                <div>
+                  <div class="resource-name">Rail Inspection Equipment</div>
+                  <div class="resource-sub">Digital USFD Flaw Detector</div>
+                </div>
+                <span class="status-dot-sm status-available"></span>
+              </div>
+              <div style="font-size: 12.5px; color: var(--signal-green); font-weight: 700;">🟢 Available</div>
+              <div class="resource-meta-row">
+                <span>Location: CHD Depot</span>
+                <span>Calibrated: 01 Sep</span>
+              </div>
+            </div>
+
+            <div class="resource-card">
+              <div class="resource-card-top">
+                <div>
+                  <div class="resource-name">Signal Testing Equipment</div>
+                  <div class="resource-sub">Fail-Safe Interlock Kit #2</div>
+                </div>
+                <span class="status-dot-sm status-assigned"></span>
+              </div>
+              <div style="font-size: 12.5px; color: var(--signal-amber); font-weight: 700;">🟡 Assigned</div>
+              <div class="resource-meta-row">
+                <span>Location: CHD-LDH-05</span>
+                <span>In Use: PM-3</span>
+              </div>
+            </div>
+
+            <div class="resource-card">
+              <div class="resource-card-top">
+                <div>
+                  <div class="resource-name">OHE Inspection Equipment</div>
+                  <div class="resource-sub">Tower Wagon TW-12</div>
+                </div>
+                <span class="status-dot-sm status-available"></span>
+              </div>
+              <div style="font-size: 12.5px; color: var(--signal-green); font-weight: 700;">🟢 Available</div>
+              <div class="resource-meta-row">
+                <span>Location: Ambala Yard</span>
+                <span>Speed: 80 km/h</span>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </section>
+
+      <!-- ====================================================================
+           9. ALERTS VIEW
+           ==================================================================== -->
+      <section class="tab-pane" id="tab-alerts">
+        
+        <div style="margin-bottom: 20px;">
+          <h2 style="font-size: 20px; font-weight: 800; color: var(--ir-navy);">Operational &amp; Maintenance Alerts</h2>
+          <p style="font-size: 13px; color: var(--text-secondary);">Real-time dispatch and maintenance warnings prioritized for immediate controller intervention.</p>
+        </div>
+
+        <div class="alerts-list">
+          
+          <!-- Alert 1: High Priority -->
+          <div class="alert-item-card danger">
+            <div class="alert-left-content">
+              <div class="alert-icon-box">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <line x1="12" y1="8" x2="12" y2="12"></line>
+                  <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                </svg>
+              </div>
+              <div class="alert-text-body">
+                <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 2px;">
+                  <span class="priority-badge priority-high">High Priority</span>
+                  <h4>MT-1042 deadline approaching</h4>
+                </div>
+                <p>Ultrasonic rail joint flaw detection due in 18 hours on high-density line CHD-LDH-04. Requires mandatory block allocation.</p>
+              </div>
+            </div>
+            <div class="alert-right-action">
+              <span class="alert-time">10 min ago</span>
+              <button class="btn-secondary quick-tab-link" data-tab="tab-ai-recom">View AI Block</button>
+            </div>
+          </div>
+
+          <!-- Alert 2: Operational -->
+          <div class="alert-item-card warning">
+            <div class="alert-left-content">
+              <div class="alert-icon-box">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+                </svg>
+              </div>
+              <div class="alert-text-body">
+                <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 2px;">
+                  <span class="priority-badge priority-medium">Operational</span>
+                  <h4>Train 12424 delayed by 45 minutes</h4>
+                </div>
+                <p>Amritsar Shatabdi running behind schedule from NDLS. Arrival in section CHD-LDH-04 shifted from 02:20 to 03:05.</p>
+              </div>
+            </div>
+            <div class="alert-right-action">
+              <span class="alert-time">24 min ago</span>
+              <button class="btn-secondary quick-tab-link" data-tab="tab-replanning">Simulate Shift</button>
+            </div>
+          </div>
+
+          <!-- Alert 3: Resource -->
+          <div class="alert-item-card warning">
+            <div class="alert-left-content">
+              <div class="alert-icon-box">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                  <circle cx="9" cy="7" r="4"></circle>
+                </svg>
+              </div>
+              <div class="alert-text-body">
+                <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 2px;">
+                  <span class="priority-badge priority-medium">Resource</span>
+                  <h4>Track Team T-03 unavailable</h4>
+                </div>
+                <p>Scheduled safety refresher course today. Team T-01 is nominated as primary gang for CHD-LDH unified corridor block.</p>
+              </div>
+            </div>
+            <div class="alert-right-action">
+              <span class="alert-time">1 hr ago</span>
+              <button class="btn-secondary quick-tab-link" data-tab="tab-resources">Check Teams</button>
+            </div>
+          </div>
+
+          <!-- Alert 4: AI Recommendation -->
+          <div class="alert-item-card info">
+            <div class="alert-left-content">
+              <div class="alert-icon-box">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                </svg>
+              </div>
+              <div class="alert-text-body">
+                <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 2px;">
+                  <span class="dept-pill dept-track">AI Recommendation</span>
+                  <h4>Maintenance block requires re-planning</h4>
+                </div>
+                <p>Delay telemetry detects overlap with Block B-021. AI generated optimal shifted window (03:00 — 06:00).</p>
+              </div>
+            </div>
+            <div class="alert-right-action">
+              <span class="alert-time">2 min ago</span>
+              <button class="btn-primary quick-tab-link" data-tab="tab-replanning">Review &amp; Apply</button>
+            </div>
+          </div>
+
+        </div>
+
+      </section>
+
+      <!-- ====================================================================
+           10. ANALYTICS VIEW
+           ==================================================================== -->
+      <section class="tab-pane" id="tab-analytics">
+        
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px;">
+          <div>
+            <h2 style="font-size: 20px; font-weight: 800; color: var(--ir-navy);">Operational Efficiency &amp; Asset Analytics</h2>
+            <p style="font-size: 13px; color: var(--text-secondary);">Comprehensive quantitative benchmarks showing track possession efficiency and train punctuality gains.</p>
+          </div>
+          <span class="proto-badge">Illustrative Prototype Data</span>
+        </div>
+
+        <div class="analytics-grid">
+          
+          <!-- Chart 1: Maintenance Status -->
+          <div class="chart-card">
+            <div class="chart-card-header">
+              <h4>Maintenance Status Breakdown</h4>
+              <span style="font-size: 12px; color: var(--text-muted);">Current Cycle</span>
+            </div>
+            <div class="status-bars-container">
+              <div class="status-bar-row">
+                <span class="bar-label">Completed</span>
+                <div class="bar-track">
+                  <div class="bar-fill" style="width: 58%; background: var(--signal-green);"></div>
+                </div>
+                <span class="bar-pct" style="color: var(--signal-green);">58%</span>
+              </div>
+              <div class="status-bar-row">
+                <span class="bar-label">Pending</span>
+                <div class="bar-track">
+                  <div class="bar-fill" style="width: 32%; background: var(--ir-blue);"></div>
+                </div>
+                <span class="bar-pct" style="color: var(--ir-blue);">32%</span>
+              </div>
+              <div class="status-bar-row">
+                <span class="bar-label">Overdue</span>
+                <div class="bar-track">
+                  <div class="bar-fill" style="width: 10%; background: var(--signal-red);"></div>
+                </div>
+                <span class="bar-pct" style="color: var(--signal-red);">10%</span>
+              </div>
+            </div>
+            <div style="font-size: 11.5px; color: var(--text-muted); margin-top: 14px; text-align: center;">
+              48 active work demands across Ambala Division
+            </div>
+          </div>
+
+          <!-- Chart 2: Block Utilization Percentage -->
+          <div class="chart-card">
+            <div class="chart-card-header">
+              <h4>Block Utilization Rate</h4>
+              <span class="badge badge-info">Target: 85.0%</span>
+            </div>
+            <div class="utilization-progress-wrap">
+              <div class="progress-header">
+                <span>Corridor Time Utilization</span>
+                <span style="color: var(--signal-green); font-weight: 800; font-size: 18px;">86.4%</span>
+              </div>
+              <div class="progress-track">
+                <div class="progress-fill" style="width: 86.4%;"></div>
+              </div>
+              <div style="display: flex; justify-content: space-between; font-size: 11.5px; color: var(--text-secondary); margin-top: 12px;">
+                <span>Traditional Manual Baseline: <strong>54.2%</strong></span>
+                <span style="color: var(--signal-green); font-weight: 700;">+32.2% Net Improvement</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Chart 3: Asset Availability Line Graph -->
+          <div class="chart-card">
+            <div class="chart-card-header">
+              <h4>Asset Availability Trend (30 Days)</h4>
+              <span style="font-size: 12px; color: var(--signal-green); font-weight: 700;">Current: 94.2%</span>
+            </div>
+            <div class="svg-chart-container">
+              <svg id="availabilityTrendSvg" width="100%" height="150" viewBox="0 0 500 150"></svg>
+            </div>
+            <div style="font-size: 11.5px; color: var(--text-muted); text-align: center; margin-top: 4px;">
+              P-Way, Signaling, and 25kV OHE network uptime metric
+            </div>
+          </div>
+
+          <!-- Chart 4: Train Conflicts Comparison -->
+          <div class="chart-card">
+            <div class="chart-card-header">
+              <h4>Train Conflicts Comparison (Weekly)</h4>
+              <span class="badge badge-info">75% Reduction</span>
+            </div>
+            <div class="conflict-comparison-visual">
+              <div class="conflict-col before">
+                <div class="val-num">12</div>
+                <div class="val-desc">Before RailOptAI<br><span style="font-size: 11px; color: var(--text-muted);">(Manual Scheduling)</span></div>
+              </div>
+              <div class="reduction-arrow">
+                <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                  <polyline points="12 5 19 12 12 19"></polyline>
+                </svg>
+                <span>75% Fewer Conflicts</span>
+              </div>
+              <div class="conflict-col after">
+                <div class="val-num">3</div>
+                <div class="val-desc">With RailOptAI<br><span style="font-size: 11px; color: var(--signal-green); font-weight: 700;">(Dynamic Optimization)</span></div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </section>
+
+      <!-- ====================================================================
+           11. APPROVAL CENTER VIEW
+           ==================================================================== -->
+      <section class="tab-pane" id="tab-approval">
+        
+        <div style="margin-bottom: 20px; text-align: center;">
+          <h2 style="font-size: 22px; font-weight: 800; color: var(--ir-navy);">Railway Operations Approval Center</h2>
+          <p style="font-size: 13.5px; color: var(--text-secondary); max-width: 600px; margin: 4px auto 0 auto;">
+            Formal digital authorization dashboard for Senior Divisional Operations Manager (Sr. DOM) &amp; Chief Controller.
+          </p>
+        </div>
+
+        <div class="approval-card-wrapper">
+          <div class="approval-block-card">
+            
+            <!-- Approval Stamp Animation Target -->
+            <div class="approval-status-stamp" id="approvalStamp">
+              APPROVED
+            </div>
+
+            <div class="approval-header-block">
+              <span class="status-badge status-pending" id="approvalBlockStatusBadge" style="margin-bottom: 8px;">
+                Pending Formal Sign-off
+              </span>
+              <div class="approval-block-id">Maintenance Block B-021</div>
+              <p style="font-size: 13px; color: var(--text-secondary);">Corridor Possession Dossier • Ambala Operating Division</p>
+            </div>
+
+            <div class="approval-params-grid">
+              <div class="approval-param-item">
+                <div class="param-label">Section</div>
+                <div class="param-val">CHD-LDH-04</div>
+              </div>
+              <div class="approval-param-item">
+                <div class="param-label">Proposed Time Window</div>
+                <div class="param-val" style="color: var(--ir-blue); font-family: var(--font-mono);">02:00 — 05:00</div>
+              </div>
+              <div class="approval-param-item">
+                <div class="param-label">Bundled Tasks</div>
+                <div class="param-val">3 Tasks</div>
+              </div>
+              <div class="approval-param-item">
+                <div class="param-label">Participating Departments</div>
+                <div class="param-val">Track + S&amp;T</div>
+              </div>
+              <div class="approval-param-item">
+                <div class="param-label">Train Conflicts</div>
+                <div class="param-val" style="color: var(--signal-green);">0 Conflicts</div>
+              </div>
+              <div class="approval-param-item">
+                <div class="param-label">AI Optimization Score</div>
+                <div class="param-val" style="color: var(--signal-green);">94/100</div>
+              </div>
+            </div>
+
+            <!-- Inter-departmental Clearance Checklist -->
+            <div class="signoff-checklist">
+              <h4>Inter-Departmental Verification Checklist</h4>
+              <ul class="checklist-items">
+                <li>
+                  <div class="check-circle">✓</div>
+                  <span>Section Controller (Operating) path clearance confirmed</span>
+                </li>
+                <li>
+                  <div class="check-circle">✓</div>
+                  <span>Traction Power Controller (TPC) 25kV power block isolation synchronized</span>
+                </li>
+                <li>
+                  <div class="check-circle">✓</div>
+                  <span>S&amp;T Supervisor interlocking and point detection safeguard confirmed</span>
+                </li>
+                <li>
+                  <div class="check-circle">✓</div>
+                  <span>Senior P-Way Inspector emergency crew on standby</span>
+                </li>
+              </ul>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="approval-actions-bar">
+              <button class="btn-approve-action" id="btnApproveBlockAction">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+                Approve
+              </button>
+              <button class="btn-modify-action" id="btnModifyBlockAction">Modify</button>
+              <button class="btn-reject-action" id="btnRejectBlockAction">Reject</button>
+            </div>
+
+          </div>
+        </div>
+
+      </section>
+
+    </div>
+
+  </main>
+
+</div>
+
+<!-- ========================================================================
+     MODAL DIALOGS
+     ======================================================================== -->
+
+<!-- Task Detail Modal -->
+<div class="modal-overlay" id="taskDetailModal">
+  <div class="modal-window">
+    <div class="modal-header">
+      <h3>Maintenance Task Specification</h3>
+      <button class="btn-modal-close" onclick="closeModal('taskDetailModal')">✕</button>
+    </div>
+    <div class="modal-body" id="taskModalBody">
+      <!-- Injected via app.js -->
+    </div>
+    <div class="modal-footer">
+      <button class="btn-secondary" onclick="closeModal('taskDetailModal')">Close</button>
+      <button class="btn-primary" onclick="closeModal('taskDetailModal'); switchTab('tab-planner');">View in Block Planner</button>
+    </div>
+  </div>
+</div>
+
+<!-- Edit Block Modal -->
+<div class="modal-overlay" id="editBlockModal">
+  <div class="modal-window">
+    <div class="modal-header">
+      <h3>Edit Block Window Parameters</h3>
+      <button class="btn-modal-close" onclick="closeModal('editBlockModal')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div style="display: flex; flex-direction: column; gap: 14px;">
+        <div>
+          <label style="font-size: 12px; font-weight: 700; color: var(--text-secondary); display: block; margin-bottom: 6px;">Block Identification</label>
+          <input type="text" value="BLOCK B-021 (CHD-LDH-04)" readonly style="width: 100%; padding: 8px 12px; border: 1px solid var(--border-light); border-radius: 6px; background: #F8FAFC; font-weight: 600;">
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+          <div>
+            <label style="font-size: 12px; font-weight: 700; color: var(--text-secondary); display: block; margin-bottom: 6px;">Start Time (IST)</label>
+            <input type="time" value="02:00" style="width: 100%; padding: 8px 12px; border: 1px solid var(--border-light); border-radius: 6px; font-family: var(--font-mono);">
+          </div>
+          <div>
+            <label style="font-size: 12px; font-weight: 700; color: var(--text-secondary); display: block; margin-bottom: 6px;">End Time (IST)</label>
+            <input type="time" value="05:00" style="width: 100%; padding: 8px 12px; border: 1px solid var(--border-light); border-radius: 6px; font-family: var(--font-mono);">
+          </div>
+        </div>
+
+        <div>
+          <label style="font-size: 12px; font-weight: 700; color: var(--text-secondary); display: block; margin-bottom: 6px;">Corridor Speed Restriction During Block</label>
+          <select style="width: 100%; padding: 8px 12px; border: 1px solid var(--border-light); border-radius: 6px;">
+            <option>Total Line Block (0 km/h - Line Closed)</option>
+            <option>Caution Order (30 km/h on Loop line)</option>
+            <option>Shadow Block (Adjacent line clear)</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-secondary" onclick="closeModal('editBlockModal')">Cancel</button>
+      <button class="btn-primary" onclick="closeModal('editBlockModal'); showToast('Block B-021 parameters updated.', 'success');">Save Changes</button>
+    </div>
+  </div>
+</div>
+
+<!-- Block Details Preview Modal -->
+<div class="modal-overlay" id="blockDetailModal">
+  <div class="modal-window">
+    <div class="modal-header">
+      <h3>Maintenance Block B-021 Dossier</h3>
+      <button class="btn-modal-close" onclick="closeModal('blockDetailModal')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div style="background: #F0F9FF; border: 1px solid #BAE6FD; padding: 14px; border-radius: 8px; margin-bottom: 16px;">
+        <h4 style="color: #0369A1; font-size: 15px; font-weight: 800; margin-bottom: 4px;">Corridor: CHD-LDH-04 (Up Main)</h4>
+        <p style="font-size: 12.5px; color: var(--text-secondary);">3 Hours Unified Shadow Possession • Civil Track + Signaling</p>
+      </div>
+
+      <h5 style="font-size: 12.5px; font-weight: 700; color: var(--ir-navy); margin-bottom: 8px;">COORDINATED TASKS IN POSSESSION:</h5>
+      <ul style="list-style: none; display: flex; flex-direction: column; gap: 8px; margin-bottom: 16px;">
+        <li style="padding: 10px; background: #F8FAFC; border: 1px solid var(--border-light); border-radius: 6px; display: flex; justify-content: space-between; align-items: center;">
+          <span><strong>MT-1042</strong>: Rail joint ultrasonic inspection</span>
+          <span class="dept-pill dept-track">Track (2h)</span>
+        </li>
+        <li style="padding: 10px; background: #F8FAFC; border: 1px solid var(--border-light); border-radius: 6px; display: flex; justify-content: space-between; align-items: center;">
+          <span><strong>MT-1044</strong>: Track geometry inspection &amp; calibration</span>
+          <span class="dept-pill dept-track">Track (1.5h)</span>
+        </li>
+        <li style="padding: 10px; background: #F8FAFC; border: 1px solid var(--border-light); border-radius: 6px; display: flex; justify-content: space-between; align-items: center;">
+          <span><strong>MT-1048</strong>: Signal equipment &amp; axle counter testing</span>
+          <span class="dept-pill dept-st">S&amp;T (1h)</span>
+        </li>
+      </ul>
+
+      <div style="font-size: 12px; color: var(--signal-green); font-weight: 600;">
+        ✓ Headway verified: Train 12424 departs section at 02:20; next arrival Train 12013 at 05:30.
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-secondary" onclick="closeModal('blockDetailModal')">Close</button>
+      <button class="btn-primary" onclick="closeModal('blockDetailModal'); switchTab('tab-approval');">Proceed to Approval →</button>
+    </div>
+  </div>
+</div>
+
+<!-- Toast Notification Container -->
+<div class="toast-container" id="toastContainer"></div>
+
+<!-- Scripts -->
+<script src="js/data.js"></script>
+<script src="js/app.js"></script>
+
+</body>
+</html>
