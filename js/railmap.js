@@ -241,6 +241,305 @@ const RailMap = {
       levelAdvisory: "SSE Directive: Mobilize BCM-82 at Rajpura Siding. Hold possession until Train 22439 passes.",
       rapidApiActive: false,
       lastRefreshed: "18:30:00"
+    },
+    "HWH-BWN": {
+      sectionKey: "HWH-BWN",
+      sectionName: "Howrah → Barddhaman (Eastern Railway / Howrah Division)",
+      zone: "ER",
+      division: "Howrah",
+      problemPoint: {
+        id: "PROB-HWH-BWN-64",
+        type: "Weld Fissure & Point Overhaul",
+        milepost: "Km 64/2 Up Main Line (Near Bandel Junction)",
+        lat: 22.9234,
+        lng: 88.3845,
+        proposedBlockWindow: "01:30 — 04:30 hrs",
+        urgency: "CRITICAL",
+        description: "Alumino-thermic weld failure detected on Up Main Track between Bandel and Barddhaman. Emergency 3h block possession required."
+      },
+      trains: [
+        {
+          trainNumber: "12301",
+          trainName: "Howrah Rajdhani Express",
+          type: "Rajdhani",
+          route: "Howrah (HWH) → New Delhi (NDLS)",
+          direction: "UP",
+          currentStation: "Serampore",
+          currentStationCode: "SRP",
+          nextStation: "Bandel",
+          nextStationCode: "BDC",
+          delayMinutes: 0,
+          status: "ON TIME",
+          speedKmH: 120,
+          latitude: 22.7523,
+          longitude: 88.3444,
+          distanceToProblemKm: 19.8,
+          timeToArrivalMin: 12,
+          arrivalEta: "01:42",
+          conflictLevel: "CRITICAL",
+          conflictTag: "⚠️ CRITICAL CONFLICT",
+          conflictColor: "#DC2626",
+          pointerCoords: [22.7523, 88.3444]
+        },
+        {
+          trainNumber: "13005",
+          trainName: "Amritsar Mail",
+          type: "Express",
+          route: "Howrah (HWH) → Amritsar (ASR)",
+          direction: "UP",
+          currentStation: "Howrah Junction",
+          currentStationCode: "HWH",
+          nextStation: "Serampore",
+          nextStationCode: "SRP",
+          delayMinutes: 10,
+          status: "DELAYED +10m",
+          speedKmH: 95,
+          latitude: 22.5830,
+          longitude: 88.3426,
+          distanceToProblemKm: 38.2,
+          timeToArrivalMin: 28,
+          arrivalEta: "01:58",
+          conflictLevel: "CRITICAL",
+          conflictTag: "⚠️ CRITICAL CONFLICT",
+          conflictColor: "#DC2626",
+          pointerCoords: [22.5830, 88.3426]
+        }
+      ],
+      recommendedBlock: "02:00 — 05:00 hrs",
+      recommendationRationale: "Optimized shadow window: Commences after 12301 Howrah Rajdhani clears Bandel throat.",
+      levelAdvisory: "ER Senior Controller Directive: Route Mail 13005 via Howrah-Barddhaman Chord line.",
+      rapidApiActive: false,
+      lastRefreshed: "18:30:00"
+    },
+    "BCT-ST": {
+      sectionKey: "BCT-ST",
+      sectionName: "Mumbai Central → Surat (Western Railway / Mumbai Division)",
+      zone: "WR",
+      division: "Mumbai Central",
+      problemPoint: {
+        id: "PROB-BCT-ST-92",
+        type: "25kV OHE Catenary Wire Sag",
+        milepost: "Km 92/4 Up Line (Near Palghar)",
+        lat: 19.6968,
+        lng: 72.7667,
+        proposedBlockWindow: "02:15 — 04:45 hrs",
+        urgency: "CRITICAL",
+        description: "Excess catenary sag on 25kV traction wire. Tower wagon possession required to re-tension droppers."
+      },
+      trains: [
+        {
+          trainNumber: "12951",
+          trainName: "Mumbai Rajdhani Express",
+          type: "Rajdhani",
+          route: "Mumbai Central (MMCT) → New Delhi (NDLS)",
+          direction: "UP",
+          currentStation: "Borivali",
+          currentStationCode: "BVI",
+          nextStation: "Palghar",
+          nextStationCode: "PLG",
+          delayMinutes: 0,
+          status: "ON TIME",
+          speedKmH: 130,
+          latitude: 19.2290,
+          longitude: 72.8570,
+          distanceToProblemKm: 52.0,
+          timeToArrivalMin: 24,
+          arrivalEta: "02:39",
+          conflictLevel: "CRITICAL",
+          conflictTag: "⚠️ CRITICAL CONFLICT",
+          conflictColor: "#DC2626",
+          pointerCoords: [19.2290, 72.8570]
+        }
+      ],
+      recommendedBlock: "02:45 — 05:15 hrs",
+      recommendationRationale: "Clear 150-minute headway following Rajdhani Express clearance at Palghar.",
+      levelAdvisory: "WR Sr. DOM Directive: Regulate goods rakes at Dahanu Road loop siding.",
+      rapidApiActive: false,
+      lastRefreshed: "18:30:00"
+    },
+    "MAS-KPD": {
+      sectionKey: "MAS-KPD",
+      sectionName: "Chennai Central → Katpadi (Southern Railway / Chennai Division)",
+      zone: "SR",
+      division: "Chennai",
+      problemPoint: {
+        id: "PROB-MAS-KPD-78",
+        type: "Electronic Interlocking Relay Failure",
+        milepost: "Km 78/6 (Arakkonam Junction)",
+        lat: 13.0805,
+        lng: 79.6698,
+        proposedBlockWindow: "01:00 — 03:30 hrs",
+        urgency: "CRITICAL",
+        description: "Axle counter reset failure on cross-over point 104 at Arakkonam Jn. S&T and P-Way joint disconnection required."
+      },
+      trains: [
+        {
+          trainNumber: "20607",
+          trainName: "Mysuru Vande Bharat Express",
+          type: "Vande Bharat",
+          route: "Chennai Central (MAS) → Mysuru (MYS)",
+          direction: "DOWN",
+          currentStation: "Perambur",
+          currentStationCode: "PER",
+          nextStation: "Arakkonam",
+          nextStationCode: "AJJ",
+          delayMinutes: 0,
+          status: "ON TIME",
+          speedKmH: 110,
+          latitude: 13.1090,
+          longitude: 80.2240,
+          distanceToProblemKm: 58.0,
+          timeToArrivalMin: 32,
+          arrivalEta: "01:32",
+          conflictLevel: "CRITICAL",
+          conflictTag: "⚠️ CRITICAL CONFLICT",
+          conflictColor: "#DC2626",
+          pointerCoords: [13.1090, 80.2240]
+        }
+      ],
+      recommendedBlock: "01:45 — 04:15 hrs",
+      recommendationRationale: "Immediate block after Vande Bharat passes Arakkonam crossover.",
+      levelAdvisory: "SR CC Directive: Clamp Point 104 in normal position until S&T sign-off.",
+      rapidApiActive: false,
+      lastRefreshed: "18:30:00"
+    },
+    "CSMT-KYN": {
+      sectionKey: "CSMT-KYN",
+      sectionName: "Mumbai CSMT → Kalyan (Central Railway / Mumbai Division)",
+      zone: "CR",
+      division: "Mumbai",
+      problemPoint: {
+        id: "PROB-CSMT-KYN-34",
+        type: "Suburban Track Expansion Joint Defect",
+        milepost: "Km 34/2 (Near Thane Jn)",
+        lat: 19.1860,
+        lng: 72.9750,
+        proposedBlockWindow: "01:15 — 04:00 hrs",
+        urgency: "CRITICAL",
+        description: "Switch expansion joint (SEJ-8) bolt shear on Fast Line between Thane and Diva. Immediate tamping required."
+      },
+      trains: [
+        {
+          trainNumber: "12137",
+          trainName: "Punjab Mail",
+          type: "Superfast",
+          route: "Mumbai CSMT (CSMT) → Firozpur (FZR)",
+          direction: "UP",
+          currentStation: "Dadar",
+          currentStationCode: "DR",
+          nextStation: "Thane",
+          nextStationCode: "TNA",
+          delayMinutes: 5,
+          status: "ON TIME",
+          speedKmH: 90,
+          latitude: 19.0178,
+          longitude: 72.8478,
+          distanceToProblemKm: 22.0,
+          timeToArrivalMin: 18,
+          arrivalEta: "01:33",
+          conflictLevel: "CRITICAL",
+          conflictTag: "⚠️ CRITICAL CONFLICT",
+          conflictColor: "#DC2626",
+          pointerCoords: [19.0178, 72.8478]
+        }
+      ],
+      recommendedBlock: "01:40 — 04:25 hrs",
+      recommendationRationale: "Diverts late-night mail to Slow Corridor while Fast Line possession is active.",
+      levelAdvisory: "CR Chief Controller Directive: Fast-to-Slow diversion order active at Kurla Jn.",
+      rapidApiActive: false,
+      lastRefreshed: "18:30:00"
+    },
+    "SC-KZJ": {
+      sectionKey: "SC-KZJ",
+      sectionName: "Secunderabad → Kazipet (South Central Railway / Secunderabad Division)",
+      zone: "SCR",
+      division: "Secunderabad",
+      problemPoint: {
+        id: "PROB-SC-KZJ-88",
+        type: "Track Ballast Deficiency & Cross-Level",
+        milepost: "Km 88/0 (Near Jangaon)",
+        lat: 17.7240,
+        lng: 79.1620,
+        proposedBlockWindow: "02:00 — 04:30 hrs",
+        urgency: "CRITICAL",
+        description: "Severe ballast deficiency requiring CSM machine tamping over 800m track bed."
+      },
+      trains: [
+        {
+          trainNumber: "12723",
+          trainName: "Telangana Express",
+          type: "Superfast",
+          route: "Hyderabad (HYB) → New Delhi (NDLS)",
+          direction: "UP",
+          currentStation: "Moula Ali",
+          currentStationCode: "MLY",
+          nextStation: "Jangaon",
+          nextStationCode: "ZN",
+          delayMinutes: 0,
+          status: "ON TIME",
+          speedKmH: 110,
+          latitude: 17.4620,
+          longitude: 78.5580,
+          distanceToProblemKm: 68.0,
+          timeToArrivalMin: 37,
+          arrivalEta: "02:37",
+          conflictLevel: "CRITICAL",
+          conflictTag: "⚠️ CRITICAL CONFLICT",
+          conflictColor: "#DC2626",
+          pointerCoords: [17.4620, 78.5580]
+        }
+      ],
+      recommendedBlock: "02:45 — 05:15 hrs",
+      recommendationRationale: "Co-scheduled during zero passenger headway slot following Telangana Express.",
+      levelAdvisory: "SCR DRM Directive: Speed restriction of 45 km/h until track stabiliser run completed.",
+      rapidApiActive: false,
+      lastRefreshed: "18:30:00"
+    },
+    "GHY-APDJ": {
+      sectionKey: "GHY-APDJ",
+      sectionName: "Guwahati → Alipurduar (Northeast Frontier Railway / Alipurduar Division)",
+      zone: "NFR",
+      division: "Alipurduar",
+      problemPoint: {
+        id: "PROB-GHY-APDJ-114",
+        type: "Sub-grade Erosion & Point Detection",
+        milepost: "Km 114/8 (Near Rangiya Junction)",
+        lat: 26.4350,
+        lng: 91.6320,
+        proposedBlockWindow: "01:30 — 04:30 hrs",
+        urgency: "CRITICAL",
+        description: "Monsoon sub-grade packing and point machine PM-04 stroke alignment at Rangiya Jn."
+      },
+      trains: [
+        {
+          trainNumber: "12423",
+          trainName: "Dibrugarh Rajdhani Express",
+          type: "Rajdhani",
+          route: "Dibrugarh (DBRG) → New Delhi (NDLS)",
+          direction: "UP",
+          currentStation: "Kamakhya",
+          currentStationCode: "KYQ",
+          nextStation: "Rangiya",
+          nextStationCode: "RNY",
+          delayMinutes: 10,
+          status: "DELAYED +10m",
+          speedKmH: 105,
+          latitude: 26.1550,
+          longitude: 91.7050,
+          distanceToProblemKm: 32.0,
+          timeToArrivalMin: 20,
+          arrivalEta: "01:50",
+          conflictLevel: "CRITICAL",
+          conflictTag: "⚠️ CRITICAL CONFLICT",
+          conflictColor: "#DC2626",
+          pointerCoords: [26.1550, 91.7050]
+        }
+      ],
+      recommendedBlock: "02:00 — 05:00 hrs",
+      recommendationRationale: "Window timed post-Rajdhani departure from Rangiya Junction.",
+      levelAdvisory: "NFR GM Directive: Emergency breakdown gang on alert at Rangiya depot.",
+      rapidApiActive: false,
+      lastRefreshed: "18:30:00"
     }
   },
 
@@ -406,9 +705,30 @@ const RailMap = {
     if (sectionKey === "RE-GGN") {
       this.renderRewariGurugramTrack();
       this.map.flyTo([28.43, 76.92], 10, { duration: 0.8 });
-    } else {
+    } else if (sectionKey === "UMB-SIR") {
       this.renderAmbalaSirhindTrack();
       this.map.flyTo([30.48, 76.60], 10, { duration: 0.8 });
+    } else if (sectionKey === "HWH-BWN") {
+      this.renderHowrahBarddhamanTrack();
+      this.map.flyTo([22.90, 88.10], 10, { duration: 0.8 });
+    } else if (sectionKey === "BCT-ST") {
+      this.renderMumbaiSuratTrack();
+      this.map.flyTo([20.08, 72.82], 9, { duration: 0.8 });
+    } else if (sectionKey === "MAS-KPD") {
+      this.renderChennaiKatpadiTrack();
+      this.map.flyTo([13.02, 79.70], 10, { duration: 0.8 });
+    } else if (sectionKey === "CSMT-KYN") {
+      this.renderMumbaiKalyanTrack();
+      this.map.flyTo([19.09, 72.98], 11, { duration: 0.8 });
+    } else if (sectionKey === "SC-KZJ") {
+      this.renderSecunderabadKazipetTrack();
+      this.map.flyTo([17.70, 79.00], 10, { duration: 0.8 });
+    } else if (sectionKey === "GHY-APDJ") {
+      this.renderGuwahatiAlipurduarTrack();
+      this.map.flyTo([26.33, 90.63], 9, { duration: 0.8 });
+    } else {
+      this.renderRewariGurugramTrack();
+      this.map.flyTo([28.43, 76.92], 10, { duration: 0.8 });
     }
 
     // Render the simulated track problem marker immediately
@@ -875,6 +1195,262 @@ const RailMap = {
     this.renderLevelCrossings(lcGates);
   },
 
+  // ── Standardized High-Precision GIS Track Renderer ─────────────────────────
+  renderTrackStandard(coords, stations, signals, mileposts) {
+    this.trackCoords = coords;
+
+    // Wide hit-area for clicking anywhere on the track
+    const hitArea = L.polyline(this.trackCoords, {
+      color: "transparent",
+      weight: 26,
+      opacity: 0.01,
+      interactive: true
+    }).addTo(this.layers.tracks);
+
+    hitArea.bindTooltip("🛤️ Click anywhere on railway track to simulate track flaw & track approaching express fleet!", {
+      sticky: true,
+      className: "track-click-tooltip"
+    });
+
+    hitArea.on('click', (e) => {
+      L.DomEvent.stopPropagation(e);
+      this.handleRouteClick(e.latlng);
+    });
+
+    // 1. Up Main Line: Heavy Ballast Bed
+    L.polyline(this.trackCoords, {
+      color: "#0F172A",
+      weight: 7,
+      opacity: 0.95,
+      lineCap: 'round',
+      interactive: false
+    }).addTo(this.layers.infrastructure);
+
+    // 2. Concrete Sleepers
+    L.polyline(this.trackCoords, {
+      color: "#E2E8F0",
+      weight: 5,
+      opacity: 0.82,
+      dashArray: '2, 6',
+      interactive: false
+    }).addTo(this.layers.infrastructure);
+
+    // 3. 25kV Electrified Rail
+    const upTrackLine = L.polyline(this.trackCoords, {
+      color: "#0284C7",
+      weight: 2.5,
+      opacity: 1,
+      interactive: true
+    }).addTo(this.layers.tracks);
+
+    upTrackLine.on('click', (e) => {
+      L.DomEvent.stopPropagation(e);
+      this.handleRouteClick(e.latlng);
+    });
+
+    // 4. Down Main Line (Parallel)
+    const downTrackCoords = this.trackCoords.map(pt => [pt[0] - 0.0012, pt[1] + 0.0014]);
+    L.polyline(downTrackCoords, {
+      color: "#0F172A",
+      weight: 7,
+      opacity: 0.95,
+      lineCap: 'round',
+      interactive: false
+    }).addTo(this.layers.infrastructure);
+
+    L.polyline(downTrackCoords, {
+      color: "#E2E8F0",
+      weight: 5,
+      opacity: 0.82,
+      dashArray: '2, 6',
+      interactive: false
+    }).addTo(this.layers.infrastructure);
+
+    L.polyline(downTrackCoords, {
+      color: "#0369A1",
+      weight: 2.2,
+      opacity: 0.9,
+      interactive: false
+    }).addTo(this.layers.infrastructure);
+
+    if (signals) this.renderSignals(signals);
+    if (mileposts) this.renderMileposts(mileposts);
+    if (stations) this.renderStations(stations);
+  },
+
+  renderHowrahBarddhamanTrack() {
+    const coords = [
+      [22.5830, 88.3426],
+      [22.6280, 88.3510],
+      [22.7523, 88.3444],
+      [22.8680, 88.3740],
+      [22.9234, 88.3845],
+      [23.0120, 88.2980],
+      [23.1340, 88.0820],
+      [23.2324, 87.8615]
+    ];
+    const stations = [
+      { name: "Howrah Junction", code: "HWH", pos: [22.5830, 88.3426], type: "terminal", platforms: 23, loops: 8 },
+      { name: "Serampore", code: "SRP", pos: [22.7523, 88.3444], type: "station", platforms: 4, loops: 2 },
+      { name: "Bandel Junction", code: "BDC", pos: [22.9234, 88.3845], type: "junction", platforms: 6, loops: 3 },
+      { name: "Barddhaman Junction", code: "BWN", pos: [23.2324, 87.8615], type: "terminal", platforms: 8, loops: 4 }
+    ];
+    const signals = [
+      { id: "S-HWH-1", name: "Howrah North Starter", code: "HWH-NS-1", pos: [22.6280, 88.3510], aspect: "green", status: "CLEAR" },
+      { id: "S-BDC-4", name: "Bandel Home Signal", code: "BDC-H-4", pos: [22.9234, 88.3845], aspect: "yellow", status: "CAUTION (Approaching Defect)" }
+    ];
+    const mileposts = [
+      { mp: "Km 0", pos: [22.5830, 88.3426] },
+      { mp: "Km 40", pos: [22.7523, 88.3444] },
+      { mp: "Km 64/2 ⚠️", pos: [22.9234, 88.3845], isDefect: true },
+      { mp: "Km 107", pos: [23.2324, 87.8615] }
+    ];
+    this.renderTrackStandard(coords, stations, signals, mileposts);
+  },
+
+  renderMumbaiSuratTrack() {
+    const coords = [
+      [18.9696, 72.8194],
+      [19.0178, 72.8478],
+      [19.1190, 72.8460],
+      [19.2290, 72.8570],
+      [19.4670, 72.8120],
+      [19.6968, 72.7667],
+      [20.0610, 72.7530],
+      [20.3700, 72.9040],
+      [20.6100, 72.9300],
+      [21.1702, 72.8311]
+    ];
+    const stations = [
+      { name: "Mumbai Central", code: "MMCT", pos: [18.9696, 72.8194], type: "terminal", platforms: 5, loops: 4 },
+      { name: "Borivali", code: "BVI", pos: [19.2290, 72.8570], type: "junction", platforms: 8, loops: 3 },
+      { name: "Palghar", code: "PLG", pos: [19.6968, 72.7667], type: "station", platforms: 3, loops: 2 },
+      { name: "Vapi", code: "VAPI", pos: [20.3700, 72.9040], type: "station", platforms: 3, loops: 2 },
+      { name: "Surat", code: "ST", pos: [21.1702, 72.8311], type: "terminal", platforms: 6, loops: 4 }
+    ];
+    const signals = [
+      { id: "S-BVI-1", name: "Borivali Starter", code: "BVI-S-1", pos: [19.2290, 72.8570], aspect: "green", status: "CLEAR" },
+      { id: "S-PLG-3", name: "Palghar OHE Block Signal", code: "PLG-BLK-3", pos: [19.6968, 72.7667], aspect: "red", status: "DANGER / POWER BLOCK" }
+    ];
+    const mileposts = [
+      { mp: "Km 0", pos: [18.9696, 72.8194] },
+      { mp: "Km 34", pos: [19.2290, 72.8570] },
+      { mp: "Km 92/4 ⚠️", pos: [19.6968, 72.7667], isDefect: true },
+      { mp: "Km 263", pos: [21.1702, 72.8311] }
+    ];
+    this.renderTrackStandard(coords, stations, signals, mileposts);
+  },
+
+  renderChennaiKatpadiTrack() {
+    const coords = [
+      [13.0827, 80.2757],
+      [13.1090, 80.2240],
+      [13.1180, 80.1280],
+      [13.1120, 79.9140],
+      [13.0805, 79.6698],
+      [13.0480, 79.4320],
+      [12.9796, 79.1378]
+    ];
+    const stations = [
+      { name: "Chennai Central", code: "MAS", pos: [13.0827, 80.2757], type: "terminal", platforms: 12, loops: 6 },
+      { name: "Perambur", code: "PER", pos: [13.1090, 80.2240], type: "station", platforms: 4, loops: 2 },
+      { name: "Arakkonam Junction", code: "AJJ", pos: [13.0805, 79.6698], type: "junction", platforms: 6, loops: 4 },
+      { name: "Katpadi Junction", code: "KPD", pos: [12.9796, 79.1378], type: "terminal", platforms: 5, loops: 3 }
+    ];
+    const signals = [
+      { id: "S-AJJ-1", name: "Arakkonam Home", code: "AJJ-H-1", pos: [13.0805, 79.6698], aspect: "red", status: "POINT 104 DISCONNECTED" }
+    ];
+    const mileposts = [
+      { mp: "Km 0", pos: [13.0827, 80.2757] },
+      { mp: "Km 78/6 ⚠️", pos: [13.0805, 79.6698], isDefect: true },
+      { mp: "Km 130", pos: [12.9796, 79.1378] }
+    ];
+    this.renderTrackStandard(coords, stations, signals, mileposts);
+  },
+
+  renderMumbaiKalyanTrack() {
+    const coords = [
+      [18.9410, 72.8350],
+      [18.9720, 72.8330],
+      [19.0178, 72.8478],
+      [19.0650, 72.8800],
+      [19.0880, 72.9150],
+      [19.1860, 72.9750],
+      [19.1920, 73.0480],
+      [19.2437, 73.1355]
+    ];
+    const stations = [
+      { name: "Mumbai CSMT", code: "CSMT", pos: [18.9410, 72.8350], type: "terminal", platforms: 18, loops: 6 },
+      { name: "Dadar Central", code: "DR", pos: [19.0178, 72.8478], type: "junction", platforms: 8, loops: 3 },
+      { name: "Thane", code: "TNA", pos: [19.1860, 72.9750], type: "station", platforms: 10, loops: 4 },
+      { name: "Kalyan Junction", code: "KYN", pos: [19.2437, 73.1355], type: "terminal", platforms: 7, loops: 4 }
+    ];
+    const signals = [
+      { id: "S-TNA-2", name: "Thane Fast Starter", code: "TNA-FS-2", pos: [19.1860, 72.9750], aspect: "red", status: "SEJ-8 DEFECT" }
+    ];
+    const mileposts = [
+      { mp: "Km 0", pos: [18.9410, 72.8350] },
+      { mp: "Km 34/2 ⚠️", pos: [19.1860, 72.9750], isDefect: true },
+      { mp: "Km 54", pos: [19.2437, 73.1355] }
+    ];
+    this.renderTrackStandard(coords, stations, signals, mileposts);
+  },
+
+  renderSecunderabadKazipetTrack() {
+    const coords = [
+      [17.4340, 78.5010],
+      [17.4620, 78.5580],
+      [17.5180, 78.7420],
+      [17.6520, 78.8910],
+      [17.7240, 79.1620],
+      [17.8420, 79.3780],
+      [17.9784, 79.5180]
+    ];
+    const stations = [
+      { name: "Secunderabad Junction", code: "SC", pos: [17.4340, 78.5010], type: "terminal", platforms: 10, loops: 5 },
+      { name: "Moula Ali", code: "MLY", pos: [17.4620, 78.5580], type: "station", platforms: 3, loops: 2 },
+      { name: "Jangaon", code: "ZN", pos: [17.7240, 79.1620], type: "station", platforms: 3, loops: 2 },
+      { name: "Kazipet Junction", code: "KZJ", pos: [17.9784, 79.5180], type: "terminal", platforms: 6, loops: 4 }
+    ];
+    const signals = [
+      { id: "S-ZN-1", name: "Jangaon Starter", code: "ZN-S-1", pos: [17.7240, 79.1620], aspect: "yellow", status: "TAMPING SPEED RESTRICTION 45 KM/H" }
+    ];
+    const mileposts = [
+      { mp: "Km 0", pos: [17.4340, 78.5010] },
+      { mp: "Km 88/0 ⚠️", pos: [17.7240, 79.1620], isDefect: true },
+      { mp: "Km 132", pos: [17.9784, 79.5180] }
+    ];
+    this.renderTrackStandard(coords, stations, signals, mileposts);
+  },
+
+  renderGuwahatiAlipurduarTrack() {
+    const coords = [
+      [26.1830, 91.7530],
+      [26.1550, 91.7050],
+      [26.2410, 91.6820],
+      [26.4350, 91.6320],
+      [26.4890, 91.2420],
+      [26.5210, 90.9650],
+      [26.4920, 90.2780],
+      [26.4880, 89.5240]
+    ];
+    const stations = [
+      { name: "Guwahati", code: "GHY", pos: [26.1830, 91.7530], type: "terminal", platforms: 7, loops: 4 },
+      { name: "Kamakhya", code: "KYQ", pos: [26.1550, 91.7050], type: "station", platforms: 4, loops: 2 },
+      { name: "Rangiya Junction", code: "RNY", pos: [26.4350, 91.6320], type: "junction", platforms: 5, loops: 3 },
+      { name: "Alipurduar Junction", code: "APDJ", pos: [26.4880, 89.5240], type: "terminal", platforms: 5, loops: 3 }
+    ];
+    const signals = [
+      { id: "S-RNY-2", name: "Rangiya Junction Home", code: "RNY-H-2", pos: [26.4350, 91.6320], aspect: "red", status: "POINT MACHINE PM-04 DEFECT" }
+    ];
+    const mileposts = [
+      { mp: "Km 0", pos: [26.1830, 91.7530] },
+      { mp: "Km 114/8 ⚠️", pos: [26.4350, 91.6320], isDefect: true },
+      { mp: "Km 168", pos: [26.4880, 89.5240] }
+    ];
+    this.renderTrackStandard(coords, stations, signals, mileposts);
+  },
+
   // ── Fetch Corridor Telemetry from Backend Proxy ────────────────────────────
   async fetchCorridorTelemetry() {
     const session = typeof AUTH !== "undefined" ? AUTH.getSession() : null;
@@ -1128,28 +1704,37 @@ const RailMap = {
 
     if (!trains || !problem) return;
 
+    const isAuthorizedSenior = this.isSeniorPostAuthorizedForConflicts(this.currentData ? this.currentData.zone : "NR");
+
     trains.forEach((train, index) => {
       const startCoords = train.pointerCoords || [problem.lat + 0.03 * (index + 1), problem.lng + 0.03 * (index + 1)];
-      const isCritical = train.conflictLevel === "CRITICAL";
-      const isWarning = train.conflictLevel === "WARNING";
+      const isCritical = isAuthorizedSenior && train.conflictLevel === "CRITICAL";
+      const isWarning = isAuthorizedSenior && train.conflictLevel === "WARNING";
       const modifierClass = isCritical ? "critical" : (isWarning ? "warning" : "safe");
 
       // Stagger badge positions so nearby train labels NEVER overlap
       const posClasses = ["badge-pos-top", "badge-pos-bottom", "badge-pos-left", "badge-pos-right"];
       const posClass = posClasses[index % posClasses.length];
 
-      // Draw connection trajectory line from train to track problem
-      const vectorLine = L.polyline([startCoords, [problem.lat, problem.lng]], {
-        color: train.conflictColor || "#38BDF8",
-        weight: isCritical ? 2.5 : 1.5,
-        opacity: 0.8,
-        dashArray: "6 6"
-      }).addTo(this.layers.vectors);
+      // Draw connection trajectory line from train to track problem only if senior authorized
+      let vectorLine = null;
+      if (isAuthorizedSenior) {
+        vectorLine = L.polyline([startCoords, [problem.lat, problem.lng]], {
+          color: train.conflictColor || "#38BDF8",
+          weight: isCritical ? 2.5 : 1.5,
+          opacity: 0.8,
+          dashArray: "6 6"
+        }).addTo(this.layers.vectors);
+      }
+
+      const badgeLabel = isAuthorizedSenior 
+        ? `🚆 ${train.trainNumber} • ${train.timeToArrivalMin}m` 
+        : `🚆 ${train.trainNumber} • Transit`;
 
       const pointerHtml = `
-        <div class="train-pointer-wrapper" id="trainWrapper_${train.trainNumber}" title="${train.trainNumber} ${train.trainName} • ${train.timeToArrivalMin}m to Defect">
+        <div class="train-pointer-wrapper" id="trainWrapper_${train.trainNumber}" title="${train.trainNumber} ${train.trainName} • ${isAuthorizedSenior ? train.timeToArrivalMin + 'm to Defect' : 'Normal Transit'}">
           <div class="train-pointer-badge ${modifierClass} ${posClass}" id="trainBadge_${train.trainNumber}">
-            🚆 ${train.trainNumber} • ${train.timeToArrivalMin}m
+            ${badgeLabel}
           </div>
           <div class="train-pointer-icon ${modifierClass}" id="trainIcon_${train.trainNumber}">
             ▲
@@ -1348,6 +1933,37 @@ const RailMap = {
     const recDescEl = document.getElementById("tphRecDesc");
     const advisoryEl = document.getElementById("tphRoleAdvisory");
 
+    const isAuthorizedSenior = this.isSeniorPostAuthorizedForConflicts(data.zone);
+
+    if (!isAuthorizedSenior) {
+      if (titleEl) titleEl.textContent = `🔧 TRACK MAINTENANCE: ${prob.type}`;
+      if (subtitleEl) subtitleEl.textContent = `${prob.milepost} • ${data.sectionName}`;
+      if (blockTimeEl) blockTimeEl.textContent = `${prob.proposedBlockWindow} (Field Possession Active)`;
+      if (blockDescEl) blockDescEl.textContent = prob.description;
+      if (countEl) countEl.textContent = `Normal Traffic Headway Active`;
+      if (recWindowEl) recWindowEl.textContent = data.recommendedBlock;
+      if (recDescEl) recDescEl.textContent = "Safe working possession certified by Divisional Operations Control.";
+      if (advisoryEl) advisoryEl.textContent = "Operational train conflict resolution & regulation is managed exclusively by Regional Senior-Most Authority (GM/DRM/Sr.DOM).";
+
+      if (listEl) {
+        listEl.innerHTML = `
+          <div style="background: #F8FAFC; border: 1.5px solid #CBD5E1; border-radius: 8px; padding: 16px; text-align: center; color: #475569;">
+            <div style="font-size: 13.5px; font-weight: 800; color: #0F172A; margin-bottom: 6px;">
+              🛡️ Regional Conflict Clearance Authority Restricted
+            </div>
+            <div style="font-size: 12px; line-height: 1.5; color: #64748B;">
+              Real-time operational train conflict alarms, speed regulation, and diversion routing are strictly restricted to the Senior-Most Post of this region (<strong>${data.zone} General Manager / DRM / Sr. DOM</strong>).
+            </div>
+            <div style="font-size: 11.5px; color: #059669; font-weight: 700; margin-top: 10px; background: #ECFDF5; padding: 8px; border-radius: 6px; border: 1px solid #A7F3D0;">
+              ✓ Field Verification: Track possession safe for authorized maintenance crew. All train movements held at automatic signals.
+            </div>
+          </div>
+        `;
+      }
+      hud.style.display = "flex";
+      return;
+    }
+
     if (titleEl) titleEl.textContent = `⚠️ TRACK DEFECT: ${prob.type}`;
     if (subtitleEl) subtitleEl.textContent = `${prob.milepost} • ${data.sectionName}`;
     if (blockTimeEl) blockTimeEl.textContent = `${prob.proposedBlockWindow} (Proposed Possession)`;
@@ -1414,10 +2030,72 @@ const RailMap = {
     }, 1000);
   },
 
+  // ── Regional Authority & Senior Post Conflict Authorization Check ─────────
+  isSeniorPostAuthorizedForConflicts(sectionZone) {
+    const session = typeof AUTH !== "undefined" ? AUTH.getSession() : null;
+    if (!session) return true;
+
+    // Pan-India Apex level (Level 0: CRB, Member) -> Always authorized for all regions
+    if (session.isPanIndia || session.roleLevel === 0 || session.zone === "ALL") {
+      return true;
+    }
+
+    // Senior-most posts of that region: General Manager (Level 1), DRM (Level 2), SrDOM/CC (Level 3)
+    const isSeniorPost = session.roleLevel <= 3;
+    const isMatchingRegion = session.zone === sectionZone || session.authorizedZone === sectionZone;
+
+    return isSeniorPost && isMatchingRegion;
+  },
+
+  // ── Populate Corridor Dropdown based on Authenticated User Role & Zone ────
+  populateCorridorDropdown() {
+    const selector = document.getElementById("mapSectionSelector");
+    if (!selector) return;
+
+    const session = typeof AUTH !== "undefined" ? AUTH.getSession() : null;
+    const isPanIndia = Boolean(session && (session.isPanIndia || session.zone === "ALL" || session.roleLevel === 0));
+    const userZone = session ? session.zone : "NR";
+
+    const allCorridors = [
+      { key: "RE-GGN", label: "📍 Northern: Rewari → Gurugram (Km 54/8)", zone: "NR" },
+      { key: "UMB-SIR", label: "📍 Northern: Ambala Cantt → Sirhind (Km 142/4)", zone: "NR" },
+      { key: "HWH-BWN", label: "📍 Eastern: Howrah → Barddhaman (Km 64/2)", zone: "ER" },
+      { key: "BCT-ST", label: "📍 Western: Mumbai Central → Surat (Km 92/4)", zone: "WR" },
+      { key: "MAS-KPD", label: "📍 Southern: Chennai Central → Katpadi (Km 78/6)", zone: "SR" },
+      { key: "CSMT-KYN", label: "📍 Central: Mumbai CSMT → Kalyan (Km 34/2)", zone: "CR" },
+      { key: "SC-KZJ", label: "📍 South Central: Secunderabad → Kazipet (Km 88/0)", zone: "SCR" },
+      { key: "GHY-APDJ", label: "📍 Northeast Frontier: Guwahati → Alipurduar (Km 114/8)", zone: "NFR" }
+    ];
+
+    selector.innerHTML = "";
+
+    const available = isPanIndia 
+      ? allCorridors 
+      : allCorridors.filter(c => c.zone === userZone);
+
+    const finalList = available.length > 0 ? available : allCorridors.filter(c => c.zone === "NR");
+
+    finalList.forEach(c => {
+      const opt = document.createElement("option");
+      opt.value = c.key;
+      opt.textContent = c.label;
+      if (c.key === this.activeSection) opt.selected = true;
+      selector.appendChild(opt);
+    });
+
+    if (!finalList.some(c => c.key === this.activeSection)) {
+      this.activeSection = finalList[0].key;
+      selector.value = this.activeSection;
+    }
+  },
+
   // ── Initialize Event Listeners & Controls ──────────────────────────────────
   initControls() {
     if (this._controlsInitialized) return;
     this._controlsInitialized = true;
+
+    // Dynamically populate corridors according to logged-in jurisdiction
+    this.populateCorridorDropdown();
 
     // Theme selector
     const themeSelect = document.getElementById("mapThemeSelector");
