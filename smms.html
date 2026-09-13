@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Indian Railways SMMS | Signal Maintenance Management System</title>
+  <meta name="description" content="CRIS Indian Railways Signal Maintenance Management System (SMMS) - Electronic Interlocking, Point Machines, Axle Counters & S&T Disconnection Memos">
+  <link rel="stylesheet" href="css/enterprise-portals.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23059669'><rect x='6' y='2' width='12' height='20' rx='3'/><circle cx='12' cy='7' r='1.5'/><circle cx='12' cy='12' r='1.5'/><circle cx='12' cy='17' r='1.5'/></svg>">
+</head>
+<body class="portal-body">
+
+  <!-- Header -->
+  <header class="portal-header">
+    <div class="portal-brand">
+      <div class="portal-emblem-badge" style="color: #34D399; background: linear-gradient(135deg, #064E3B 0%, #0B192C 100%);">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="6" y="2" width="12" height="20" rx="3"></rect>
+          <circle cx="12" cy="7" r="1.5"></circle>
+          <circle cx="12" cy="12" r="1.5"></circle>
+          <circle cx="12" cy="17" r="1.5"></circle>
+        </svg>
+      </div>
+      <div class="portal-brand-text">
+        <h1>SMMS <span>Signal Maintenance Management System</span></h1>
+        <div class="tagline">Indian Railways Signal & Telecommunication (S&T) • CRIS Real-time Data Logger Core v3.6</div>
+      </div>
+    </div>
+
+    <div class="portal-header-actions">
+      <div class="portal-session-pill">
+        <div class="avatar" id="userAvatar" style="background: #059669;">NR</div>
+        <div>
+          <strong id="userName">Officer Name</strong>
+          <div style="font-size: 10.5px; color: #94A3B8;" id="userDesignation">SSE / Signal</div>
+        </div>
+      </div>
+      <a href="index.html" class="portal-nav-btn">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+        RailOptAI Operations
+      </a>
+    </div>
+  </header>
+
+  <!-- Sub-header -->
+  <div class="portal-subbar">
+    <div class="portal-breadcrumb">
+      <a href="index.html">RailOptAI</a>
+      <span>›</span>
+      <span>Enterprise Systems</span>
+      <span>›</span>
+      <span style="color: var(--ir-navy); font-weight: 700;">SMMS (Signal Maintenance Management System)</span>
+    </div>
+    <div class="portal-status-indicators">
+      <div>
+        <span class="portal-live-dot"></span>
+        <span>S&T Data Logger Gateway: ONLINE</span>
+      </div>
+      <div style="color: var(--text-muted);">|</div>
+      <div id="portalActiveZoneBadge" style="background: #E0F2FE; color: #0369A1; padding: 2px 8px; border-radius: 6px;">Northern Railway (NR)</div>
+      <div id="portalActiveDivisionBadge" style="background: #ECFDF5; color: #065F46; padding: 2px 8px; border-radius: 6px;">Delhi Division (DLI)</div>
+    </div>
+  </div>
+
+  <!-- Main Container -->
+  <main class="portal-container">
+
+    <!-- Section Banner -->
+    <div class="portal-banner" style="background: linear-gradient(135deg, #06281E 0%, #0F3E33 100%);">
+      <div class="portal-banner-info">
+        <h2>
+          <span>Electronic Interlocking, Point Machine & Axle Counter Telemetry</span>
+        </h2>
+        <p>
+          Continuous fail-safe monitoring of Solid State Interlocking (SSI/EI), point machine stroke times & motor currents, Audio Frequency Track Circuits (AFTC), Digital Axle Counters (DAC), Lamp Proving Relays (ECR), and Joint S&T Disconnection Memos.
+        </p>
+        <div class="portal-banner-badges">
+          <span class="portal-badge portal-badge-green">Electronic Interlocking (EI) Online</span>
+          <span class="portal-badge portal-badge-blue">Point Machine Current: 2.8 A (Normal)</span>
+          <span class="portal-badge portal-badge-amber">Joint S&T Block Notice Pending</span>
+        </div>
+      </div>
+      <div>
+        <button class="portal-btn portal-btn-amber" onclick="openSignalMemoModal('SMMS-NR-DISC-402', 'Gurugram (GGN) Point 102A/B', 'Point Machine Overhaul & AFTC Tuning', '02:00 - 04:30 hrs', '2.5 hrs')">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+          Issue S&T Disconnection Memo
+        </button>
+      </div>
+    </div>
+
+    <!-- KPI Stats Grid -->
+    <div class="portal-stats-grid">
+      <div class="portal-stat-card">
+        <div class="portal-stat-header">
+          <span>EI / SSI Stations</span>
+          <span style="color: #059669;">OPERATIONAL</span>
+        </div>
+        <div class="portal-stat-value">18 <small>Stations</small></div>
+        <div class="portal-stat-footer">
+          <span style="color: #059669;">●</span> Redundant Dual VDU Active
+        </div>
+      </div>
+
+      <div class="portal-stat-card">
+        <div class="portal-stat-header">
+          <span>Point Machine Health</span>
+          <span style="color: #059669;">NORMAL</span>
+        </div>
+        <div class="portal-stat-value">98.8% <small>Throw Index</small></div>
+        <div class="portal-stat-footer">
+          <span>Average throw time: 3.8 seconds</span>
+        </div>
+      </div>
+
+      <div class="portal-stat-card">
+        <div class="portal-stat-header">
+          <span>AFTC / Axle Counters</span>
+          <span style="color: #0284C7;">LIVE</span>
+        </div>
+        <div class="portal-stat-value" style="color: #0284C7;">154 <small>Sections</small></div>
+        <div class="portal-stat-footer">
+          <span>Fail-safe relay pickup margin: &gt;200%</span>
+        </div>
+      </div>
+
+      <div class="portal-stat-card">
+        <div class="portal-stat-header">
+          <span>Disconnection Memos</span>
+          <span style="color: #D97706;">NOTICE</span>
+        </div>
+        <div class="portal-stat-value" style="color: #D97706;">1 <small>Active</small></div>
+        <div class="portal-stat-footer">
+          <span>Joint P-Way / S&T Shadow Block needed</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section 1: Interlocking & Point Machine Health -->
+    <div class="portal-section-card">
+      <div class="portal-card-header">
+        <div class="portal-card-title">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polygon points="12 6 12 12 16 14"></polygon></svg>
+          <span>Point Machine Stroke & Motor Telemetry (Northern Railway)</span>
+        </div>
+        <div class="portal-card-actions">
+          <span class="badge-status badge-status-green">All Feeders Nominal</span>
+          <button class="portal-btn portal-btn-outline" onclick="location.reload()">Sync Data Logger</button>
+        </div>
+      </div>
+      <div class="portal-table-wrapper">
+        <table class="portal-table">
+          <thead>
+            <tr>
+              <th>Point ID</th>
+              <th>Station / Yard</th>
+              <th>Switch Type</th>
+              <th>Operating Voltage</th>
+              <th>Peak Throw Current</th>
+              <th>Throw Time</th>
+              <th>Obstruction Test</th>
+              <th>Action / Joint Block</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="background: #FFFBEB;">
+              <td class="font-mono"><strong>GGN-PT-102A/B</strong></td>
+              <td>Gurugram (GGN) Up Crossover</td>
+              <td>1:12 Turnout 60kg Curved Switch</td>
+              <td class="font-mono">110 V DC</td>
+              <td class="font-mono" style="color: #D97706; font-weight: 700;">3.9 A (Alert &gt;4.0A)</td>
+              <td class="font-mono">4.4 sec</td>
+              <td><span class="badge-status badge-status-amber">Needs Adjustment</span></td>
+              <td>
+                <button class="portal-btn portal-btn-amber" onclick="openSignalMemoModal('SMMS-NR-GGN-102', 'Gurugram Crossover Point 102A/B', 'Point Motor Overhaul & Friction Clutch Tuning', '02:00 - 04:30 hrs', '2.5 hrs')">
+                  Joint Shadow Block ↗
+                </button>
+              </td>
+            </tr>
+            <tr>
+              <td class="font-mono"><strong>PTRD-PT-201</strong></td>
+              <td>Pataudi Road (PTRD) Loop Turnout</td>
+              <td>1:8.5 Turnout 52kg Switch</td>
+              <td class="font-mono">112 V DC</td>
+              <td class="font-mono">2.7 A</td>
+              <td class="font-mono">3.7 sec</td>
+              <td><span class="badge-status badge-status-green">Passed (5mm Slip)</span></td>
+              <td>
+                <span style="font-size: 11px; color: #059669; font-weight: 700;">NORMAL</span>
+              </td>
+            </tr>
+            <tr>
+              <td class="font-mono"><strong>RE-PT-304</strong></td>
+              <td>Rewari Junction (RE) North Cabin</td>
+              <td>1:12 Turnout Thick Web Switch</td>
+              <td class="font-mono">110 V DC</td>
+              <td class="font-mono">2.8 A</td>
+              <td class="font-mono">3.8 sec</td>
+              <td><span class="badge-status badge-status-green">Passed (4mm Slip)</span></td>
+              <td>
+                <span style="font-size: 11px; color: #059669; font-weight: 700;">NORMAL</span>
+              </td>
+            </tr>
+            <tr>
+              <td class="font-mono"><strong>DEC-PT-108</strong></td>
+              <td>Delhi Cantt (DEC) Loop Crossover</td>
+              <td>1:12 Turnout 60kg Switch</td>
+              <td class="font-mono">109 V DC</td>
+              <td class="font-mono">2.9 A</td>
+              <td class="font-mono">3.9 sec</td>
+              <td><span class="badge-status badge-status-green">Passed (5mm Slip)</span></td>
+              <td>
+                <span style="font-size: 11px; color: #059669; font-weight: 700;">NORMAL</span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Section 2: Track Circuit & Axle Counter Health -->
+    <div class="portal-section-card">
+      <div class="portal-card-header">
+        <div class="portal-card-title">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0284C7" stroke-width="2"><rect x="4" y="4" width="16" height="16" rx="2"></rect><rect x="9" y="9" width="6" height="6"></rect></svg>
+          <span>Digital Axle Counter (DAC) & AFTC Telemetry</span>
+        </div>
+        <div class="portal-card-actions">
+          <span class="badge-status badge-status-blue">Auto-Reset Enabled</span>
+        </div>
+      </div>
+      <div class="portal-table-wrapper">
+        <table class="portal-table">
+          <thead>
+            <tr>
+              <th>Section ID</th>
+              <th>Track Circuit / DAC Type</th>
+              <th>Wheel Count (In / Out)</th>
+              <th>Rx Signal Amplitude</th>
+              <th>Relay State</th>
+              <th>Channel Redundancy</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="font-mono"><strong>DAC-KIP-PTRD-01</strong></td>
+              <td>High Availability SSDAC (Dual Channel)</td>
+              <td class="font-mono">542 / 542 (Clear)</td>
+              <td class="font-mono">820 mV</td>
+              <td><span class="badge-status badge-status-green">PR Picked Up</span></td>
+              <td>Channel A & B Synchronized</td>
+              <td><span class="badge-status badge-status-green">NORMAL</span></td>
+            </tr>
+            <tr>
+              <td class="font-mono"><strong>AFTC-GGN-14T</strong></td>
+              <td>Audio Frequency Track Circuit (2100 Hz)</td>
+              <td class="font-mono">— (Continuous)</td>
+              <td class="font-mono">1.85 V</td>
+              <td><span class="badge-status badge-status-green">TR Picked Up</span></td>
+              <td>Bonding Wire Intact</td>
+              <td><span class="badge-status badge-status-green">NORMAL</span></td>
+            </tr>
+            <tr>
+              <td class="font-mono"><strong>DAC-SIR-UMB-08</strong></td>
+              <td>HASSDAC (Ambala Division)</td>
+              <td class="font-mono">318 / 318 (Clear)</td>
+              <td class="font-mono">790 mV</td>
+              <td><span class="badge-status badge-status-green">PR Picked Up</span></td>
+              <td>Channel A & B Synchronized</td>
+              <td><span class="badge-status badge-status-green">NORMAL</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Integration Callout Banner -->
+    <div class="portal-integration-box">
+      <div class="portal-integration-info">
+        <h3>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+          Automated Shadow Block Bundling with RailOptAI
+        </h3>
+        <p>
+          SMMS integrates with RailOptAI's Task Bundling Engine. When Civil Engineering (TMS) plans a track maintenance block, SMMS automatically matches pending point machine & track circuit maintenance to execute a simultaneous "Shadow Block" without extra train detention.
+        </p>
+      </div>
+      <a href="index.html#bundling" class="portal-action-cta">
+        <span>Open RailOptAI Task Bundling</span>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+      </a>
+    </div>
+
+  </main>
+
+  <!-- Interactive Modal for Joint Disconnection Memo -->
+  <div class="portal-modal-overlay" id="signalMemoModal">
+    <div class="portal-modal">
+      <div class="portal-modal-header" style="background: #064E3B;">
+        <h4>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path></svg>
+          Issue Joint S&T Disconnection Notice (Rule 3.51)
+        </h4>
+        <button class="portal-modal-close" onclick="closeSignalMemoModal()">&times;</button>
+      </div>
+      <div class="portal-modal-body">
+        <div class="portal-modal-field">
+          <label>Memo Reference</label>
+          <input type="text" id="modalMemoId" readonly style="background: #F1F5F9; font-weight: 700;">
+        </div>
+        <div class="portal-modal-field">
+          <label>Interlocked Gear / Point</label>
+          <input type="text" id="modalGear" readonly style="background: #F1F5F9;">
+        </div>
+        <div class="portal-modal-field">
+          <label>Maintenance Scope</label>
+          <input type="text" id="modalScope" readonly style="background: #F1F5F9;">
+        </div>
+        <div class="portal-modal-field">
+          <label>Disconnection Window</label>
+          <input type="text" id="modalTime" value="02:00 — 04:30 hrs (Shadow Block with TMS)">
+        </div>
+        <div class="portal-modal-field">
+          <label>Coordination Post</label>
+          <select id="modalCoord">
+            <option>Joint Block with P-Way (Civil) & Operating (Section Controller)</option>
+            <option>Independent S&T Disconnection (Traffic Diversion)</option>
+          </select>
+        </div>
+      </div>
+      <div class="portal-modal-footer">
+        <button class="portal-btn portal-btn-outline" onclick="closeSignalMemoModal()">Cancel</button>
+        <button class="portal-btn portal-btn-primary" style="background: #059669;" onclick="confirmSignalBlock()">
+          Confirm & Bundle in RailOptAI →
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/auth.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      // Check session
+      if (typeof AUTH !== "undefined" && typeof AUTH.getSession === "function") {
+        const session = AUTH.getSession();
+        if (session) {
+          document.getElementById("userName").textContent = session.userName || "Shri Anurag Meena";
+          document.getElementById("userDesignation").textContent = session.role || "Chief Controller (Operations)";
+          document.getElementById("userAvatar").textContent = session.zone || "NR";
+          document.getElementById("portalActiveZoneBadge").textContent = (session.zoneName || "Northern Railway") + ` (${session.zone || "NR"})`;
+          document.getElementById("portalActiveDivisionBadge").textContent = (session.division || "Delhi") + " Division";
+        }
+      }
+    });
+
+    function openSignalMemoModal(id, gear, scope, win, dur) {
+      document.getElementById("modalMemoId").value = id;
+      document.getElementById("modalGear").value = gear;
+      document.getElementById("modalScope").value = scope;
+      document.getElementById("modalTime").value = win;
+      document.getElementById("signalMemoModal").classList.add("active");
+    }
+
+    function closeSignalMemoModal() {
+      document.getElementById("signalMemoModal").classList.remove("active");
+    }
+
+    function confirmSignalBlock() {
+      const memoId = document.getElementById("modalMemoId").value;
+      alert(`Success! Disconnection Memo [${memoId}] registered.\nBundling with RailOptAI AI Task Bundling engine.`);
+      window.location.href = "index.html#bundling";
+    }
+  </script>
+
+</body>
+</html>

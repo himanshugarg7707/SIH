@@ -1,0 +1,19 @@
+{
+  "name": "railoptai",
+  "version": "3.0.0",
+  "description": "Indian Railways Intelligent Maintenance Block & Real-Time Telemetry Coordination Platform",
+  "type": "module",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js"
+  },
+  "keywords": [
+    "indian-railways",
+    "sih2026",
+    "block-planning",
+    "train-telemetry",
+    "rapidapi"
+  ],
+  "author": "RailOptAI Team",
+  "license": "ISC"
+}

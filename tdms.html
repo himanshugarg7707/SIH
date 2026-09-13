@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Indian Railways TDMS | Traction Distribution Management System</title>
+  <meta name="description" content="CRIS Indian Railways Traction Distribution Management System (TDMS) - 25kV AC Overhead Equipment (OHE), SCADA TSS Telemetry & TRD Power Block Permits">
+  <link rel="stylesheet" href="css/enterprise-portals.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%236366F1'><polygon points='13 2 3 14 12 14 11 22 21 10 12 10 13 2'/></svg>">
+</head>
+<body class="portal-body">
+
+  <!-- Header -->
+  <header class="portal-header">
+    <div class="portal-brand">
+      <div class="portal-emblem-badge" style="color: #A5B4FC; background: linear-gradient(135deg, #312E81 0%, #0B192C 100%);">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+        </svg>
+      </div>
+      <div class="portal-brand-text">
+        <h1>TDMS <span>Traction Distribution Management System</span></h1>
+        <div class="tagline">Indian Railways Electrical (TRD - 25kV OHE) • CRIS SCADA Telemetry Core v4.1</div>
+      </div>
+    </div>
+
+    <div class="portal-header-actions">
+      <div class="portal-session-pill">
+        <div class="avatar" id="userAvatar" style="background: #6366F1;">NR</div>
+        <div>
+          <strong id="userName">Officer Name</strong>
+          <div style="font-size: 10.5px; color: #94A3B8;" id="userDesignation">SSE / TRD (OHE)</div>
+        </div>
+      </div>
+      <a href="index.html" class="portal-nav-btn">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+        RailOptAI Operations
+      </a>
+    </div>
+  </header>
+
+  <!-- Sub-header -->
+  <div class="portal-subbar">
+    <div class="portal-breadcrumb">
+      <a href="index.html">RailOptAI</a>
+      <span>›</span>
+      <span>Enterprise Systems</span>
+      <span>›</span>
+      <span style="color: var(--ir-navy); font-weight: 700;">TDMS (Traction Distribution Management System)</span>
+    </div>
+    <div class="portal-status-indicators">
+      <div>
+        <span class="portal-live-dot"></span>
+        <span>SCADA 25kV Grid: NORMAL (26.2 kV)</span>
+      </div>
+      <div style="color: var(--text-muted);">|</div>
+      <div id="portalActiveZoneBadge" style="background: #E0F2FE; color: #0369A1; padding: 2px 8px; border-radius: 6px;">Northern Railway (NR)</div>
+      <div id="portalActiveDivisionBadge" style="background: #EEF2FF; color: #4338CA; padding: 2px 8px; border-radius: 6px;">Delhi Division (DLI)</div>
+    </div>
+  </div>
+
+  <!-- Main Container -->
+  <main class="portal-container">
+
+    <!-- Section Banner -->
+    <div class="portal-banner" style="background: linear-gradient(135deg, #1E1B4B 0%, #312E81 100%);">
+      <div class="portal-banner-info">
+        <h2>
+          <span>25kV AC OHE Catenary Wear, SCADA TSS & Power Block Permits</span>
+        </h2>
+        <p>
+          Supervisory Control and Data Acquisition (SCADA) monitoring for 25kV 50Hz single phase traction supply. Tracks contact wire thickness, pantograph dynamic interaction, neutral section health, Traction Substations (TSS), and TRD Power Block isolation permits.
+        </p>
+        <div class="portal-banner-badges">
+          <span class="portal-badge portal-badge-purple">SCADA Gateway Connected</span>
+          <span class="portal-badge portal-badge-blue">Catenary Voltage: 26.2 kV Single Phase</span>
+          <span class="portal-badge portal-badge-green">Auto-Tensioning ATD: In Tolerance</span>
+        </div>
+      </div>
+      <div>
+        <button class="portal-btn portal-btn-amber" onclick="openPowerBlockModal('TDMS-NR-PB-1804', 'Km 88.0 – 92.0 Up Main', '25kV OHE Catenary Wire Adjustment & Isolator Check', '02:00 - 05:00 hrs', '3.0 hrs')">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+          Request TRD Power Block
+        </button>
+      </div>
+    </div>
+
+    <!-- KPI Stats Grid -->
+    <div class="portal-stats-grid">
+      <div class="portal-stat-card">
+        <div class="portal-stat-header">
+          <span>Electrified Route</span>
+          <span style="color: #6366F1;">25kV AC</span>
+        </div>
+        <div class="portal-stat-value">188.5 <small>RKM</small></div>
+        <div class="portal-stat-footer">
+          <span style="color: #059669;">●</span> High-Rise 7.52m OHE Ready
+        </div>
+      </div>
+
+      <div class="portal-stat-card">
+        <div class="portal-stat-header">
+          <span>Min Contact Wire Thickness</span>
+          <span style="color: #059669;">HEALTHY</span>
+        </div>
+        <div class="portal-stat-value">8.9 <small>mm</small></div>
+        <div class="portal-stat-footer">
+          <span>Condemning limit: 7.4 mm (Safe)</span>
+        </div>
+      </div>
+
+      <div class="portal-stat-card">
+        <div class="portal-stat-header">
+          <span>Traction Substations (TSS)</span>
+          <span style="color: #0284C7;">LIVE</span>
+        </div>
+        <div class="portal-stat-value">4 <small>Substations</small></div>
+        <div class="portal-stat-footer">
+          <span>TSS Garhi Harsaru & TSS Rajpura Active</span>
+        </div>
+      </div>
+
+      <div class="portal-stat-card">
+        <div class="portal-stat-header">
+          <span>Power Block Permits</span>
+          <span style="color: #D97706;">PENDING</span>
+        </div>
+        <div class="portal-stat-value" style="color: #D97706;">1 <small>Req</small></div>
+        <div class="portal-stat-footer">
+          <span>Matches TMS track possession at Km 89.6</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section 1: 25kV OHE Catenary Wire Health Registry -->
+    <div class="portal-section-card">
+      <div class="portal-card-header">
+        <div class="portal-card-title">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#6366F1" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+          <span>Overhead Equipment (OHE) Wire Wear & Stagger Telemetry</span>
+        </div>
+        <div class="portal-card-actions">
+          <span class="badge-status badge-status-blue">Auto-Tensioning Devices (ATD): 1000 kgf</span>
+          <button class="portal-btn portal-btn-outline" onclick="location.reload()">Sync SCADA</button>
+        </div>
+      </div>
+      <div class="portal-table-wrapper">
+        <table class="portal-table">
+          <thead>
+            <tr>
+              <th>OHE Span ID</th>
+              <th>Track & Mast Range</th>
+              <th>Contact Wire Height</th>
+              <th>Stagger (Zig-zag)</th>
+              <th>Measured Thickness</th>
+              <th>Remaining Copper Area</th>
+              <th>Tower Wagon Run</th>
+              <th>TRD Power Block</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="background: #FFFBEB;">
+              <td class="font-mono"><strong>OHE-NR-89/14</strong></td>
+              <td>
+                <div><strong>Km 89.6 Up Main Line</strong></div>
+                <div style="font-size: 11px; color: var(--text-muted);">Mast 89/12 to 89/16 (Near Defect)</div>
+              </td>
+              <td class="font-mono">5.62 m</td>
+              <td class="font-mono">+185 mm</td>
+              <td class="font-mono" style="color: #D97706; font-weight: 700;">8.4 mm (Inspect)</td>
+              <td class="font-mono">72.5 sq.mm</td>
+              <td>Tower Wagon RU-84 Assigned</td>
+              <td>
+                <button class="portal-btn portal-btn-primary" onclick="openPowerBlockModal('TDMS-NR-PB-1804', 'Km 89.6 Up Main (Mast 89/12-16)', 'OHE Dropper & Contact Wire Tuning (Shadow with TMS)', '02:00 - 05:00 hrs', '3.0 hrs')">
+                  Push to RailOptAI ↗
+                </button>
+              </td>
+            </tr>
+            <tr>
+              <td class="font-mono"><strong>OHE-NR-94/02</strong></td>
+              <td>
+                <div><strong>Km 94.1 Down Line</strong></div>
+                <div style="font-size: 11px; color: var(--text-muted);">Garhi Harsaru (GHH) Crossover</div>
+              </td>
+              <td class="font-mono">5.60 m</td>
+              <td class="font-mono">-120 mm</td>
+              <td class="font-mono">9.8 mm</td>
+              <td class="font-mono">88.2 sq.mm</td>
+              <td>Routine Scheduled</td>
+              <td>
+                <span style="font-size: 11px; color: #059669; font-weight: 700;">NORMAL</span>
+              </td>
+            </tr>
+            <tr>
+              <td class="font-mono"><strong>OHE-NR-104/10</strong></td>
+              <td>
+                <div><strong>Km 104.2 Up Outer</strong></div>
+                <div style="font-size: 11px; color: var(--text-muted);">Gurugram Outer Neutral Section</div>
+              </td>
+              <td class="font-mono">5.58 m</td>
+              <td class="font-mono">+40 mm (Neutral)</td>
+              <td class="font-mono">10.1 mm</td>
+              <td class="font-mono">92.0 sq.mm</td>
+              <td>PTFE Insulators Tested</td>
+              <td>
+                <span style="font-size: 11px; color: #059669; font-weight: 700;">NORMAL</span>
+              </td>
+            </tr>
+            <tr>
+              <td class="font-mono"><strong>OHE-NR-DFC-01</strong></td>
+              <td>
+                <div><strong>Rewari High-Rise DFC Feeder</strong></div>
+                <div style="font-size: 11px; color: var(--text-muted);">Double-Stack Container Clearance</div>
+              </td>
+              <td class="font-mono" style="color: #6366F1; font-weight: 700;">7.52 m (High Rise)</td>
+              <td class="font-mono">±200 mm</td>
+              <td class="font-mono">11.6 mm</td>
+              <td class="font-mono">102.4 sq.mm</td>
+              <td>Laser Profiler Validated</td>
+              <td>
+                <span style="font-size: 11px; color: #059669; font-weight: 700;">NORMAL</span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Section 2: SCADA Traction Substation (TSS) Feeders -->
+    <div class="portal-section-card">
+      <div class="portal-card-header">
+        <div class="portal-card-title">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#6366F1" stroke-width="2"><rect x="2" y="2" width="20" height="8" rx="2" ry="2"></rect><rect x="2" y="14" width="20" height="8" rx="2" ry="2"></rect><line x1="6" y1="6" x2="6.01" y2="6"></line><line x1="6" y1="18" x2="6.01" y2="18"></line></svg>
+          <span>Traction Substation (TSS) & Circuit Breaker SCADA Status</span>
+        </div>
+        <div class="portal-card-actions">
+          <span class="badge-status badge-status-green">All Sub-stations Synchronized</span>
+        </div>
+      </div>
+      <div class="portal-table-wrapper">
+        <table class="portal-table">
+          <thead>
+            <tr>
+              <th>Substation</th>
+              <th>Grid Voltage (Input)</th>
+              <th>Transformer Capacity</th>
+              <th>Feeder CB-101</th>
+              <th>Feeder CB-102</th>
+              <th>Load Current</th>
+              <th>OHE Bus Voltage</th>
+              <th>SCADA Control</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="font-mono"><strong>TSS Garhi Harsaru</strong></td>
+              <td>132 kV Three Phase</td>
+              <td>30 MVA (ONAN/ONAF)</td>
+              <td><span class="badge-status badge-status-green">CLOSED (Live)</span></td>
+              <td><span class="badge-status badge-status-green">CLOSED (Live)</span></td>
+              <td class="font-mono">342 A</td>
+              <td class="font-mono">26.3 kV</td>
+              <td><span class="badge-status badge-status-blue">Remote SCADA ON</span></td>
+            </tr>
+            <tr>
+              <td class="font-mono"><strong>TSS Rajpura</strong></td>
+              <td>220 kV Three Phase</td>
+              <td>30 MVA (ONAN/ONAF)</td>
+              <td><span class="badge-status badge-status-green">CLOSED (Live)</span></td>
+              <td><span class="badge-status badge-status-green">CLOSED (Live)</span></td>
+              <td class="font-mono">295 A</td>
+              <td class="font-mono">26.4 kV</td>
+              <td><span class="badge-status badge-status-blue">Remote SCADA ON</span></td>
+            </tr>
+            <tr>
+              <td class="font-mono"><strong>SP Pataudi Road</strong></td>
+              <td>Sectioning Post (SP)</td>
+              <td>Bridging Interrupter</td>
+              <td><span class="badge-status badge-status-amber">OPEN (Normal)</span></td>
+              <td><span class="badge-status badge-status-green">CLOSED</span></td>
+              <td class="font-mono">—</td>
+              <td class="font-mono">26.1 kV</td>
+              <td><span class="badge-status badge-status-blue">Remote SCADA ON</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Integration Callout Banner -->
+    <div class="portal-integration-box">
+      <div class="portal-integration-info">
+        <h3>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"></path></svg>
+          Synchronized Power Block Coordination with RailOptAI
+        </h3>
+        <p>
+          Whenever civil track work (TMS) or signaling work (SMMS) requires an overhead power shut-off, TDMS automatically generates a TRD Permit-to-Work (PTW) and matches the power block isolation to RailOptAI's master maintenance possession window.
+        </p>
+      </div>
+      <a href="index.html#planner" class="portal-action-cta">
+        <span>Coordinate in RailOptAI</span>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+      </a>
+    </div>
+
+  </main>
+
+  <!-- Interactive Modal for TRD Power Block -->
+  <div class="portal-modal-overlay" id="powerBlockModal">
+    <div class="portal-modal">
+      <div class="portal-modal-header" style="background: #312E81;">
+        <h4>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+          Issue 25kV OHE Power Block Permit (TRD)
+        </h4>
+        <button class="portal-modal-close" onclick="closePowerBlockModal()">&times;</button>
+      </div>
+      <div class="portal-modal-body">
+        <div class="portal-modal-field">
+          <label>TRD Permit Reference</label>
+          <input type="text" id="modalPermitId" readonly style="background: #F1F5F9; font-weight: 700;">
+        </div>
+        <div class="portal-modal-field">
+          <label>OHE Section to De-energize</label>
+          <input type="text" id="modalOheSection" readonly style="background: #F1F5F9;">
+        </div>
+        <div class="portal-modal-field">
+          <label>TRD Work Scope</label>
+          <input type="text" id="modalTrdScope" readonly style="background: #F1F5F9;">
+        </div>
+        <div class="portal-modal-field">
+          <label>Isolation Window</label>
+          <input type="text" id="modalOheWindow" value="02:00 — 05:00 hrs (Shadow Block with TMS & SMMS)">
+        </div>
+        <div class="portal-modal-field">
+          <label>Safety Earthing Rod Deployment</label>
+          <select id="modalEarthDischarge">
+            <option>Deploy 2 Discharge Rods (Mast 89/10 & Mast 89/18) + SCADA Isolator Open</option>
+            <option>Complete Feeder Sub-station Isolation (Garhi Harsaru)</option>
+          </select>
+        </div>
+      </div>
+      <div class="portal-modal-footer">
+        <button class="portal-btn portal-btn-outline" onclick="closePowerBlockModal()">Cancel</button>
+        <button class="portal-btn portal-btn-primary" style="background: #6366F1;" onclick="confirmPowerBlock()">
+          Confirm & Forward to RailOptAI →
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/auth.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      // Check session
+      if (typeof AUTH !== "undefined" && typeof AUTH.getSession === "function") {
+        const session = AUTH.getSession();
+        if (session) {
+          document.getElementById("userName").textContent = session.userName || "Shri Anurag Meena";
+          document.getElementById("userDesignation").textContent = session.role || "Chief Controller (Operations)";
+          document.getElementById("userAvatar").textContent = session.zone || "NR";
+          document.getElementById("portalActiveZoneBadge").textContent = (session.zoneName || "Northern Railway") + ` (${session.zone || "NR"})`;
+          document.getElementById("portalActiveDivisionBadge").textContent = (session.division || "Delhi") + " Division";
+        }
+      }
+    });
+
+    function openPowerBlockModal(id, sec, scope, win, dur) {
+      document.getElementById("modalPermitId").value = id;
+      document.getElementById("modalOheSection").value = sec;
+      document.getElementById("modalTrdScope").value = scope;
+      document.getElementById("modalOheWindow").value = win;
+      document.getElementById("powerBlockModal").classList.add("active");
+    }
+
+    function closePowerBlockModal() {
+      document.getElementById("powerBlockModal").classList.remove("active");
+    }
+
+    function confirmPowerBlock() {
+      const permitId = document.getElementById("modalPermitId").value;
+      alert(`Success! TRD 25kV Power Block Permit [${permitId}] scheduled.\nTransferred to RailOptAI Block Planner for joint possession.`);
+      window.location.href = "index.html#planner";
+    }
+  </script>
+
+</body>
+</html>

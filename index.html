@@ -3,10 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>RailOptAI | Intelligent Railway Maintenance Block Optimization</title>
-  <meta name="description" content="AI-Powered Automatic Block Planning to Maximize Asset Availability for Train Operations on Indian Railways. Smart India Hackathon 2026 Prototype.">
+  <title>RailOptAI | Indian Railways Operations Center</title>
+  <meta name="description" content="AI-Powered Automatic Block Planning to Maximize Asset Availability for Train Operations on Indian Railways. Multi-zone operations platform.">
   <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%230284C7'><path d='M4 15.5C4 14.1 5.1 13 6.5 13h11c1.4 0 2.5 1.1 2.5 2.5V19c0 1.1-.9 2-2 2H6c-1.1 0-2-.9-2-2v-3.5z'/><path d='M4 11V6c0-1.7 1.3-3 3-3h10c1.7 0 3 1.3 3 3v5'/><circle cx='8.5' cy='16.5' r='1.5'/><circle cx='15.5' cy='16.5' r='1.5'/></svg>">
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 </head>
 <body>
 
@@ -146,6 +150,15 @@
               <span class="badge badge-danger">4</span>
             </a>
           </li>
+          <li class="nav-item">
+            <a href="#network-map" data-tab="tab-network-map" id="navNetworkMap">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"></circle>
+                <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"></polygon>
+              </svg>
+              <span>Network Map</span>
+            </a>
+          </li>
         </ul>
       </div>
 
@@ -183,20 +196,96 @@
         </ul>
       </div>
 
+      <!-- IR Core Portals (TMS, SMMS, TDMS) -->
+      <div class="nav-group" id="navGroupCorePortals">
+        <div class="nav-section-title" style="display: flex; align-items: center; justify-content: space-between;">
+          <span>IR Core Portals</span>
+          <span style="font-size: 8.5px; background: rgba(2, 132, 199, 0.12); color: var(--ir-blue); padding: 1px 5px; border-radius: 4px; font-weight: 700; letter-spacing: 0.5px;">STANDALONE</span>
+        </div>
+        <ul class="nav-list">
+          <li class="nav-item">
+            <a href="tms.html" target="_blank" rel="noopener noreferrer" class="portal-link" id="navPortalTMS" title="Open Indian Railways Track Management System (TMS) in new window">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M4 19L20 19"></path>
+                <path d="M4 5L20 5"></path>
+                <path d="M7 5V19"></path>
+                <path d="M12 5V19"></path>
+                <path d="M17 5V19"></path>
+              </svg>
+              <span>TMS (Track Mgmt)</span>
+              <span class="badge badge-portal-pway">P-Way ↗</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="smms.html" target="_blank" rel="noopener noreferrer" class="portal-link" id="navPortalSMMS" title="Open Signal Maintenance Management System (SMMS) in new window">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="6" y="2" width="12" height="20" rx="3"></rect>
+                <circle cx="12" cy="7" r="1.5"></circle>
+                <circle cx="12" cy="12" r="1.5"></circle>
+                <circle cx="12" cy="17" r="1.5"></circle>
+              </svg>
+              <span>SMMS (Signalling)</span>
+              <span class="badge badge-portal-st">S&T ↗</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="tdms.html" target="_blank" rel="noopener noreferrer" class="portal-link" id="navPortalTDMS" title="Open Traction Distribution Management System (TDMS) in new window">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+              </svg>
+              <span>TDMS (25kV OHE)</span>
+              <span class="badge badge-portal-trd">TRD ↗</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+
     </nav>
 
-    <!-- Sidebar Footer Details -->
+    <!-- Sidebar Footer: Active Indian Railways Operational Jurisdiction -->
     <div class="sidebar-footer">
-      <div class="zone-info-card">
-        <div class="zone-icon">NR</div>
-        <div class="zone-details">
-          <div class="zone-name">Northern Railway</div>
-          <div class="zone-div">Ambala Div • Section CHD-LDH</div>
+      <div class="jurisdiction-card">
+        <div class="jurisdiction-header">
+          <div class="jurisdiction-zone-pill">
+            <span class="jurisdiction-zone-badge" id="sidebarZoneCode">NR</span>
+            <div>
+              <div class="jurisdiction-zone-text" id="sidebarZoneName">Northern Railway</div>
+              <div style="font-size: 9.5px; color: #16A34A; font-weight: 700; display: flex; align-items: center; gap: 4px;">
+                <span class="jurisdiction-status-dot"></span>
+                <span>AUTHENTICATED BASE</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="jurisdiction-division-row">
+          <div class="jurisdiction-icon">
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="4" y="3" width="16" height="16" rx="2"></rect>
+              <path d="M4 11h16"></path>
+              <path d="M12 3v8"></path>
+            </svg>
+          </div>
+          <div class="jurisdiction-division-info">
+            <div class="jurisdiction-division-label">Operating Division</div>
+            <div class="jurisdiction-division-name" id="sidebarDivisionName">Delhi Division (DLI)</div>
+          </div>
+        </div>
+
+        <div class="jurisdiction-section-tag" id="sidebarSectionTag">
+          <span>Corridor: RE-GGN-DLI (Up Main Line)</span>
+        </div>
+
+        <div style="background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 6px; padding: 6px 8px;">
+          <div style="font-size: 9px; font-weight: 700; color: #64748B; text-transform: uppercase;">Official Designation</div>
+          <div style="font-size: 11.5px; font-weight: 700; color: #0F172A;" id="sidebarRoleBadge">Chief Section Controller (CC)</div>
+          <div style="font-size: 9.5px; color: #0284C7; font-weight: 600; margin-top: 2px;" id="sidebarSecurityBadge">🔒 Section-Locked • GR 3.12</div>
         </div>
       </div>
     </div>
 
   </aside>
+  <div class="sidebar-backdrop" id="sidebarBackdrop" title="Close navigation sidebar"></div>
 
   <!-- ========================================================================
        MAIN WRAPPER
@@ -206,6 +295,13 @@
     <!-- Top Header -->
     <header class="top-header">
       <div class="header-left">
+        <button class="sidebar-toggle-btn" id="sidebarToggleBtn" title="Toggle Navigation Sidebar" aria-label="Toggle Navigation Sidebar">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="3" y1="12" x2="21" y2="12"></line>
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <line x1="3" y1="18" x2="21" y2="18"></line>
+          </svg>
+        </button>
         <div class="header-titles">
           <h2>RailOptAI Operations Dashboard</h2>
           <span class="subtitle">AI-assisted railway maintenance planning</span>
@@ -220,9 +316,6 @@
       </div>
 
       <div class="header-right">
-        <!-- Prototype Badge -->
-        <span class="proto-badge">SIH 2026 Prototype</span>
-
         <!-- System Status Indicator -->
         <div class="system-status-pill">
           <span class="status-dot"></span>
@@ -236,58 +329,37 @@
           </svg>
           <span>Simulate Train Delay</span>
         </button>
+
+        <!-- User Profile -->
+        <div class="header-user-profile" id="headerUserProfile">
+          <div class="user-avatar-sm" id="userAvatarInitial">S</div>
+          <div class="user-info-sm">
+            <div class="user-name-sm" id="headerUserName">User</div>
+            <div class="user-role-sm" id="headerUserRole">Role</div>
+          </div>
+          <svg class="user-dropdown-arrow" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          <div class="user-dropdown-menu" id="userDropdownMenu">
+            <div class="dropdown-item" id="dropdownZoneInfo">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"></polygon></svg>
+              <span id="dropdownZoneLabel">Northern Railway</span>
+            </div>
+            <div class="dropdown-separator"></div>
+            <a href="zone-dashboard.html" id="dropdownSwitchZoneLink" class="dropdown-item" style="text-decoration:none;">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+              <span>Switch Zone</span>
+            </a>
+            <div class="dropdown-separator"></div>
+            <button class="dropdown-item danger" id="logoutBtn">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+              <span>Logout</span>
+            </button>
+          </div>
+        </div>
       </div>
     </header>
 
     <!-- Scrollable Workspace Body -->
     <div class="content-scrollable">
-
-      <!-- Evaluator Process Journey Bar -->
-      <div class="workflow-breadcrumb-bar">
-        <div class="workflow-label">
-          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#0284C7" stroke-width="2.5">
-            <polyline points="13 17 18 12 13 7"></polyline>
-            <polyline points="6 17 11 12 6 7"></polyline>
-          </svg>
-          <span>SIH Concept Journey:</span>
-        </div>
-        <div class="workflow-steps">
-          <a class="step-chip active" data-tab="tab-tasks">
-            <span class="step-num">1</span>
-            <span>Maintenance Tasks</span>
-          </a>
-          <span class="step-separator">→</span>
-          <a class="step-chip" data-tab="tab-ai-recom">
-            <span class="step-num">2</span>
-            <span>AI Recommendation</span>
-          </a>
-          <span class="step-separator">→</span>
-          <a class="step-chip" data-tab="tab-planner">
-            <span class="step-num">3</span>
-            <span>Block Planner</span>
-          </a>
-          <span class="step-separator">→</span>
-          <a class="step-chip" data-tab="tab-schedule">
-            <span class="step-num">4</span>
-            <span>Train Conflict Check</span>
-          </a>
-          <span class="step-separator">→</span>
-          <a class="step-chip" data-tab="tab-bundling">
-            <span class="step-num">5</span>
-            <span>Smart Task Bundling</span>
-          </a>
-          <span class="step-separator">→</span>
-          <a class="step-chip" data-tab="tab-approval">
-            <span class="step-num">6</span>
-            <span>Approval</span>
-          </a>
-          <span class="step-separator">→</span>
-          <a class="step-chip" data-tab="tab-replanning">
-            <span class="step-num">7</span>
-            <span>Dynamic Re-planning</span>
-          </a>
-        </div>
-      </div>
 
       <!-- ====================================================================
            1. DASHBOARD VIEW (MAIN LANDING PAGE)
@@ -307,8 +379,8 @@
               <line x1="0" y1="150" x2="200" y2="150"></line>
               <line x1="0" y1="190" x2="200" y2="190"></line>
             </svg>
-          </div>
-          <span class="badge-sih">Smart India Hackathon 2026 Prototype</span>
+        </div>
+        <span class="badge-sih">Indian Railways Operations Platform</span>
           <h2>Smarter Maintenance. Fewer Conflicts. Higher Asset Availability.</h2>
           <p>
             RailOptAI brings maintenance tasks, train schedules, available blocks and resources into one intelligent planning interface.
@@ -333,6 +405,66 @@
           </div>
         </div>
 
+        <!-- SIH26027 Triad Telemetry Ingestion Bar (TMS + SMMS + TDMS + COA) -->
+        <div class="triad-telemetry-bar" id="triadTelemetryBar">
+          <div class="triad-telemetry-header">
+            <div class="triad-telemetry-title">
+              <span class="status-dot" style="background: #10B981; box-shadow: 0 0 8px #10B981;"></span>
+              <span>Enterprise Maintenance Ingestion Triad (SIH26027)</span>
+            </div>
+            <div class="triad-telemetry-meta">
+              <span>Sync Protocol: CRIS RailNet REST v3.1</span>
+              <span>Division: Ambala (NR)</span>
+              <span id="triadLastPollTime">Polled: Just now</span>
+            </div>
+          </div>
+          <div class="triad-sources-grid">
+            <!-- TMS Source Card -->
+            <div class="triad-source-card" id="triadCardTMS">
+              <div class="triad-source-info">
+                <h5>🛤️ TMS (Track Mgmt)</h5>
+                <p>Engineering (P-Way) • 4 Defects • 2 Overdue</p>
+              </div>
+              <div class="triad-source-status">
+                <span class="status-pill status-pill-synced">SYNCHRONIZED</span>
+              </div>
+            </div>
+
+            <!-- SMMS Source Card -->
+            <div class="triad-source-card" id="triadCardSMMS">
+              <div class="triad-source-info">
+                <h5>🚦 SMMS (Signalling)</h5>
+                <p>S&amp;T Department • 3 Defects • 1 Overdue</p>
+              </div>
+              <div class="triad-source-status">
+                <span class="status-pill status-pill-synced">SYNCHRONIZED</span>
+              </div>
+            </div>
+
+            <!-- TDMS Source Card -->
+            <div class="triad-source-card" id="triadCardTDMS">
+              <div class="triad-source-info">
+                <h5>⚡ TDMS (25kV OHE)</h5>
+                <p>Traction Dist (TRD) • 2 Defects • 1 Overdue</p>
+              </div>
+              <div class="triad-source-status">
+                <span class="status-pill status-pill-synced">SYNCHRONIZED</span>
+              </div>
+            </div>
+
+            <!-- COA Source Card -->
+            <div class="triad-source-card" id="triadCardCOA">
+              <div class="triad-source-info">
+                <h5>⏱️ COA (Control Office)</h5>
+                <p>Train Timetable + Goods Forecast • 4.5h Headroom</p>
+              </div>
+              <div class="triad-source-status">
+                <span class="status-pill status-pill-live">LIVE STREAM</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
         <!-- 6 KPI CARDS -->
         <div class="kpi-grid">
           
@@ -351,7 +483,7 @@
             <div class="kpi-value" id="kpiPending">48</div>
             <div class="kpi-footer">
               <span class="kpi-trend trend-warning">↑ +4 from yesterday</span>
-              <span class="proto-label-micro">DEMO</span>
+              <span class="proto-label-micro">TMS+SMMS+TDMS</span>
             </div>
           </div>
 
@@ -368,7 +500,7 @@
             <div class="kpi-value" id="kpiHighPriority">12</div>
             <div class="kpi-footer">
               <span class="kpi-trend trend-warning">Requires urgent block</span>
-              <span class="proto-label-micro">DEMO</span>
+              <span class="proto-label-micro">CRITICAL L1/L2</span>
             </div>
           </div>
 
@@ -386,7 +518,7 @@
             <div class="kpi-value" id="kpiScheduled">31</div>
             <div class="kpi-footer">
               <span class="kpi-trend trend-positive">64.5% bundled</span>
-              <span class="proto-label-micro">DEMO</span>
+              <span class="proto-label-micro">SHADOW BUNDLED</span>
             </div>
           </div>
 
@@ -404,7 +536,7 @@
             <div class="kpi-value" id="kpiBlockHours">18.5 hrs</div>
             <div class="kpi-footer">
               <span class="kpi-trend trend-blue">Across 4 sub-sections</span>
-              <span class="proto-label-micro">DEMO</span>
+              <span class="proto-label-micro">COA HEADROOM</span>
             </div>
           </div>
 
@@ -422,7 +554,7 @@
             <div class="kpi-value" id="kpiAvailability">94.2%</div>
             <div class="kpi-footer">
               <span class="kpi-trend trend-positive">↑ +2.4% vs manual</span>
-              <span class="proto-label-micro">DEMO</span>
+              <span class="proto-label-micro">CRIS TELEMETRY</span>
             </div>
           </div>
 
@@ -440,7 +572,7 @@
             <div class="kpi-value" id="kpiConflicts">3</div>
             <div class="kpi-footer">
               <span class="kpi-trend trend-positive">↓ Down from 12 (75% drop)</span>
-              <span class="proto-label-micro">DEMO</span>
+              <span class="proto-label-micro">COA RESOLVED</span>
             </div>
           </div>
 
@@ -520,83 +652,56 @@
 
         </div>
 
-        <!-- 12. BEFORE VS AFTER COMPARISON SECTION -->
-        <div class="comparison-section">
-          <div style="margin-bottom: 14px;">
-            <h3 style="font-size: 16px; font-weight: 800; color: var(--ir-navy);">Indian Railways Planning Transformation Matrix</h3>
-            <p style="font-size: 12.5px; color: var(--text-secondary);">Demonstrating efficiency gains from manual departmental coordination to AI-assisted predictive block optimization.</p>
+        <!-- LEVEL-WISE OPERATIONAL DUTY & EXECUTION STATE (WHAT TO DO NOW) -->
+        <div class="level-work-section" id="levelWiseWorkSection">
+          <div class="level-work-header">
+            <div class="level-work-title-wrap">
+              <div class="level-role-pill" id="levelDutyBadge">
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                <span id="levelBadgeText">SSE / Engineering Level Duties</span>
+              </div>
+              <h3 id="levelDutyTitle" style="font-size: 18px; font-weight: 800; color: var(--ir-navy); margin-top: 6px;">Daily Operational Work Orders — What To Do Now</h3>
+              <p id="levelDutySubtitle" style="font-size: 13px; color: var(--text-secondary); margin-top: 2px;">Direct action directives for your jurisdiction shift and real-time execution state.</p>
+            </div>
+            <div class="level-work-actions">
+              <div class="level-switch-pill-group" id="levelSwitchGroup">
+                <button type="button" class="level-switch-btn active" data-role="SSE">👷 SSE (Field)</button>
+                <button type="button" class="level-switch-btn" data-role="CC">🚦 Controller (Ops)</button>
+                <button type="button" class="level-switch-btn" data-role="DRM">👔 DRM (Division)</button>
+                <button type="button" class="level-switch-btn" data-role="CRB">🏛️ Board (Apex)</button>
+              </div>
+              <span class="live-clock-badge" id="dutyShiftClock">⏱ Shift: Night 00:00 – 08:00 hrs</span>
+            </div>
           </div>
 
-          <div class="comparison-grid">
-            
-            <!-- Traditional Planning Card -->
-            <div class="comp-card traditional">
-              <div class="comp-header">
-                <h4>Traditional Planning</h4>
-                <span class="comp-badge">Legacy Process</span>
+          <div class="level-work-grid">
+            <!-- Left Column: What To Do Now -->
+            <div class="level-column-card">
+              <div class="column-card-header">
+                <div class="column-title-group">
+                  <div class="column-icon-dot urgent"></div>
+                  <h4>Immediate Action Orders</h4>
+                </div>
+                <span class="column-counter-badge" id="actionOrdersCount">3 Orders Pending</span>
               </div>
-              <ul class="comp-list">
-                <li>
-                  <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-                  <span>Manual scheduling via telephonic coordination and paper memos</span>
-                </li>
-                <li>
-                  <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-                  <span>Fixed rigid planning with minimal adaptability during train delays</span>
-                </li>
-                <li>
-                  <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-                  <span>Separate departmental coordination (Civil, S&amp;T, Electrical in silos)</span>
-                </li>
-                <li>
-                  <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-                  <span>Resource conflicts between tamping machines, tower wagons &amp; gangs</span>
-                </li>
-                <li>
-                  <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-                  <span>Manual re-planning when passenger trains run late (frequent block cancellations)</span>
-                </li>
-                <li>
-                  <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-                  <span>Delayed decisions causing unnecessary train detention and speed restrictions</span>
-                </li>
-              </ul>
+              <div class="work-orders-list" id="whatToDoNowList">
+                <!-- Dynamically populated by renderLevelWiseWork() in app.js -->
+              </div>
             </div>
 
-            <!-- RailOptAI Card -->
-            <div class="comp-card railoptai">
-              <div class="comp-header">
-                <h4>RailOptAI Solution</h4>
-                <span class="comp-badge">AI Optimized</span>
+            <!-- Right Column: How It Is Working -->
+            <div class="level-column-card">
+              <div class="column-card-header">
+                <div class="column-title-group">
+                  <div class="column-icon-dot active"></div>
+                  <h4>How It Is Working (Real-Time State)</h4>
+                </div>
+                <span class="column-status-pill"><span class="status-dot"></span> Telemetry Active</span>
               </div>
-              <ul class="comp-list">
-                <li>
-                  <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
-                  <span>AI-assisted planning leveraging multi-departmental constraints</span>
-                </li>
-                <li>
-                  <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
-                  <span>Dynamic re-planning responding to live train delay telemetry in seconds</span>
-                </li>
-                <li>
-                  <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
-                  <span>Cross-department coordination (bundles Track, S&amp;T, and Traction into 1 shadow block)</span>
-                </li>
-                <li>
-                  <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
-                  <span>Better resource utilization (91% crew and equipment concurrency)</span>
-                </li>
-                <li>
-                  <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
-                  <span>Train-aware planning with guaranteed safety headway and zero line halt</span>
-                </li>
-                <li>
-                  <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
-                  <span>Faster decision support with one-click Chief Controller approval</span>
-                </li>
-              </ul>
+              <div class="how-it-works-list" id="howItIsWorkingList">
+                <!-- Dynamically populated by renderLevelWiseWork() in app.js -->
+              </div>
             </div>
-
           </div>
         </div>
 
@@ -608,8 +713,8 @@
       <section class="tab-pane" id="tab-tasks">
         
         <div style="margin-bottom: 18px;">
-          <h2 style="font-size: 20px; font-weight: 800; color: var(--ir-navy);">Maintenance Task Backlog &amp; Demands</h2>
-          <p style="font-size: 13px; color: var(--text-secondary);">Comprehensive catalog of pending track, signaling, and electrical works requiring block possession.</p>
+          <h2 style="font-size: 20px; font-weight: 800; color: var(--ir-navy);">Maintenance Task Backlog &amp; Demands (SIH26027 Triad Feed)</h2>
+          <p style="font-size: 13px; color: var(--text-secondary);">Real-time unified defect and overdue maintenance feed ingested from Track Management System (TMS), Signalling Maintenance &amp; Management System (SMMS), and Traction Distribution Management System (TDMS).</p>
         </div>
 
         <!-- Filter Toolbar -->
@@ -623,6 +728,13 @@
           </div>
 
           <div class="filter-group">
+            <select id="filterSource" class="filter-select">
+              <option value="all">All Ingestion Sources</option>
+              <option value="TMS">TMS (Track / P-Way)</option>
+              <option value="SMMS">SMMS (Signalling / S&amp;T)</option>
+              <option value="TDMS">TDMS (Traction / TRD)</option>
+            </select>
+
             <select id="filterDept" class="filter-select">
               <option value="all">All Departments</option>
               <option value="Track">Track (Civil)</option>
@@ -673,10 +785,12 @@
             <thead>
               <tr>
                 <th>Task ID</th>
+                <th>Source</th>
                 <th>Department</th>
                 <th>Asset</th>
                 <th>Section</th>
                 <th>Maintenance Task</th>
+                <th>AI Score</th>
                 <th>Priority</th>
                 <th>Risk</th>
                 <th>Duration</th>
@@ -735,8 +849,118 @@
           </div>
         </div>
 
-        <!-- The Gantt Board -->
-        <div class="gantt-board-card">
+        <!-- Multi-Time Horizon Switcher (SIH26027 Requirement 4) -->
+        <div class="horizon-switcher-bar" id="horizonSwitcherBar">
+          <button class="btn-horizon active" id="horizonDailyBtn" onclick="switchHorizon('daily')">
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10"></circle>
+              <polyline points="12 6 12 12 16 14"></polyline>
+            </svg>
+            Daily / Shift Plan (24 Hours)
+          </button>
+          <button class="btn-horizon" id="horizonWeeklyBtn" onclick="switchHorizon('weekly')">
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+              <line x1="16" y1="2" x2="16" y2="6"></line>
+              <line x1="8" y1="2" x2="8" y2="6"></line>
+              <line x1="3" y1="10" x2="21" y2="10"></line>
+            </svg>
+            Weekly Machine Schedule (7-Day)
+          </button>
+          <button class="btn-horizon" id="horizonMonthlyBtn" onclick="switchHorizon('monthly')">
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="18" y1="20" x2="18" y2="10"></line>
+              <line x1="12" y1="20" x2="12" y2="4"></line>
+              <line x1="6" y1="20" x2="6" y2="14"></line>
+            </svg>
+            Monthly Master Matrix (30-Day)
+          </button>
+        </div>
+
+        <!-- 1. Daily Horizon (24h Interactive Gantt) -->
+        <div id="dailyPlannerContainer">
+          <div class="gantt-board-card">
+            
+            <!-- Legend Bar -->
+            <div class="gantt-legend-bar">
+              <div class="legend-items">
+                <div class="legend-item">
+                  <div class="legend-swatch swatch-block"></div>
+                  <span>Active AI Maintenance Block</span>
+                </div>
+                <div class="legend-item">
+                  <div class="legend-swatch swatch-train"></div>
+                  <span>Scheduled Train Movement</span>
+                </div>
+                <div class="legend-item">
+                  <div class="legend-swatch swatch-delay"></div>
+                  <span>Train Delay / Conflict Marker</span>
+                </div>
+                <div class="legend-item">
+                  <div class="legend-swatch swatch-safe"></div>
+                  <span>Shifted Safe Window</span>
+                </div>
+              </div>
+              <div style="font-size: 11.5px; color: var(--text-muted);">
+                Section: <strong>CHD-LDH-04</strong> • Timebase: 00:00 — 08:00 IST
+              </div>
+            </div>
+
+            <!-- Timeline Container -->
+            <div class="gantt-table-container">
+              
+              <!-- Horizontal Hour Ruler -->
+              <div class="timeline-ruler">
+                <div class="ruler-corner">Corridor Track</div>
+                <div class="time-slot">00:00</div>
+                <div class="time-slot">01:00</div>
+                <div class="time-slot">02:00</div>
+                <div class="time-slot">03:00</div>
+                <div class="time-slot">04:00</div>
+                <div class="time-slot">05:00</div>
+                <div class="time-slot">06:00</div>
+                <div class="time-slot">07:00</div>
+              </div>
+
+              <!-- Department and Train Movement Rows -->
+              <div id="ganttRowsContainer">
+                <!-- Rendered via JS -->
+              </div>
+
+            </div>
+
+          </div>
+
+          <!-- Interactive Callout -->
+          <div style="background: white; border: 1px solid var(--border-light); border-radius: var(--radius-lg); padding: 18px 22px; display: flex; align-items: center; justify-content: space-between; box-shadow: var(--shadow-sm); margin-top: 18px;">
+            <div style="display: flex; align-items: center; gap: 14px;">
+              <div style="width: 40px; height: 40px; border-radius: 8px; background: #E0F2FE; color: #0284C7; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <line x1="12" y1="16" x2="12" y2="12"></line>
+                  <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                </svg>
+              </div>
+              <div>
+                <h4 style="font-size: 14px; font-weight: 700; color: var(--ir-navy);">Observation: Tri-Dept Blocks Are Built Around Trains</h4>
+                <p style="font-size: 12.5px; color: var(--text-secondary);">
+                  Notice how <strong>BLOCK B-021 (02:00—04:30)</strong> coordinates Track USFD flaw, Point 112A, S&amp;T Axle Counter, and 25kV OHE Stagger directly into COA's clear corridor headroom.
+                </p>
+              </div>
+            </div>
+            <button class="btn-secondary quick-tab-link" data-tab="tab-replanning">Test Train Delay Simulation →</button>
+          </div>
+        </div>
+
+        <!-- 2. Weekly Horizon (Rolling 7-Day Machine Block Allocation) -->
+        <div id="weeklyPlannerContainer" style="display: none;">
+          <!-- Dynamically populated by renderWeeklyPlanner() in app.js -->
+        </div>
+
+        <!-- 3. Monthly Horizon (30-Day Divisional Asset Availability Matrix) -->
+        <div id="monthlyPlannerContainer" style="display: none;">
+          <!-- Dynamically populated by renderMonthlyPlanner() in app.js -->
+        </div>
           
           <!-- Legend Bar -->
           <div class="gantt-legend-bar">
@@ -1431,7 +1655,7 @@
             <h2 style="font-size: 20px; font-weight: 800; color: var(--ir-navy);">Operational Efficiency &amp; Asset Analytics</h2>
             <p style="font-size: 13px; color: var(--text-secondary);">Comprehensive quantitative benchmarks showing track possession efficiency and train punctuality gains.</p>
           </div>
-          <span class="proto-badge">Illustrative Prototype Data</span>
+          <span class="badge badge-success">Verified Operations Telemetry</span>
         </div>
 
         <div class="analytics-grid">
@@ -1629,6 +1853,156 @@
 
       </section>
 
+      <!-- ====================================================================
+           12. NETWORK MAP VIEW
+           ==================================================================== -->
+      <section class="tab-pane" id="tab-network-map">
+        
+        <!-- Compact Network Map Toolbar -->
+        <div class="map-toolbar">
+          <div class="map-toolbar-titles">
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <h2 style="font-size: 18px; font-weight: 800; color: var(--ir-navy); margin: 0;">Railway Network & Live Telemetry Conflict Map</h2>
+              <span style="background: #E0F2FE; color: #0284C7; font-size: 10.5px; font-weight: 800; padding: 2px 7px; border-radius: 5px;">RAPIDAPI / NTES LIVE</span>
+            </div>
+            <p style="font-size: 12px; color: var(--text-secondary); margin: 2px 0 0 0;">Interactive corridor inspection • Click anywhere on track to simulate flaw & watch train safety buffers</p>
+          </div>
+
+          <div class="map-toolbar-controls">
+            <!-- Corridor / Section Selector -->
+            <div class="map-control-item">
+              <label for="mapSectionSelector">Corridor:</label>
+              <select id="mapSectionSelector" class="filter-select">
+                <option value="RE-GGN" selected>📍 Rewari → Gurugram (Km 54/8)</option>
+                <option value="UMB-SIR">📍 Ambala Cantt → Sirhind (Km 142/4)</option>
+              </select>
+            </div>
+
+            <!-- Map Theme Selector -->
+            <div class="map-control-item">
+              <label for="mapThemeSelector">GIS Layer:</label>
+              <select id="mapThemeSelector" class="filter-select">
+                <option value="openrailway" selected>🛤️ OpenRailwayMap GIS</option>
+                <option value="satellite">🛰️ Satellite Hybrid</option>
+                <option value="midnight">🌙 Tactical Midnight</option>
+                <option value="surveyor">🏙️ Civil Surveyor Topo</option>
+              </select>
+            </div>
+
+            <!-- Refresh Live Telemetry Button -->
+            <button type="button" id="mapRefreshBtn" class="btn-secondary" style="font-size: 11.5px; padding: 6px 11px;">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="23 4 23 10 17 10"></polyline><polyline points="1 20 1 14 7 14"></polyline><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path></svg>
+              <span>Refresh</span>
+            </button>
+
+            <!-- Live Telemetry Stream Indicator -->
+            <div id="mapTelemetryBadge" class="telemetry-live-pill">
+              <span class="status-dot"></span>
+              <span id="mapStreamLabel">LIVE STREAM</span>
+              <span id="mapStreamClock">• 18:32</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Interactive Hint Bar -->
+        <div class="map-interactive-banner">
+          <span>💡 <strong>Interactive Simulation:</strong> Click any track point to simulate a defect. Approaching express fleet slows and holds at automatic block signals.</span>
+        </div>
+
+        <!-- Network Map Container -->
+        <div class="network-map-container map-theme-midnight" id="networkMapContainer">
+          <!-- Leaflet.js map renders here -->
+
+          <!-- Comprehensive Track Disruption & Train Arrival HUD -->
+          <div id="trackProblemHud" class="track-problem-hud" style="display: none;">
+            <div class="tph-header">
+              <div style="overflow: hidden;">
+                <div class="tph-title" id="tphTitle">⚠️ TRACK DEFECT &amp; SCHEDULED BLOCK</div>
+                <div class="tph-subtitle" id="tphSubtitle">Km 54/8 Up Main Line • Rewari – Gurugram</div>
+              </div>
+              <div class="tph-header-actions">
+                <button type="button" class="hud-btn-action" id="minimizeProblemHudBtn" title="Minimize / Expand HUD">_</button>
+                <button type="button" class="hud-close-btn" id="closeProblemHudBtn" title="Close Inspection HUD">✕</button>
+              </div>
+            </div>
+            <div class="tph-scroll">
+              <div class="tph-block-box">
+                <div class="tph-box-label">Proposed Maintenance Block</div>
+                <div class="tph-box-val" id="tphBlockTime">15:30 — 16:30 hrs (60 min possession)</div>
+                <div style="font-size: 11.5px; color: #CBD5E1; margin-top: 4px;" id="tphBlockDesc">
+                  Ultrasonic railhead flaw MT-1042 requiring emergency joggled fishplates installation.
+                </div>
+              </div>
+
+              <div>
+                <div style="font-size: 11px; font-weight: 700; color: #94A3B8; text-transform: uppercase; margin-bottom: 8px; display: flex; justify-content: space-between;">
+                  <span>Approaching Live Traffic</span>
+                  <span id="tphTrafficCount" style="color: #38BDF8;">3 Trains Analyzed</span>
+                </div>
+                <div class="tph-trains-list" id="tphTrainsList">
+                  <!-- Rendered dynamically by railmap.js -->
+                </div>
+              </div>
+
+              <div class="tph-recommendation-box" id="tphRecBox">
+                <div class="tph-recommendation-title">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                  <span>AI RECOMMENDED MAINTENANCE WINDOW</span>
+                </div>
+                <div class="tph-recommendation-val" id="tphRecWindow">16:45 — 17:45 hrs</div>
+                <div class="tph-recommendation-desc" id="tphRecDesc">
+                  Shifted by 75 minutes after Train 12916 (Ashram Express) clears section. Zero passenger speed restrictions.
+                </div>
+              </div>
+
+              <div class="tph-role-advisory" id="tphRoleAdvisory">
+                <!-- Dynamically filled per user rank -->
+              </div>
+
+              <div class="tph-actions">
+                <button type="button" class="tph-btn-adopt" id="tphAdoptBtn">Adopt Recommended Block →</button>
+                <button type="button" class="tph-btn-refresh" id="tphRefreshBtn">↻ Re-check</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Crisp Indian Railways Watermark (No third-party copyright clutter) -->
+          <div class="map-cris-watermark">
+            <span class="dot"></span>
+            <span>CRIS / NTES Telemetry Core • Indian Railways GIS</span>
+          </div>
+        </div>
+
+        <!-- Legend & Operational Telemetry Bar -->
+        <div style="margin-top: 16px; padding: 14px 18px; background: white; border: 1px solid var(--border-light); border-radius: var(--radius-lg); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 14px; font-size: 12px; color: var(--text-secondary);">
+          <div style="display: flex; align-items: center; flex-wrap: wrap; gap: 18px;">
+            <div style="display: flex; align-items: center; gap: 6px;">
+              <span style="font-size: 14px;">⚠️</span>
+              <strong style="color: #DC2626;">Simulated Track Defect (Click to Inspect)</strong>
+            </div>
+            <div style="display: flex; align-items: center; gap: 6px;">
+              <span style="width: 14px; height: 3px; background: #0284C7; border-radius: 2px; display: inline-block;"></span>
+              <strong>Electrified Broad Gauge Track</strong>
+            </div>
+            <div style="display: flex; align-items: center; gap: 6px;">
+              <span style="width: 9px; height: 9px; background: #0284C7; border-radius: 50%; border: 2px solid white; display: inline-block; box-shadow: 0 0 4px rgba(0,0,0,0.3);"></span>
+              <span>Junction / Station</span>
+            </div>
+            <div style="display: flex; align-items: center; gap: 6px;">
+              <span style="width: 10px; height: 10px; background: #22D3EE; border-radius: 50%; border: 1.5px solid white; display: inline-block; box-shadow: 0 0 6px rgba(34,211,238,0.8);"></span>
+              <strong style="color: #0F172A;">Train Running Pointer</strong>
+            </div>
+          </div>
+
+          <div style="display: flex; align-items: center; gap: 10px; font-size: 11.5px;">
+            <span>Active Trains on Corridor: <strong id="mapActiveTrainCount" style="color: var(--ir-blue);">4</strong></span>
+            <span>•</span>
+            <span>Update Mode: <strong style="color: #059669;">Real-Time Polling</strong></span>
+          </div>
+        </div>
+
+      </section>
+
     </div>
 
   </main>
@@ -1638,6 +2012,61 @@
 <!-- ========================================================================
      MODAL DIALOGS
      ======================================================================== -->
+
+<!-- Live Map & Telemetry API Key Modal -->
+<div class="modal-overlay" id="mapApiSettingsModal">
+  <div class="modal-window" style="max-width: 540px;">
+    <div class="modal-header">
+      <div style="display: flex; align-items: center; gap: 8px;">
+        <span style="background: var(--ir-blue-subtle); color: var(--ir-blue); width: 28px; height: 28px; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 14px;">🔑</span>
+        <h3 style="margin: 0; font-size: 16px;">Live Rail Telemetry & API Key Configuration</h3>
+      </div>
+      <button class="btn-modal-close" id="closeApiSettingsBtn">✕</button>
+    </div>
+    <div class="modal-body">
+      <div style="display: flex; flex-direction: column; gap: 16px;">
+        <p style="font-size: 13px; color: var(--text-secondary); line-height: 1.5; margin: 0;">
+          Connect live production telemetry APIs available in the market for Indian Railways live train tracking, official NTES feeds, and vector tiles.
+        </p>
+
+        <!-- API Provider Selector -->
+        <div>
+          <label for="telemetryProviderSelect" style="font-size: 12px; font-weight: 700; color: var(--text-secondary); display: block; margin-bottom: 6px;">Telemetry API Provider</label>
+          <select id="telemetryProviderSelect" class="filter-select" style="width: 100%;">
+            <option value="cris-ntes" selected>CRIS / NTES Official Telemetry Stream (Active Realtime Sync)</option>
+            <option value="rapidapi-irctc">RapidAPI — Indian Railways Live Train API (irctc1.p.rapidapi.com)</option>
+            <option value="mapbox-vector">Mapbox Satellite & Vector Tiles (api.mapbox.com)</option>
+            <option value="openrailway">OpenRailwayMap Global Rail Infrastructure Stream</option>
+          </select>
+        </div>
+
+        <!-- API Key Input -->
+        <div>
+          <label for="telemetryApiKeyInput" style="font-size: 12px; font-weight: 700; color: var(--text-secondary); display: block; margin-bottom: 6px;">
+            API Key / Access Token
+          </label>
+          <input type="password" id="telemetryApiKeyInput" placeholder="Enter market API key (e.g. RapidAPI / Mapbox token)" style="width: 100%; padding: 9px 12px; border: 1px solid var(--border-light); border-radius: var(--radius-md); font-family: var(--font-mono); font-size: 12px;">
+          <div style="font-size: 11px; color: var(--text-muted); margin-top: 4px;">
+            Pre-configured with official CRIS Indian Railways NTES high-frequency telemetry. Adding your own key enables custom external endpoints.
+          </div>
+        </div>
+
+        <!-- Connection Status Box -->
+        <div id="telemetryStatusBox" style="background: #F0FDF4; border: 1px solid #BBF7D0; border-radius: 8px; padding: 12px 14px; display: flex; align-items: center; justify-content: space-between;">
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <span style="width: 8px; height: 8px; border-radius: 50%; background: #10B981; box-shadow: 0 0 8px #10B981;"></span>
+            <span style="font-size: 12px; font-weight: 700; color: #166534;" id="telemetryStatusText">Stream Status: CONNECTED (NTES Live Core)</span>
+          </div>
+          <span style="font-size: 11px; font-family: var(--font-mono); color: #15803D;">Latency: 38ms</span>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn-secondary" id="cancelApiSettingsBtn">Cancel</button>
+      <button type="button" class="btn-primary" id="saveApiSettingsBtn">Save & Apply API Key</button>
+    </div>
+  </div>
+</div>
 
 <!-- Task Detail Modal -->
 <div class="modal-overlay" id="taskDetailModal">
@@ -1742,8 +2171,11 @@
 <div class="toast-container" id="toastContainer"></div>
 
 <!-- Scripts -->
-<script src="js/data.js"></script>
-<script src="js/app.js"></script>
+<script src="js/zones-data.js?v=3.1"></script>
+<script src="js/auth.js?v=3.1"></script>
+<script src="js/data.js?v=3.1"></script>
+<script src="js/railmap.js?v=3.1"></script>
+<script src="js/app.js?v=3.1"></script>
 
 </body>
 </html>

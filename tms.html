@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Indian Railways TMS | Track Management System</title>
+  <meta name="description" content="CRIS Indian Railways Track Management System (TMS) - Civil Engineering & P-Way Asset Life-Cycle & USFD Flaw Registry">
+  <link rel="stylesheet" href="css/enterprise-portals.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23D97706'><path d='M4 19L20 19'/><path d='M4 5L20 5'/><path d='M7 5V19'/><path d='M12 5V19'/><path d='M17 5V19'/></svg>">
+</head>
+<body class="portal-body">
+
+  <!-- Header -->
+  <header class="portal-header">
+    <div class="portal-brand">
+      <div class="portal-emblem-badge">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M4 19L20 19"></path>
+          <path d="M4 5L20 5"></path>
+          <path d="M7 5V19"></path>
+          <path d="M12 5V19"></path>
+          <path d="M17 5V19"></path>
+        </svg>
+      </div>
+      <div class="portal-brand-text">
+        <h1>TMS <span>Track Management System</span></h1>
+        <div class="tagline">Indian Railways Civil Engineering (P-Way) • CRIS Telemetry Gateway v4.8</div>
+      </div>
+    </div>
+
+    <div class="portal-header-actions">
+      <div class="portal-session-pill">
+        <div class="avatar" id="userAvatar">NR</div>
+        <div>
+          <strong id="userName">Officer Name</strong>
+          <div style="font-size: 10.5px; color: #94A3B8;" id="userDesignation">SSE / P-Way</div>
+        </div>
+      </div>
+      <a href="index.html" class="portal-nav-btn">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+        RailOptAI Operations
+      </a>
+    </div>
+  </header>
+
+  <!-- Sub-header -->
+  <div class="portal-subbar">
+    <div class="portal-breadcrumb">
+      <a href="index.html">RailOptAI</a>
+      <span>›</span>
+      <span>Enterprise Systems</span>
+      <span>›</span>
+      <span style="color: var(--ir-navy); font-weight: 700;">TMS (Track Management System)</span>
+    </div>
+    <div class="portal-status-indicators">
+      <div>
+        <span class="portal-live-dot"></span>
+        <span>CRIS P-Way Database: SYNCHRONIZED</span>
+      </div>
+      <div style="color: var(--text-muted);">|</div>
+      <div id="portalActiveZoneBadge" style="background: #E0F2FE; color: #0369A1; padding: 2px 8px; border-radius: 6px;">Northern Railway (NR)</div>
+      <div id="portalActiveDivisionBadge" style="background: #FEF3C7; color: #92400E; padding: 2px 8px; border-radius: 6px;">Delhi Division (DLI)</div>
+    </div>
+  </div>
+
+  <!-- Main Container -->
+  <main class="portal-container">
+
+    <!-- Section Banner -->
+    <div class="portal-banner">
+      <div class="portal-banner-info">
+        <h2>
+          <span>Track Asset Health, USFD Rail Flaws & Tamping Logs</span>
+        </h2>
+        <p>
+          Real-time integration with Indian Railways Permanent Way (P-Way) asset registry. Monitors Ultrasonic Flaw Detection (USFD) signals, rail wear rates (vertical/lateral), weld integrity, Ballast Cleaning Machine (BCM) deep screening, and Continuous Tamping Machine (CSM) runs.
+        </p>
+        <div class="portal-banner-badges">
+          <span class="portal-badge portal-badge-amber">Ultrasonic USFD Sensor Online</span>
+          <span class="portal-badge portal-badge-green">TRC Track Quality Index: 32.4</span>
+          <span class="portal-badge portal-badge-blue">Corridor: Delhi Cantt (DEC) – Rewari (RE) Up Main</span>
+        </div>
+      </div>
+      <div>
+        <button class="portal-btn portal-btn-amber" onclick="openScheduleModal('USFD-NR-896', 'Km 89.6 Up Main', 'IMR Rail Flaw (Transverse Fissure)', '02:00 - 05:00 hrs', '3.0 hrs')">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+          Propose Possession Block
+        </button>
+      </div>
+    </div>
+
+    <!-- KPI Stats Grid -->
+    <div class="portal-stats-grid">
+      <div class="portal-stat-card">
+        <div class="portal-stat-header">
+          <span>Active Track Section</span>
+          <span style="color: #0284C7;">DEC–RE</span>
+        </div>
+        <div class="portal-stat-value">142.8 <small>TKM</small></div>
+        <div class="portal-stat-footer">
+          <span style="color: #059669;">●</span> Double Line Broad Gauge 60kg 90UTS
+        </div>
+      </div>
+
+      <div class="portal-stat-card">
+        <div class="portal-stat-header">
+          <span>Active USFD Defects</span>
+          <span style="color: #DC2626;">ALERT</span>
+        </div>
+        <div class="portal-stat-value" style="color: #DC2626;">3 <small>Urgent</small></div>
+        <div class="portal-stat-footer">
+          <span>1 IMR (Immediate Removal) at Km 89.6</span>
+        </div>
+      </div>
+
+      <div class="portal-stat-card">
+        <div class="portal-stat-header">
+          <span>Permanent Speed Restrictions</span>
+          <span style="color: #D97706;">PSR</span>
+        </div>
+        <div class="portal-stat-value" style="color: #D97706;">30 <small>km/h PSR</small></div>
+        <div class="portal-stat-footer">
+          <span>Imposed between Km 88.4 – 90.2</span>
+        </div>
+      </div>
+
+      <div class="portal-stat-card">
+        <div class="portal-stat-header">
+          <span>Track Quality Index (TQI)</span>
+          <span style="color: #059669;">GOOD</span>
+        </div>
+        <div class="portal-stat-value" style="color: #059669;">32.4 <small>/ 100</small></div>
+        <div class="portal-stat-footer">
+          <span>Last TRC Car Run: 3 days ago</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section 1: USFD Rail Defect Registry (Matched to RailOptAI map) -->
+    <div class="portal-section-card">
+      <div class="portal-card-header">
+        <div class="portal-card-title">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#DC2626" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+          <span>USFD Rail Defect Registry & Flaw Log (Northern Railway)</span>
+        </div>
+        <div class="portal-card-actions">
+          <span class="badge-status badge-status-red">1 Critical Block Required</span>
+          <button class="portal-btn portal-btn-outline" onclick="location.reload()">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 4v6h-6"></path><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path></svg>
+            Sync CRIS
+          </button>
+        </div>
+      </div>
+      <div class="portal-table-wrapper">
+        <table class="portal-table">
+          <thead>
+            <tr>
+              <th>Defect ID</th>
+              <th>Location (Track & Chainage)</th>
+              <th>Rail Type</th>
+              <th>Flaw Classification</th>
+              <th>USFD Echo / Depth</th>
+              <th>PSR Imposed</th>
+              <th>Action Plan</th>
+              <th>RailOptAI Dispatch</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="background: #FFFBEB;">
+              <td class="font-mono"><strong>TMS-NR-2026-0896</strong></td>
+              <td>
+                <div><strong>Km 89.6 Up Main Line</strong></div>
+                <div style="font-size: 11px; color: var(--text-muted);">Khalilpur (KIP) – Pataudi Road (PTRD)</div>
+              </td>
+              <td>60kg 90UTS (PSC-1660)</td>
+              <td><span class="badge-status badge-status-red">IMR (Immediate Removal)</span></td>
+              <td class="font-mono">70% Head Flaw (18mm)</td>
+              <td><span class="badge-status badge-status-amber">30 km/h Caution</span></td>
+              <td>Emergency rail cut & welded piece replacement</td>
+              <td>
+                <button class="portal-btn portal-btn-primary" onclick="openScheduleModal('TMS-NR-2026-0896', 'Km 89.6 Up Main (DEC–RE)', 'IMR Rail Fracture Flaw', '02:00 - 05:00 hrs', '3.0 hrs')">
+                  Push to RailOptAI ↗
+                </button>
+              </td>
+            </tr>
+            <tr>
+              <td class="font-mono"><strong>TMS-NR-2026-0941</strong></td>
+              <td>
+                <div><strong>Km 94.1 Down Line</strong></div>
+                <div style="font-size: 11px; color: var(--text-muted);">Garhi Harsaru (GHH) Yard Turnout 1:12</div>
+              </td>
+              <td>60kg UIC Thick Web</td>
+              <td><span class="badge-status badge-status-amber">OBS (Observe Flaw)</span></td>
+              <td class="font-mono">45% Web Flaw (8mm)</td>
+              <td>None (Under Weekly Test)</td>
+              <td>Jogged fishplating & clamp monitoring</td>
+              <td>
+                <button class="portal-btn portal-btn-outline" onclick="openScheduleModal('TMS-NR-2026-0941', 'Km 94.1 Down Yard', 'OBS Turnout Flaw', '11:30 - 13:30 hrs', '2.0 hrs')">
+                  Schedule Check
+                </button>
+              </td>
+            </tr>
+            <tr>
+              <td class="font-mono"><strong>TMS-NR-2026-1042</strong></td>
+              <td>
+                <div><strong>Km 104.2 Up Line</strong></div>
+                <div style="font-size: 11px; color: var(--text-muted);">Gurugram (GGN) Outer Approach</div>
+              </td>
+              <td>52kg Welded Joint #44</td>
+              <td><span class="badge-status badge-status-amber">Weld Defect (DFWR)</span></td>
+              <td class="font-mono">55% Fusion Defect</td>
+              <td><span class="badge-status badge-status-amber">50 km/h Caution</span></td>
+              <td>Re-weld by Thermit SKV team</td>
+              <td>
+                <button class="portal-btn portal-btn-outline" onclick="openScheduleModal('TMS-NR-2026-1042', 'Km 104.2 Up Outer', 'Thermit Weld DFWR Defect', '01:00 - 03:30 hrs', '2.5 hrs')">
+                  Schedule Block
+                </button>
+              </td>
+            </tr>
+            <tr>
+              <td class="font-mono"><strong>TMS-NR-2026-0428</strong></td>
+              <td>
+                <div><strong>Km 42.8 Up Line</strong></div>
+                <div style="font-size: 11px; color: var(--text-muted);">Bijwasan (BWSN) – Gurgaon</div>
+              </td>
+              <td>60kg Continuous Welded Rail</td>
+              <td><span class="badge-status badge-status-green">Cleared (Welded)</span></td>
+              <td class="font-mono">0% (Replaced Rail)</td>
+              <td>Normal (130 km/h)</td>
+              <td>Final inspection completed by PWI</td>
+              <td>
+                <span style="font-size: 11px; color: #059669; font-weight: 700;">✓ RESOLVED</span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Section 2: Heavy Track Machine Fleet Status (BCM / CSM) -->
+    <div class="portal-section-card">
+      <div class="portal-card-header">
+        <div class="portal-card-title">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#D97706" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>
+          <span>P-Way Heavy Track Machine Deployment (Northern Railway Track Machine Depot)</span>
+        </div>
+        <div class="portal-card-actions">
+          <span style="font-size: 12px; color: var(--text-muted);">Depot: Shakurbasti / Ambala Cantt</span>
+        </div>
+      </div>
+      <div class="portal-table-wrapper">
+        <table class="portal-table">
+          <thead>
+            <tr>
+              <th>Machine Unit</th>
+              <th>Type & Model</th>
+              <th>Current Stabling Depot</th>
+              <th>Target Corridor</th>
+              <th>Scope of Work</th>
+              <th>Target Output</th>
+              <th>Readiness</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="font-mono"><strong>BCM-82</strong></td>
+              <td>Plasser Ballast Cleaning Machine (RM 80-92)</td>
+              <td>Rajpura Junction Siding</td>
+              <td>Sirhind – Ambala / Delhi Corridor</td>
+              <td>Deep ballast screening & shoulder cleaning</td>
+              <td class="font-mono">450 m/hr</td>
+              <td><span class="badge-status badge-status-green">Mobilized & Ready</span></td>
+            </tr>
+            <tr>
+              <td class="font-mono"><strong>CSM-902</strong></td>
+              <td>Continuous Action Tamping Machine (09-32 CSM)</td>
+              <td>Rewari Machine Siding</td>
+              <td>Rewari – Pataudi Road</td>
+              <td>Tamping & track alignment post-welding</td>
+              <td class="font-mono">1.2 km/hr</td>
+              <td><span class="badge-status badge-status-green">Ready on Standby</span></td>
+            </tr>
+            <tr>
+              <td class="font-mono"><strong>DGS-314</strong></td>
+              <td>Dynamic Track Stabilizer (DGS 62 N)</td>
+              <td>Delhi Cantt Depot</td>
+              <td>Delhi – Gurugram Section</td>
+              <td>Ballast consolidation for speed relaxation</td>
+              <td class="font-mono">1.8 km/hr</td>
+              <td><span class="badge-status badge-status-blue">Standby</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Integration Callout Banner -->
+    <div class="portal-integration-box">
+      <div class="portal-integration-info">
+        <h3>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
+          Unified RailOptAI AI Block Coordination Link
+        </h3>
+        <p>
+          TMS tracks civil defects and flaw dimensions. RailOptAI analyzes oncoming live IRCTC/CRIS express train timetables, detects arrival conflict buffers, and generates optimal non-conflicting maintenance possession windows.
+        </p>
+      </div>
+      <a href="index.html#planner" class="portal-action-cta">
+        <span>Open RailOptAI Block Planner</span>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+      </a>
+    </div>
+
+  </main>
+
+  <!-- Interactive Modal for Pushing Block to RailOptAI -->
+  <div class="portal-modal-overlay" id="scheduleModal">
+    <div class="portal-modal">
+      <div class="portal-modal-header">
+        <h4>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+          Export TMS Defect to RailOptAI Block Planner
+        </h4>
+        <button class="portal-modal-close" onclick="closeScheduleModal()">&times;</button>
+      </div>
+      <div class="portal-modal-body">
+        <div class="portal-modal-field">
+          <label>TMS Defect Reference</label>
+          <input type="text" id="modalDefectId" readonly style="background: #F1F5F9; font-weight: 700;">
+        </div>
+        <div class="portal-modal-field">
+          <label>Track Location</label>
+          <input type="text" id="modalLocation" readonly style="background: #F1F5F9;">
+        </div>
+        <div class="portal-modal-field">
+          <label>Defect Description</label>
+          <input type="text" id="modalDefectDesc" readonly style="background: #F1F5F9;">
+        </div>
+        <div class="portal-modal-field">
+          <label>Recommended Maintenance Window</label>
+          <input type="text" id="modalWindow" value="02:00 — 05:00 hrs (Night Traffic Gap)">
+        </div>
+        <div class="portal-modal-field">
+          <label>Machine / Resource Requirement</label>
+          <select id="modalResource">
+            <option>BCM-82 (Ballast Cleaner) + CSM-902 (Tamping Machine)</option>
+            <option>USFD Thermit Rail Cutting Gang (12 Men)</option>
+            <option>Complete Track Renewal (CTR) Heavy Fleet</option>
+          </select>
+        </div>
+      </div>
+      <div class="portal-modal-footer">
+        <button class="portal-btn portal-btn-outline" onclick="closeScheduleModal()">Cancel</button>
+        <button class="portal-btn portal-btn-primary" onclick="confirmPushToRailOptAI()">
+          Confirm & Launch in RailOptAI →
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/auth.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      // Check session
+      if (typeof AUTH !== "undefined" && typeof AUTH.getSession === "function") {
+        const session = AUTH.getSession();
+        if (session) {
+          document.getElementById("userName").textContent = session.userName || "Shri Anurag Meena";
+          document.getElementById("userDesignation").textContent = session.role || "Chief Controller (Operations)";
+          document.getElementById("userAvatar").textContent = session.zone || "NR";
+          document.getElementById("portalActiveZoneBadge").textContent = (session.zoneName || "Northern Railway") + ` (${session.zone || "NR"})`;
+          document.getElementById("portalActiveDivisionBadge").textContent = (session.division || "Delhi") + " Division";
+        }
+      }
+    });
+
+    function openScheduleModal(id, loc, desc, win, dur) {
+      document.getElementById("modalDefectId").value = id;
+      document.getElementById("modalLocation").value = loc;
+      document.getElementById("modalDefectDesc").value = desc;
+      document.getElementById("modalWindow").value = win;
+      document.getElementById("scheduleModal").classList.add("active");
+    }
+
+    function closeScheduleModal() {
+      document.getElementById("scheduleModal").classList.remove("active");
+    }
+
+    function confirmPushToRailOptAI() {
+      const defectId = document.getElementById("modalDefectId").value;
+      alert(`Success! Defect [${defectId}] synchronized with RailOptAI Operations Core.\nRedirecting to Block Planner tab.`);
+      window.location.href = "index.html#planner";
+    }
+  </script>
+
+</body>
+</html>

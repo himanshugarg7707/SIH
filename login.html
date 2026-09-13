@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RailOptAI | Indian Railways — Secure Official Login</title>
+  <meta name="description" content="Authenticated access portal for Indian Railways officials. Multi-level role-based entry for zone, division, and section operations.">
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%230284C7'><path d='M4 15.5C4 14.1 5.1 13 6.5 13h11c1.4 0 2.5 1.1 2.5 2.5V19c0 1.1-.9 2-2 2H6c-1.1 0-2-.9-2-2v-3.5z'/><path d='M4 11V6c0-1.7 1.3-3 3-3h10c1.7 0 3 1.3 3 3v5'/><circle cx='8.5' cy='16.5' r='1.5'/><circle cx='15.5' cy='16.5' r='1.5'/></svg>">
+</head>
+<body class="login-body">
+
+  <!-- Animated Background -->
+  <div class="login-bg-animated">
+    <div class="train-track-lines">
+      <div class="track-line track-1"></div>
+      <div class="track-line track-2"></div>
+      <div class="track-line track-3"></div>
+      <div class="track-line track-4"></div>
+      <div class="track-line track-5"></div>
+    </div>
+    <div class="floating-dots">
+      <span class="dot dot-1"></span>
+      <span class="dot dot-2"></span>
+      <span class="dot dot-3"></span>
+      <span class="dot dot-4"></span>
+      <span class="dot dot-5"></span>
+      <span class="dot dot-6"></span>
+    </div>
+  </div>
+
+  <!-- Top Institutional Bar -->
+  <div class="login-top-bar">
+    <div class="gov-bar-left">
+      <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+        <rect x="4" y="3" width="16" height="16" rx="2"></rect>
+        <path d="M4 11h16"></path>
+        <path d="M12 3v8"></path>
+        <path d="m8 19-2 3"></path>
+        <path d="m16 19 2 3"></path>
+      </svg>
+      <span>भारतीय रेल | Indian Railways</span>
+    </div>
+    <div class="gov-bar-right">
+      <span>Ministry of Railways, Government of India</span>
+    </div>
+  </div>
+
+  <!-- Login Container -->
+  <div class="login-container">
+
+    <!-- Left Branding Panel -->
+    <div class="login-brand-panel">
+      <div class="brand-content">
+        <div class="login-logo-badge">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="4" y="3" width="16" height="16" rx="2"></rect>
+            <path d="M4 11h16"></path>
+            <path d="M12 3v8"></path>
+            <path d="m8 19-2 3"></path>
+            <path d="m16 19 2 3"></path>
+          </svg>
+        </div>
+        <h1 class="login-brand-title">RailOpt<span>AI</span></h1>
+        <p class="login-brand-subtitle">Intelligent Railway Maintenance<br>Block Optimization System</p>
+        <div class="login-brand-features">
+          <div class="brand-feature-item">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            <span>AI-Powered Block Planning</span>
+          </div>
+          <div class="brand-feature-item">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            <span>18 Zone Network Coverage</span>
+          </div>
+          <div class="brand-feature-item">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            <span>Real-Time Train Conflict Resolution</span>
+          </div>
+          <div class="brand-feature-item">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            <span>Multi-Level Role-Based Access</span>
+          </div>
+        </div>
+        <div class="login-brand-version">
+          <span class="version-badge">v3.0 Production</span>
+          <span>Smart India Hackathon 2026</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Login Form Panel -->
+    <div class="login-form-panel">
+      <div class="login-form-content">
+
+        <!-- Step 1: Credentials -->
+        <div class="login-step" id="loginStepCredentials">
+          <div class="login-form-header">
+            <h2>Official Login</h2>
+            <p>Restricted access for authorized Indian Railways personnel only</p>
+          </div>
+
+          <div class="login-alert" id="loginErrorAlert" style="display: none;">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5">
+              <circle cx="12" cy="12" r="10"></circle>
+              <line x1="15" y1="9" x2="9" y2="15"></line>
+              <line x1="9" y1="9" x2="15" y2="15"></line>
+            </svg>
+            <span id="loginErrorMessage">Invalid credentials. Please try again.</span>
+          </div>
+
+          <form id="loginForm" autocomplete="off">
+            <!-- Employee ID -->
+            <div class="login-field-group">
+              <label for="loginEmployeeId">Official Employee ID</label>
+              <div class="login-input-wrapper">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                  <circle cx="12" cy="7" r="4"></circle>
+                </svg>
+                <input type="text" id="loginEmployeeId" placeholder="e.g. NR-DLI-SSE-4522 or RB-NDLS-CRB-0001" required autocomplete="off" spellcheck="false">
+              </div>
+              <div class="field-hint" id="loginIdHint">Region, Division & Designation are automatically recognized from your ID</div>
+
+              <!-- Live Auto-Resolved Official Identity Card -->
+              <div class="resolved-official-card" id="resolvedOfficialCard" style="display: none;">
+                <div class="resolved-official-badge">
+                  <div class="resolved-avatar" id="resolvedAvatar">R</div>
+                  <div class="resolved-info">
+                    <div class="resolved-header-row">
+                      <span class="resolved-status-pill">
+                        <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="3">
+                          <polyline points="20 6 9 17 4 12"></polyline>
+                        </svg>
+                        Official Identity Verified
+                      </span>
+                      <span class="resolved-clearance-pill" id="resolvedClearancePill">ZONAL JURISDICTION</span>
+                    </div>
+                    <div class="resolved-name" id="resolvedName">—</div>
+                    <div class="resolved-role" id="resolvedRole">—</div>
+                    <div class="resolved-jurisdiction" id="resolvedJurisdiction">—</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Password -->
+            <div class="login-field-group">
+              <label for="loginPassword">Password</label>
+              <div class="login-input-wrapper">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                  <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                </svg>
+                <input type="password" id="loginPassword" placeholder="Enter secure password" required autocomplete="off">
+                <button type="button" class="toggle-password-btn" id="togglePasswordBtn" title="Toggle password visibility">
+                  <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" id="eyeIcon">
+                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                    <circle cx="12" cy="12" r="3"></circle>
+                  </svg>
+                </button>
+              </div>
+            </div>
+
+            <button type="submit" class="login-submit-btn" id="loginSubmitBtn">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5">
+                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+              </svg>
+              <span>Authenticate & Proceed</span>
+            </button>
+          </form>
+
+          <div style="margin-top: 20px; text-align: center; padding-top: 14px; border-top: 1px solid rgba(255,255,255,0.08);">
+            <div style="font-size: 11.5px; color: #94A3B8;">
+              Official demo IDs &amp; passwords recorded in <code style="background: rgba(2,132,199,0.15); color: #38BDF8; padding: 2px 6px; border-radius: 4px;">DEMO_CREDENTIALS.txt</code>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 2: OTP Verification -->
+        <div class="login-step" id="loginStepOTP" style="display: none;">
+          <div class="login-form-header">
+            <div class="otp-shield-icon">
+              <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+              </svg>
+            </div>
+            <h2>Two-Factor Verification</h2>
+            <p>Enter the 6-digit OTP sent to your registered mobile number</p>
+          </div>
+
+          <div class="otp-user-info" id="otpUserInfo">
+            <!-- Filled dynamically -->
+          </div>
+
+          <div class="login-field-group">
+            <label for="loginOtpInput">One-Time Password (OTP)</label>
+            <div class="otp-input-container">
+              <input type="text" id="loginOtpInput" maxlength="6" placeholder="● ● ● ● ● ●" class="otp-input" autocomplete="one-time-code" inputmode="numeric">
+            </div>
+            <div class="field-hint">Demo OTP: <code>123456</code></div>
+          </div>
+
+          <button type="button" class="login-submit-btn" id="loginOtpVerifyBtn">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+            </svg>
+            <span>Verify & Enter System</span>
+          </button>
+
+          <button type="button" class="login-back-btn" id="loginBackBtn">
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg>
+            <span>Back to Login</span>
+          </button>
+
+          <div class="login-alert" id="otpErrorAlert" style="display: none;">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5">
+              <circle cx="12" cy="12" r="10"></circle>
+              <line x1="15" y1="9" x2="9" y2="15"></line>
+              <line x1="9" y1="9" x2="15" y2="15"></line>
+            </svg>
+            <span>Invalid OTP. Please enter the correct 6-digit code.</span>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Footer -->
+      <div class="login-form-footer">
+        <span>© 2026 Indian Railways — RailOptAI Operations Platform</span>
+        <span>Encrypted & Secure Connection</span>
+      </div>
+    </div>
+
+  </div>
+
+  <script src="js/zones-data.js"></script>
+  <script src="js/auth.js"></script>
+  <script>
+    // ── Initialize Login Page ──────────────────────────────────────────────────
+    document.addEventListener("DOMContentLoaded", () => {
+      // Redirect if already logged in
+      if (AUTH.redirectIfAuthenticated()) return;
+
+      initLoginForm();
+      initOTPForm();
+      initPasswordToggle();
+    });
+
+    let pendingSession = null;
+
+    // ── Login Form & Live ID Auto-Resolution ─────────────────────────────────
+    function initLoginForm() {
+      const form = document.getElementById("loginForm");
+      const submitBtn = document.getElementById("loginSubmitBtn");
+      const errorAlert = document.getElementById("loginErrorAlert");
+      const errorMsg = document.getElementById("loginErrorMessage");
+      const empInput = document.getElementById("loginEmployeeId");
+      const resolvedCard = document.getElementById("resolvedOfficialCard");
+      const resolvedAvatar = document.getElementById("resolvedAvatar");
+      const resolvedName = document.getElementById("resolvedName");
+      const resolvedRole = document.getElementById("resolvedRole");
+      const resolvedJurisdiction = document.getElementById("resolvedJurisdiction");
+      const resolvedClearancePill = document.getElementById("resolvedClearancePill");
+
+      // Real-time Employee ID Detection & Auto-Resolution
+      if (empInput) {
+        const updateAutoResolution = () => {
+          const val = empInput.value.trim();
+          const info = AUTH.resolveEmployee(val);
+
+          if (info) {
+            if (resolvedCard) resolvedCard.style.display = "block";
+            if (resolvedAvatar) resolvedAvatar.textContent = info.avatarInitial;
+            if (resolvedName) resolvedName.textContent = info.name;
+            if (resolvedRole) resolvedRole.textContent = `${info.roleTitle} • Level ${info.roleLevel}`;
+            if (resolvedJurisdiction) {
+              resolvedJurisdiction.textContent = `${info.zoneName} (${info.division} Division) • Section: ${info.sectionName}`;
+            }
+            if (resolvedClearancePill) {
+              if (info.isPanIndia) {
+                resolvedClearancePill.textContent = "PAN-INDIA APEX CLEARANCE";
+                resolvedClearancePill.style.background = "rgba(16, 185, 129, 0.2)";
+                resolvedClearancePill.style.borderColor = "rgba(16, 185, 129, 0.4)";
+                resolvedClearancePill.style.color = "#34D399";
+              } else {
+                resolvedClearancePill.textContent = `${info.zone} JURISDICTION LOCKED`;
+                resolvedClearancePill.style.background = "rgba(56, 189, 248, 0.15)";
+                resolvedClearancePill.style.borderColor = "rgba(56, 189, 248, 0.3)";
+                resolvedClearancePill.style.color = "#38BDF8";
+              }
+            }
+            empInput.style.borderColor = "rgba(52, 211, 153, 0.6)";
+            empInput.style.boxShadow = "0 0 0 3px rgba(52, 211, 153, 0.15)";
+          } else {
+            if (resolvedCard) resolvedCard.style.display = "none";
+            empInput.style.borderColor = "";
+            empInput.style.boxShadow = "";
+          }
+        };
+
+        empInput.addEventListener("input", updateAutoResolution);
+        empInput.addEventListener("change", updateAutoResolution);
+        empInput.addEventListener("paste", () => setTimeout(updateAutoResolution, 50));
+      }
+
+      if (!form) return;
+
+      form.addEventListener("submit", (e) => {
+        e.preventDefault();
+
+        const empId = document.getElementById("loginEmployeeId").value;
+        const password = document.getElementById("loginPassword").value;
+
+        // Hide previous error
+        if (errorAlert) errorAlert.style.display = "none";
+
+        // Animate button
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = `
+          <svg class="login-spinner" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5">
+            <circle cx="12" cy="12" r="10" stroke-opacity="0.25"></circle>
+            <path d="M12 2a10 10 0 0 1 10 10"></path>
+          </svg>
+          <span>Resolving jurisdiction & authenticating...</span>
+        `;
+
+        setTimeout(() => {
+          const authResult = AUTH.authenticate(empId, password);
+
+          if (authResult.success) {
+            pendingSession = authResult.data;
+            showOTPStep(authResult.data);
+          } else {
+            errorAlert.style.display = "flex";
+            errorMsg.textContent = authResult.message || "Invalid Employee ID or Password. Verify your credentials and try again.";
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = `
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5">
+                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+              </svg>
+              <span>Authenticate & Proceed</span>
+            `;
+          }
+        }, 600);
+      });
+    }
+
+    // ── Show OTP Step ────────────────────────────────────────────────────────
+    function showOTPStep(session) {
+      const credStep = document.getElementById("loginStepCredentials");
+      const otpStep = document.getElementById("loginStepOTP");
+      const otpUserInfo = document.getElementById("otpUserInfo");
+
+      if (credStep) credStep.style.display = "none";
+      if (otpStep) otpStep.style.display = "block";
+
+      if (otpUserInfo) {
+        otpUserInfo.innerHTML = `
+          <div class="otp-user-card">
+            <div class="otp-user-avatar">${session.name.split(' ').pop().charAt(0)}</div>
+            <div class="otp-user-details">
+              <div class="otp-user-name">${session.name}</div>
+              <div class="otp-user-role">${session.roleTitle} • ${session.zoneName}</div>
+              <div class="otp-user-emp">${session.empId}</div>
+            </div>
+          </div>
+        `;
+      }
+
+      setTimeout(() => {
+        const otpInput = document.getElementById("loginOtpInput");
+        if (otpInput) otpInput.focus();
+      }, 100);
+    }
+
+    // ── OTP Form ─────────────────────────────────────────────────────────────
+    function initOTPForm() {
+      const verifyBtn = document.getElementById("loginOtpVerifyBtn");
+      const backBtn = document.getElementById("loginBackBtn");
+      const otpError = document.getElementById("otpErrorAlert");
+
+      if (verifyBtn) {
+        verifyBtn.addEventListener("click", () => {
+          const otp = document.getElementById("loginOtpInput").value;
+
+          if (otpError) otpError.style.display = "none";
+
+          verifyBtn.disabled = true;
+          verifyBtn.innerHTML = `
+            <svg class="login-spinner" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5">
+              <circle cx="12" cy="12" r="10" stroke-opacity="0.25"></circle>
+              <path d="M12 2a10 10 0 0 1 10 10"></path>
+            </svg>
+            <span>Verifying OTP...</span>
+          `;
+
+          setTimeout(() => {
+            if (AUTH.verifyOTP(otp)) {
+              AUTH.setSession(pendingSession);
+
+              verifyBtn.innerHTML = `
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+                <span>Access Granted — Redirecting...</span>
+              `;
+              verifyBtn.style.background = "var(--signal-green)";
+
+              setTimeout(() => {
+                window.location.href = "index.html";
+              }, 600);
+            } else {
+              if (otpError) otpError.style.display = "flex";
+              verifyBtn.disabled = false;
+              verifyBtn.innerHTML = `
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                </svg>
+                <span>Verify & Enter System</span>
+              `;
+            }
+          }, 600);
+        });
+      }
+
+      // Enter key on OTP input
+      const otpInput = document.getElementById("loginOtpInput");
+      if (otpInput) {
+        otpInput.addEventListener("keydown", (e) => {
+          if (e.key === "Enter") {
+            e.preventDefault();
+            if (verifyBtn) verifyBtn.click();
+          }
+        });
+      }
+
+      if (backBtn) {
+        backBtn.addEventListener("click", () => {
+          const credStep = document.getElementById("loginStepCredentials");
+          const otpStep = document.getElementById("loginStepOTP");
+          const submitBtn = document.getElementById("loginSubmitBtn");
+
+          if (otpStep) otpStep.style.display = "none";
+          if (credStep) credStep.style.display = "block";
+          if (submitBtn) {
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = `
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5">
+                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+              </svg>
+              <span>Authenticate & Proceed</span>
+            `;
+          }
+          pendingSession = null;
+        });
+      }
+    }
+
+    // ── Password Toggle ──────────────────────────────────────────────────────
+    function initPasswordToggle() {
+      const toggleBtn = document.getElementById("togglePasswordBtn");
+      const pwdInput = document.getElementById("loginPassword");
+
+      if (toggleBtn && pwdInput) {
+        toggleBtn.addEventListener("click", () => {
+          const isPassword = pwdInput.type === "password";
+          pwdInput.type = isPassword ? "text" : "password";
+          toggleBtn.title = isPassword ? "Hide password" : "Show password";
+        });
+      }
+    }
+  </script>
+</body>
+</html>
