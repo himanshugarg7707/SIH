@@ -1902,8 +1902,14 @@
               <span>Refresh</span>
             </button>
 
+            <!-- API Key Configuration Button -->
+            <button type="button" id="mapApiKeyBtn" class="btn-secondary" style="font-size: 11.5px; padding: 6px 11px; display: inline-flex; align-items: center; gap: 5px;" title="RapidAPI & Telemetry Key Configuration">
+              <span>🔑</span>
+              <span>API Key</span>
+            </button>
+
             <!-- Live Telemetry Stream Indicator -->
-            <div id="mapTelemetryBadge" class="telemetry-live-pill">
+            <div id="mapTelemetryBadge" class="telemetry-live-pill" style="cursor: pointer;" title="Click to view API Stream Status & Key">
               <span class="status-dot"></span>
               <span id="mapStreamLabel">LIVE STREAM</span>
               <span id="mapStreamClock">• 18:32</span>

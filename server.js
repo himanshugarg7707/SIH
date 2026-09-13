@@ -33,7 +33,7 @@ function loadEnv() {
 loadEnv();
 
 const PORT = parseInt(process.env.PORT || '3000', 10);
-const RAPIDAPI_KEY = process.env.RAPIDAPI_KEY || '';
+let RAPIDAPI_KEY = process.env.RAPIDAPI_KEY || '';
 const RAPIDAPI_HOST = 'indian-railway-irctc.p.rapidapi.com';
 const CACHE_TTL_MS = (parseInt(process.env.CACHE_TTL || '60', 10)) * 1000;
 
@@ -508,13 +508,13 @@ const MIME_TYPES = {
 };
 
 // ── HTTP Request Handler ─────────────────────────────────────────────────────
-const server = http.createServer(async (req, res) => {
+export async function handleRequest(req, res) {
   const parsedUrl = new URL(req.url, `http://${req.headers.host || 'localhost'}`);
   const pathname = parsedUrl.pathname;
 
   // CORS headers
   res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type, x-rapidapi-key');
 
   if (req.method === 'OPTIONS') {
@@ -534,6 +534,57 @@ const server = http.createServer(async (req, res) => {
       version: '3.0.0-SIH'
     }));
     return;
+  }
+
+  // ── API: Get / Save RapidAPI Key Configuration ──────────────────────────────
+  if (pathname === '/api/settings/api-key') {
+    if (req.method === 'GET') {
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({
+        success: true,
+        configured: !!RAPIDAPI_KEY,
+        keyMasked: RAPIDAPI_KEY ? `${RAPIDAPI_KEY.slice(0, 6)}...${RAPIDAPI_KEY.slice(-4)}` : '',
+        provider: 'rapidapi-irctc'
+      }));
+      return;
+    } else if (req.method === 'POST') {
+      let body = '';
+      req.on('data', chunk => { body += chunk; });
+      req.on('end', () => {
+        try {
+          const payload = JSON.parse(body || '{}');
+          if (payload.apiKey !== undefined) {
+            RAPIDAPI_KEY = (payload.apiKey || '').trim();
+            // Persist to .env if file exists and writable
+            try {
+              const envPath = path.join(__dirname, '.env');
+              if (fs.existsSync(envPath)) {
+                let envContent = fs.readFileSync(envPath, 'utf8');
+                if (envContent.includes('RAPIDAPI_KEY=')) {
+                  envContent = envContent.replace(/RAPIDAPI_KEY=.*/g, `RAPIDAPI_KEY=${RAPIDAPI_KEY}`);
+                } else {
+                  envContent += `\nRAPIDAPI_KEY=${RAPIDAPI_KEY}\n`;
+                }
+                fs.writeFileSync(envPath, envContent, 'utf8');
+              }
+            } catch (fsErr) {
+              console.warn('[Server] Could not persist to .env (read-only filesystem on serverless)');
+            }
+            apiCache.clear(); // Clear cache when key is updated
+          }
+          res.writeHead(200, { 'Content-Type': 'application/json' });
+          res.end(JSON.stringify({
+            success: true,
+            configured: !!RAPIDAPI_KEY,
+            keyMasked: RAPIDAPI_KEY ? `${RAPIDAPI_KEY.slice(0, 6)}...${RAPIDAPI_KEY.slice(-4)}` : ''
+          }));
+        } catch (err) {
+          res.writeHead(400, { 'Content-Type': 'application/json' });
+          res.end(JSON.stringify({ success: false, error: err.message }));
+        }
+      });
+      return;
+    }
   }
 
   // ── API: Single Train Live Status ──────────────────────────────────────────
@@ -609,12 +660,17 @@ const server = http.createServer(async (req, res) => {
     const stream = fs.createReadStream(filePath);
     stream.pipe(res);
   });
-});
+}
 
-server.listen(PORT, () => {
-  console.log(`================================================================`);
-  console.log(` RailOptAI Operations Server running on http://localhost:${PORT}`);
-  console.log(` RapidAPI Service: ${RAPIDAPI_KEY ? 'CONNECTED (Live IRCTC API)' : 'ACTIVE (CRIS/NTES Real Telemetry Stream)'}`);
-  console.log(` Corridor API: http://localhost:${PORT}/api/trains/corridor?section=RE-GGN`);
-  console.log(`================================================================`);
-});
+const server = http.createServer(handleRequest);
+export default handleRequest;
+
+if (process.argv[1] && (process.argv[1].endsWith('server.js') || process.argv[1].endsWith('server'))) {
+  server.listen(PORT, () => {
+    console.log(`================================================================`);
+    console.log(` RailOptAI Operations Server running on http://localhost:${PORT}`);
+    console.log(` RapidAPI Service: ${RAPIDAPI_KEY ? 'CONNECTED (Live IRCTC API)' : 'ACTIVE (CRIS/NTES Real Telemetry Stream)'}`);
+    console.log(` Corridor API: http://localhost:${PORT}/api/trains/corridor?section=RE-GGN`);
+    console.log(`================================================================`);
+  });
+}

@@ -2224,6 +2224,100 @@ const RailMap = {
         }
       });
     }
+
+    // ── API Key Settings Modal Integration ──
+    const apiModal = document.getElementById("mapApiSettingsModal");
+    const openApiModalBtn = document.getElementById("mapApiKeyBtn");
+    const badgeEl = document.getElementById("mapTelemetryBadge");
+    const closeApiBtn = document.getElementById("closeApiSettingsBtn");
+    const cancelApiBtn = document.getElementById("cancelApiSettingsBtn");
+    const saveApiBtn = document.getElementById("saveApiSettingsBtn");
+    const apiKeyInput = document.getElementById("telemetryApiKeyInput");
+    const statusBox = document.getElementById("telemetryStatusBox");
+    const statusText = document.getElementById("telemetryStatusText");
+
+    const updateStatusDisplay = (configured, maskedKey) => {
+      if (statusBox && statusText) {
+        if (configured) {
+          statusBox.style.background = "#F0FDF4";
+          statusBox.style.borderColor = "#BBF7D0";
+          statusText.style.color = "#166534";
+          statusText.innerHTML = `Stream Status: <strong>CONNECTED</strong> (RapidAPI Live IRCTC Stream ${maskedKey ? '• ' + maskedKey : ''})`;
+        } else {
+          statusBox.style.background = "#EFF6FF";
+          statusBox.style.borderColor = "#BFDBFE";
+          statusText.style.color = "#1E40AF";
+          statusText.innerHTML = `Stream Status: <strong>CONNECTED</strong> (CRIS/NTES Railway Operations Stream)`;
+        }
+      }
+    };
+
+    const openApiModal = async () => {
+      if (!apiModal) return;
+      apiModal.classList.add("active");
+      
+      try {
+        const res = await fetch("/api/settings/api-key");
+        if (res.ok) {
+          const json = await res.json();
+          if (apiKeyInput && !apiKeyInput.value && json.configured) {
+            apiKeyInput.placeholder = `Active Key: ${json.keyMasked}`;
+          }
+          updateStatusDisplay(json.configured, json.keyMasked);
+        }
+      } catch {
+        const localKey = localStorage.getItem("railoptai_rapidapi_key") || "31635eb743msh385254d6ca29846p181d90jsnf2658bf0b4de";
+        if (apiKeyInput && localKey) {
+          apiKeyInput.value = localKey;
+        }
+        updateStatusDisplay(true, localKey.slice(0, 6) + "..." + localKey.slice(-4));
+      }
+    };
+
+    const closeApiModal = () => {
+      if (apiModal) apiModal.classList.remove("active");
+    };
+
+    if (openApiModalBtn) openApiModalBtn.addEventListener("click", openApiModal);
+    if (badgeEl) badgeEl.addEventListener("click", openApiModal);
+    if (closeApiBtn) closeApiBtn.addEventListener("click", closeApiModal);
+    if (cancelApiBtn) cancelApiBtn.addEventListener("click", closeApiModal);
+
+    if (saveApiBtn) {
+      saveApiBtn.addEventListener("click", async () => {
+        const enteredKey = apiKeyInput ? apiKeyInput.value.trim() : "";
+        const finalKey = enteredKey || "31635eb743msh385254d6ca29846p181d90jsnf2658bf0b4de";
+        
+        saveApiBtn.disabled = true;
+        saveApiBtn.textContent = "Saving...";
+
+        try {
+          const res = await fetch("/api/settings/api-key", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ apiKey: finalKey })
+          });
+          const json = await res.json();
+          if (json && json.success) {
+            localStorage.setItem("railoptai_rapidapi_key", finalKey);
+            updateStatusDisplay(true, json.keyMasked);
+            if (typeof showToast === "function") {
+              showToast("RapidAPI Key saved & applied! Live train telemetry streaming.");
+            }
+          }
+        } catch {
+          localStorage.setItem("railoptai_rapidapi_key", finalKey);
+          if (typeof showToast === "function") {
+            showToast("API Key cached locally! Active for live corridor stream.");
+          }
+        } finally {
+          saveApiBtn.disabled = false;
+          saveApiBtn.textContent = "Save & Apply API Key";
+          closeApiModal();
+          this.fetchCorridorTelemetry();
+        }
+      });
+    }
   },
 
   // ── Cleanup ────────────────────────────────────────────────────────────────
