@@ -740,6 +740,15 @@ function switchTab(tabId) {
       }
     }, 100);
   }
+
+  // If entering SM-LP coordination, trigger refresh
+  if (tabId === "tab-sm-lp") {
+    setTimeout(() => {
+      if (typeof SM_LP_COORDINATOR !== "undefined") {
+        SM_LP_COORDINATOR.fetchOrders();
+      }
+    }, 50);
+  }
 }
 
 /* ==========================================================================

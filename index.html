@@ -159,6 +159,17 @@
               <span>Network Map</span>
             </a>
           </li>
+          <li class="nav-item">
+            <a href="#sm-lp" data-tab="tab-sm-lp" id="navSmLp">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M17 18a2 2 0 0 1-2 2H9a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v12z"></path>
+                <line x1="12" y1="18" x2="12" y2="18.01"></line>
+                <path d="M7 9h10"></path>
+              </svg>
+              <span>SM-LP Live Connect</span>
+              <span class="badge badge-warning" style="background:#f59e0b; color:#1e293b; font-weight:800;">e-T/409</span>
+            </a>
+          </li>
         </ul>
       </div>
 
@@ -2016,6 +2027,299 @@
 
       </section>
 
+      <!-- ====================================================================
+           TAB: SM ↔ LOCO PILOT LIVE COORDINATION (e-T/409 & CAB ADVISORY)
+           ==================================================================== -->
+      <section class="tab-pane" id="tab-sm-lp">
+        
+        <!-- View Header & Perspective Switcher -->
+        <div class="page-header" style="margin-bottom: 20px;">
+          <div>
+            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 4px;">
+              <span class="badge badge-warning" style="background:#f59e0b; color:#1e293b; font-weight:800; padding:3px 8px;">G&amp;SR FORM T/409</span>
+              <h2 style="margin: 0; font-size: 22px;">Station Master ↔ Loco Pilot Live Coordination</h2>
+            </div>
+            <p class="section-desc" style="margin: 0;">
+              Electronic Caution Order (e-CO) Dispatch, Direct Driver Cab DMI Sync, and Commissioner of Railway Safety (CRS) Compliance Ledger.
+            </p>
+          </div>
+
+          <!-- View Mode Toggle Buttons -->
+          <div class="sm-view-switcher" style="display: flex; gap: 8px; background: #e2e8f0; padding: 4px; border-radius: var(--radius-md);">
+            <button type="button" class="btn btn-sm sm-view-toggle-btn active" data-view-mode="sm-desk">
+              🏢 Station Master Desk
+            </button>
+            <button type="button" class="btn btn-sm sm-view-toggle-btn" data-view-mode="driver-cab">
+              🚆 Loco Pilot Cab HUD (DMI)
+            </button>
+            <button type="button" class="btn btn-sm sm-view-toggle-btn" data-view-mode="audit-log">
+              📜 CRS Digital Audit Log
+            </button>
+          </div>
+        </div>
+
+        <!-- ──────────────────────────────────────────────────────────────────
+             PANEL 1: STATION MASTER DISPATCH DESK
+             ────────────────────────────────────────────────────────────────── -->
+        <div id="smDeskPanel">
+          
+          <!-- Station Context Bar -->
+          <div class="sm-station-bar" style="background: white; border: 1px solid var(--border-light); border-radius: var(--radius-lg); padding: 14px 18px; margin-bottom: 18px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px;">
+            <div style="display: flex; align-items: center; gap: 14px; flex-wrap: wrap;">
+              <div style="display: flex; align-items: center; gap: 8px;">
+                <label for="smStationSelector" style="font-size: 13px; font-weight: 700; color: var(--ir-navy);">Operating Station:</label>
+                <select id="smStationSelector" class="filter-select" style="min-width: 260px; font-weight: 600;">
+                  <option value="GGN" selected>Gurugram Junction (GGN) — Delhi Div / NR</option>
+                  <option value="GHH">Garhi Harsaru Junction (GHH) — Delhi Div / NR</option>
+                  <option value="PTRD">Pataudi Road (PTRD) — Delhi Div / NR</option>
+                  <option value="RE">Rewari Junction (RE) — Delhi/Jaipur Div</option>
+                  <option value="UMB">Ambala Cantt (UMB) — Ambala Div / NR</option>
+                  <option value="SIR">Sirhind Junction (SIR) — Ambala Div / NR</option>
+                </select>
+              </div>
+              <div id="smCurrentStationBadge" style="font-size: 12.5px; color: var(--text-secondary);">
+                📍 <strong>Gurugram Junction (Delhi Div / NR)</strong> &nbsp;|&nbsp; Panel: <span class="badge badge-info">Electronic Interlocking (EI)</span>
+              </div>
+            </div>
+
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span style="font-size: 12px; color: var(--text-secondary);">Active Corridor Block:</span>
+              <span class="badge badge-danger" style="animation: pulse 2s infinite;">🔴 Km 54/8 DOWN LINE POSSESSION (MT-1042)</span>
+            </div>
+          </div>
+
+          <!-- Main 2-Column Operational Grid -->
+          <div class="sm-grid-layout" style="display: grid; grid-template-columns: 1.1fr 1.4fr; gap: 20px;">
+            
+            <!-- Left Column: Inbound Trains Radar -->
+            <div class="sm-radar-card" style="background: white; border: 1px solid var(--border-light); border-radius: var(--radius-lg); padding: 18px; display: flex; flex-direction: column; gap: 14px;">
+              <div style="display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--border-light); padding-bottom: 10px;">
+                <div>
+                  <h3 style="margin: 0; font-size: 15px; color: var(--ir-navy); display: flex; align-items: center; gap: 6px;">
+                    <span>📡 Inbound Approaching Trains</span>
+                  </h3>
+                  <p style="margin: 2px 0 0; font-size: 11.5px; color: var(--text-muted);">Real-time track occupancy &amp; distance to block possession zone</p>
+                </div>
+                <button type="button" class="btn btn-sm btn-outline-secondary" onclick="SM_LP_COORDINATOR.fetchOrders()">↻ Refresh</button>
+              </div>
+
+              <!-- List of Trains -->
+              <div id="smInboundTrainsContainer" style="display: flex; flex-direction: column; gap: 12px; max-height: 520px; overflow-y: auto; padding-right: 4px;">
+                <!-- Dynamically populated by JS -->
+              </div>
+            </div>
+
+            <!-- Right Column: Form T/409 Generator & VHF Radio -->
+            <div style="display: flex; flex-direction: column; gap: 20px;">
+              
+              <!-- Form T/409 Dispatch Card -->
+              <div class="sm-dispatch-card" style="background: white; border: 1px solid var(--border-light); border-radius: var(--radius-lg); padding: 18px;">
+                <div style="display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--border-light); padding-bottom: 10px; margin-bottom: 14px;">
+                  <div>
+                    <h3 style="margin: 0; font-size: 15px; color: var(--ir-navy); display: flex; align-items: center; gap: 6px;">
+                      <span>📄 Official Form T/409 Dispatcher</span>
+                    </h3>
+                    <p style="margin: 2px 0 0; font-size: 11.5px; color: var(--text-muted);">Transmits electronic caution order directly to Loco Pilot Cab DMI &amp; Kavach unit</p>
+                  </div>
+                  <button type="button" class="btn btn-sm btn-outline-primary" id="smPrefillDefectBtn">
+                    ⚡ Pre-fill Defect MT-1042
+                  </button>
+                </div>
+
+                <form id="formT409Dispatch">
+                  <!-- Target Train Selector -->
+                  <div style="margin-bottom: 14px;">
+                    <label for="smTargetTrain" style="font-size: 12px; font-weight: 700; color: var(--text-secondary); display: block; margin-bottom: 4px;">Target Inbound Train</label>
+                    <select id="smTargetTrain" class="filter-select" style="width: 100%; font-weight: 600;">
+                      <option value="12015" selected>Train 12015 — Ajmer Shatabdi Express (WAP-7 #30245 / LP Shri Rajesh Kumar)</option>
+                      <option value="12916">Train 12916 — Ashram Superfast Express (WAP-7 #30412 / LP Shri Suresh Meena)</option>
+                      <option value="22452">Train 22452 — Chandigarh BDTS SF (WAP-5 #30008 / LP Shri V.K. Singh)</option>
+                      <option value="12414">Train 12414 — Jammu Tawi Pooja SF (WAP-7 #30310 / LP Shri H.P. Meena)</option>
+                    </select>
+                  </div>
+
+                  <div id="smSelectedLpInfo" style="margin-bottom: 14px;"></div>
+
+                  <!-- Location & Speed Grid -->
+                  <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 12px;">
+                    <div>
+                      <label for="t409MilepostStart" style="font-size: 11px; font-weight: 700; color: var(--text-secondary); display: block; margin-bottom: 4px;">From Km (Post)</label>
+                      <input type="text" id="t409MilepostStart" value="Km 54/2" class="form-input" style="width: 100%; padding: 7px 10px; font-size: 12px; border: 1px solid var(--border-light); border-radius: 6px;">
+                    </div>
+                    <div>
+                      <label for="t409MilepostEnd" style="font-size: 11px; font-weight: 700; color: var(--text-secondary); display: block; margin-bottom: 4px;">To Km (Post)</label>
+                      <input type="text" id="t409MilepostEnd" value="Km 54/8" class="form-input" style="width: 100%; padding: 7px 10px; font-size: 12px; border: 1px solid var(--border-light); border-radius: 6px;">
+                    </div>
+                    <div>
+                      <label for="t409SpeedLimit" style="font-size: 11px; font-weight: 700; color: var(--text-secondary); display: block; margin-bottom: 4px;">Speed Limit (km/h)</label>
+                      <input type="number" id="t409SpeedLimit" value="30" class="form-input" style="width: 100%; padding: 7px 10px; font-size: 12px; font-weight: 800; color: #dc2626; border: 1px solid #fca5a5; border-radius: 6px;">
+                    </div>
+                  </div>
+
+                  <!-- Section & Cause -->
+                  <div style="margin-bottom: 12px;">
+                    <label for="t409Section" style="font-size: 11px; font-weight: 700; color: var(--text-secondary); display: block; margin-bottom: 4px;">Corridor Section</label>
+                    <input type="text" id="t409Section" value="Rewari – Gurugram (Down Line)" class="form-input" style="width: 100%; padding: 7px 10px; font-size: 12px; border: 1px solid var(--border-light); border-radius: 6px;">
+                  </div>
+
+                  <div style="margin-bottom: 12px;">
+                    <label for="t409Cause" style="font-size: 11px; font-weight: 700; color: var(--text-secondary); display: block; margin-bottom: 4px;">Cause of Restriction</label>
+                    <input type="text" id="t409Cause" value="Ultrasonic Flaw MT-1042 — Emergency Joggled Fishplates &amp; Ballast Tamping Block" class="form-input" style="width: 100%; padding: 7px 10px; font-size: 12px; border: 1px solid var(--border-light); border-radius: 6px;">
+                  </div>
+
+                  <div style="margin-bottom: 16px;">
+                    <label for="t409Instructions" style="font-size: 11px; font-weight: 700; color: var(--text-secondary); display: block; margin-bottom: 4px;">Special Working Instructions</label>
+                    <textarea id="t409Instructions" rows="2" class="form-input" style="width: 100%; padding: 7px 10px; font-size: 12px; border: 1px solid var(--border-light); border-radius: 6px; font-family: inherit;">Whistle continuously on approach. Strictly limit speed to 30 km/h. Be prepared to halt if red hand signal is displayed at Km 54/5.</textarea>
+                  </div>
+
+                  <!-- Action Buttons -->
+                  <div style="display: flex; gap: 10px; justify-content: flex-end;">
+                    <button type="submit" class="btn btn-primary" style="background: #dc2626; border-color: #dc2626; font-weight: 700; display: flex; align-items: center; gap: 6px;">
+                      <span>🚨 Issue Form T/409 &amp; Transmit to Cab DMI</span>
+                    </button>
+                  </div>
+                </form>
+              </div>
+
+              <!-- VHF Radio Broadcast Simulation -->
+              <div class="sm-vhf-card" style="background: white; border: 1px solid var(--border-light); border-radius: var(--radius-lg); padding: 18px;">
+                <div style="display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--border-light); padding-bottom: 10px; margin-bottom: 12px;">
+                  <div style="display: flex; align-items: center; gap: 8px;">
+                    <span style="font-size: 16px;">📻</span>
+                    <div>
+                      <h4 style="margin: 0; font-size: 14px; color: var(--ir-navy);">VHF Walkie-Talkie Channel (150.150 MHz Simplex)</h4>
+                      <p style="margin: 1px 0 0; font-size: 11px; color: var(--text-muted);">Live verbal callout coordination between Station Master &amp; Approaching Loco Pilot</p>
+                    </div>
+                  </div>
+                  <button type="button" class="btn btn-sm btn-outline-primary" id="smVhfBroadcastBtn" style="font-weight: 700;">
+                    🎙️ Broadcast VHF Callout
+                  </button>
+                </div>
+
+                <div id="smVhfTranscriptLog" class="vhf-transcript-container" style="max-height: 140px; overflow-y: auto; background: #0f172a; color: #f8fafc; padding: 10px 14px; border-radius: 8px; font-size: 12px; font-family: var(--font-mono); display: flex; flex-direction: column; gap: 8px;">
+                  <div class="vhf-log-item">
+                    <span style="color: #64748b;">[STANDBY] VHF Channel 150.150 MHz simplex operational. Click "Broadcast VHF Callout" to simulate verbal radio transmission.</span>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+        <!-- ──────────────────────────────────────────────────────────────────
+             PANEL 2: LOCO PILOT CAB HUD (DRIVER MACHINE INTERFACE)
+             ────────────────────────────────────────────────────────────────── -->
+        <div id="locoPilotCabPanel" style="display: none;">
+          
+          <div class="cab-cockpit-container">
+            
+            <!-- Cab Header -->
+            <div id="cabTrainHeader" class="cab-train-header-card"></div>
+
+            <!-- Active Warning Banner -->
+            <div id="cabAlertBanner" class="cab-alert-banner"></div>
+
+            <!-- Cockpit Telemetry Instruments Grid -->
+            <div class="cab-telemetry-grid">
+              
+              <!-- Speedometer Cluster -->
+              <div class="cab-gauge-card">
+                <div class="cab-gauge-title">KAVACH ONBOARD SPEEDOMETER</div>
+                <div class="cab-speed-dial">
+                  <div class="cab-speed-number" id="cabCurrentSpeedValue">96</div>
+                  <div class="cab-speed-unit">KM / H (LIVE)</div>
+                </div>
+                <div class="cab-speed-target-row">
+                  <span>CAUTION TARGET:</span>
+                  <strong id="cabTargetSpeedValue">30 KM/H</strong>
+                </div>
+              </div>
+
+              <!-- Distance & Section Countdown -->
+              <div class="cab-gauge-card">
+                <div class="cab-gauge-title">DISTANCE TO CAUTION POST</div>
+                <div class="cab-speed-dial" style="border-color: #f59e0b;">
+                  <div class="cab-speed-number" id="cabDistanceCountdown" style="color: #f59e0b; font-size: 34px;">14.2 KM</div>
+                  <div class="cab-speed-unit">REMAINING TO KM 54/8</div>
+                </div>
+                <div class="cab-speed-target-row">
+                  <span>BRAKING STATUS:</span>
+                  <strong style="color: #10b981;">NORMAL DYNAMIC READY</strong>
+                </div>
+              </div>
+
+              <!-- Kavach Auto-Protection Unit -->
+              <div class="cab-gauge-card">
+                <div class="cab-gauge-title">KAVACH / TCAS INTERFACING</div>
+                <div style="display: flex; flex-direction: column; justify-content: center; height: 90px; gap: 8px;">
+                  <div style="display: flex; align-items: center; gap: 8px; font-size: 13px; color: #10b981;">
+                    <span style="width: 10px; height: 10px; border-radius: 50%; background: #10b981; box-shadow: 0 0 10px #10b981;"></span>
+                    <strong>RFID Track Reader: SYNCHRONIZED</strong>
+                  </div>
+                  <div style="display: flex; align-items: center; gap: 8px; font-size: 13px; color: #38bdf8;">
+                    <span style="width: 10px; height: 10px; border-radius: 50%; background: #38bdf8; box-shadow: 0 0 10px #38bdf8;"></span>
+                    <strong>Station Master Link: GGN (CONNECTED)</strong>
+                  </div>
+                  <div style="display: flex; align-items: center; gap: 8px; font-size: 13px; color: #f59e0b;">
+                    <span style="width: 10px; height: 10px; border-radius: 50%; background: #f59e0b;"></span>
+                    <strong>TSR Auto-Ceiling: ARMED (30 KM/H)</strong>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+            <!-- Official Form T/409 Digital Parchment in Cab -->
+            <div id="cabOrderDetailsContainer" style="margin-top: 20px;"></div>
+
+            <!-- Loco Pilot Digital Sign-Off Button -->
+            <div id="cabAckButtonContainer" style="margin-top: 18px; display: flex; justify-content: center;"></div>
+
+          </div>
+
+        </div>
+
+        <!-- ──────────────────────────────────────────────────────────────────
+             PANEL 3: CRS COMPLIANCE & LEGAL AUDIT LOG
+             ────────────────────────────────────────────────────────────────── -->
+        <div id="crsAuditPanel" style="display: none;">
+          
+          <div style="background: white; border: 1px solid var(--border-light); border-radius: var(--radius-lg); padding: 20px;">
+            <div style="display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--border-light); padding-bottom: 12px; margin-bottom: 16px;">
+              <div>
+                <h3 style="margin: 0; font-size: 16px; color: var(--ir-navy);">Commissioner of Railway Safety (CRS) — Caution Order Digital Log</h3>
+                <p style="margin: 3px 0 0; font-size: 12px; color: var(--text-muted);">Immutable audit trail verifying delivery to Cab DMI and Loco Pilot legal acknowledgment</p>
+              </div>
+              <button type="button" class="btn btn-sm btn-outline-secondary" onclick="SM_LP_COORDINATOR.fetchOrders()">↻ Refresh Log</button>
+            </div>
+
+            <div class="table-container">
+              <table class="data-table" style="width: 100%;">
+                <thead>
+                  <tr>
+                    <th>Order Memo ID</th>
+                    <th>Train &amp; Loco</th>
+                    <th>Issuing Station</th>
+                    <th>Speed Restriction</th>
+                    <th>SM Dispatch Time</th>
+                    <th>LP Acknowledged Time</th>
+                    <th>Legal Status</th>
+                  </tr>
+                </thead>
+                <tbody id="crsAuditTableBody">
+                  <!-- Dynamically populated -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+        </div>
+
+      </section>
+
     </div>
 
   </main>
@@ -2077,6 +2381,25 @@
     <div class="modal-footer">
       <button type="button" class="btn-secondary" id="cancelApiSettingsBtn">Cancel</button>
       <button type="button" class="btn-primary" id="saveApiSettingsBtn">Save & Apply API Key</button>
+    </div>
+  </div>
+</div>
+
+<!-- Station Master Official Telecom Directory Modal -->
+<div class="modal-overlay" id="smContactDirectoryModal">
+  <div class="modal-window" style="max-width: 820px;">
+    <div class="modal-header">
+      <div style="display: flex; align-items: center; gap: 8px;">
+        <span style="background: rgba(2, 132, 199, 0.12); color: var(--ir-blue); width: 28px; height: 28px; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 15px;">📞</span>
+        <h3 style="margin: 0; font-size: 16px;">Indian Railways • Station Master Operational Telecom Directory</h3>
+      </div>
+      <button class="btn-modal-close" onclick="SM_LP_COORDINATOR.closeSmContactModal()">✕</button>
+    </div>
+    <div class="modal-body" id="smContactModalContent" style="padding: 20px;">
+      <!-- Dynamically populated by JS -->
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn-secondary" onclick="SM_LP_COORDINATOR.closeSmContactModal()">Close Directory</button>
     </div>
   </div>
 </div>
@@ -2188,6 +2511,7 @@
 <script src="js/auth.js?v=3.1"></script>
 <script src="js/data.js?v=3.1"></script>
 <script src="js/railmap.js?v=3.1"></script>
+<script src="js/sm-lp-coordinator.js?v=3.1"></script>
 <script src="js/app.js?v=3.1"></script>
 
 </body>

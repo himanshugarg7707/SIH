@@ -5535,3 +5535,459 @@ html, body {
   font-weight: 700;
 }
 
+/* ==========================================================================
+   STATION MASTER ↔ LOCO PILOT LIVE COORDINATION & e-T/409 MODULE
+   ========================================================================== */
+
+/* Perspective Switcher */
+.sm-view-switcher .sm-view-toggle-btn {
+  background: transparent;
+  color: var(--text-secondary);
+  border: none;
+  font-weight: 700;
+  padding: 6px 14px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.sm-view-switcher .sm-view-toggle-btn:hover {
+  background: #cbd5e1;
+  color: var(--ir-navy);
+}
+
+.sm-view-switcher .sm-view-toggle-btn.active {
+  background: var(--ir-navy);
+  color: white;
+  box-shadow: var(--shadow-sm);
+}
+
+/* SM Train Radar Cards */
+.sm-train-card {
+  background: #f8fafc;
+  border: 1.5px solid var(--border-light);
+  border-radius: var(--radius-md);
+  padding: 14px;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.sm-train-card:hover {
+  background: #f0f9ff;
+  border-color: #7dd3fc;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(2, 132, 199, 0.08);
+}
+
+.sm-train-card.selected {
+  background: #f0f9ff;
+  border-color: var(--ir-blue);
+  box-shadow: 0 0 0 2px rgba(2, 132, 199, 0.2);
+}
+
+.sm-train-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.sm-train-no {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  font-weight: 800;
+  color: var(--ir-blue);
+  background: var(--ir-blue-light);
+  padding: 2px 6px;
+  border-radius: 4px;
+  margin-right: 6px;
+}
+
+.sm-train-title {
+  font-size: 13.5px;
+  color: var(--ir-navy);
+}
+
+.sm-train-meta {
+  font-size: 12px;
+  color: var(--text-secondary);
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  line-height: 1.4;
+}
+
+.sm-train-actions {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+  margin-top: 4px;
+}
+
+.sm-train-brief {
+  background: #eff6ff;
+  border: 1px solid #bfdbfe;
+  border-radius: 6px;
+  padding: 8px 12px;
+  font-size: 12px;
+  color: #1e40af;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+/* VHF Radio Stream */
+.vhf-transcript-container .vhf-log-item {
+  border-left: 3px solid #38bdf8;
+  padding-left: 10px;
+  margin-bottom: 6px;
+  line-height: 1.45;
+}
+
+.vhf-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 3px;
+}
+
+.vhf-badge {
+  background: #0284c7;
+  color: white;
+  font-size: 9.5px;
+  font-weight: 800;
+  padding: 1px 5px;
+  border-radius: 3px;
+  letter-spacing: 0.5px;
+}
+
+.vhf-time {
+  color: #94a3b8;
+  font-size: 11px;
+}
+
+.vhf-speaker {
+  font-size: 11.5px;
+  font-weight: 700;
+}
+
+.vhf-text {
+  color: #e2e8f0;
+  font-style: italic;
+  font-size: 11.5px;
+}
+
+/* ──────────────────────────────────────────────────────────────────────────
+   LOCO PILOT CAB HUD & DRIVER COCKPIT (DMI)
+   ────────────────────────────────────────────────────────────────────────── */
+.cab-cockpit-container {
+  background: #0b1329;
+  border: 1px solid #1e293b;
+  border-radius: var(--radius-xl);
+  padding: 24px;
+  color: #f8fafc;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+}
+
+.cab-train-header-card {
+  background: rgba(15, 23, 42, 0.8);
+  border: 1px solid #334155;
+  border-radius: var(--radius-lg);
+  padding: 16px 20px;
+  margin-bottom: 18px;
+}
+
+.cab-title-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.cab-train-num {
+  font-family: var(--font-mono);
+  font-size: 22px;
+  font-weight: 900;
+  color: #38bdf8;
+  background: rgba(56, 189, 248, 0.15);
+  border: 1px solid rgba(56, 189, 248, 0.4);
+  padding: 3px 10px;
+  border-radius: 6px;
+  margin-right: 10px;
+}
+
+.cab-train-name {
+  font-size: 18px;
+  font-weight: 800;
+  color: #ffffff;
+}
+
+.cab-loco-badge {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 700;
+  background: #1e293b;
+  color: #f1f5f9;
+  padding: 4px 10px;
+  border-radius: 6px;
+  border: 1px solid #475569;
+}
+
+.cab-crew-row {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  font-size: 12.5px;
+  color: #94a3b8;
+  flex-wrap: wrap;
+}
+
+/* Alert Banner in Cab */
+.cab-alert-banner {
+  border-radius: var(--radius-lg);
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 20px;
+  transition: all 0.3s ease;
+}
+
+.cab-alert-banner.alert-state {
+  background: linear-gradient(135deg, rgba(220, 38, 38, 0.25) 0%, rgba(153, 27, 27, 0.35) 100%);
+  border: 2px solid #ef4444;
+  box-shadow: 0 0 20px rgba(239, 68, 68, 0.3);
+  animation: cabPulseAlarm 1.8s infinite;
+}
+
+.cab-alert-banner.ack-state {
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.18) 0%, rgba(5, 150, 105, 0.25) 100%);
+  border: 2px solid #10b981;
+  box-shadow: 0 0 15px rgba(16, 185, 129, 0.2);
+}
+
+.cab-alert-banner.normal-state {
+  background: rgba(30, 41, 59, 0.7);
+  border: 1px solid #334155;
+}
+
+.cab-alert-icon {
+  font-size: 28px;
+  flex-shrink: 0;
+}
+
+.cab-alert-content h4 {
+  margin: 0 0 4px 0;
+  font-size: 15px;
+  font-weight: 800;
+  letter-spacing: 0.3px;
+}
+
+.cab-alert-banner.alert-state h4 { color: #fca5a5; }
+.cab-alert-banner.ack-state h4 { color: #6ee7b7; }
+.cab-alert-banner.normal-state h4 { color: #38bdf8; }
+
+.cab-alert-content p {
+  margin: 0;
+  font-size: 12.5px;
+  color: #cbd5e1;
+  line-height: 1.4;
+}
+
+@keyframes cabPulseAlarm {
+  0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.6); }
+  70% { box-shadow: 0 0 0 12px rgba(239, 68, 68, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
+}
+
+/* Telemetry Cluster */
+.cab-telemetry-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.cab-gauge-card {
+  background: #0f172a;
+  border: 1.5px solid #1e293b;
+  border-radius: var(--radius-lg);
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.cab-gauge-title {
+  font-size: 11px;
+  font-weight: 800;
+  color: #64748b;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+.cab-speed-dial {
+  height: 90px;
+  border: 2px dashed #0284c7;
+  border-radius: 10px;
+  background: rgba(2, 132, 199, 0.05);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 10px;
+}
+
+.cab-speed-number {
+  font-family: var(--font-mono);
+  font-size: 40px;
+  font-weight: 900;
+  color: #38bdf8;
+  line-height: 1;
+}
+
+.cab-speed-unit {
+  font-size: 10.5px;
+  font-weight: 700;
+  color: #94a3b8;
+  letter-spacing: 0.5px;
+  margin-top: 4px;
+}
+
+.cab-speed-target-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 12px;
+  background: #1e293b;
+  padding: 6px 10px;
+  border-radius: 6px;
+}
+
+/* ──────────────────────────────────────────────────────────────────────────
+   OFFICIAL INDIAN RAILWAYS FORM T/409 DIGITAL PARCHMENT
+   ────────────────────────────────────────────────────────────────────────── */
+.t409-official-paper {
+  background: #fbfbf9;
+  border: 3px double #78350f;
+  border-radius: 8px;
+  padding: 22px;
+  color: #1e293b;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+  font-family: 'Times New Roman', Times, serif, var(--font-sans);
+}
+
+.t409-header {
+  text-align: center;
+  border-bottom: 2px solid #78350f;
+  padding-bottom: 12px;
+  margin-bottom: 14px;
+}
+
+.t409-crest {
+  font-size: 14px;
+  font-weight: 800;
+  color: #78350f;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+}
+
+.t409-title {
+  font-size: 18px;
+  font-weight: 900;
+  color: #991b1b;
+  letter-spacing: 0.8px;
+  margin: 4px 0;
+}
+
+.t409-ref {
+  font-size: 12px;
+  color: #475569;
+  font-family: var(--font-sans);
+}
+
+.t409-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px 18px;
+  font-family: var(--font-sans);
+  font-size: 13px;
+}
+
+.t409-field {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  border-bottom: 1px dotted #cbd5e1;
+  padding-bottom: 4px;
+}
+
+.t409-field.full {
+  grid-column: 1 / -1;
+}
+
+.t409-field span {
+  font-size: 11px;
+  font-weight: 700;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+
+.t409-field strong {
+  color: #0f172a;
+}
+
+.btn-ack-caution {
+  padding: 14px 28px;
+  font-size: 15px;
+  font-weight: 900;
+  border-radius: var(--radius-md);
+  box-shadow: 0 4px 20px rgba(220, 38, 38, 0.4);
+  letter-spacing: 0.5px;
+  transition: all 0.2s ease;
+}
+
+.btn-ack-caution:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 25px rgba(220, 38, 38, 0.6);
+}
+
+.cab-ack-badge {
+  background: #064e3b;
+  border: 1.5px solid #10b981;
+  color: #a7f3d0;
+  padding: 12px 24px;
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 14px;
+  font-weight: 700;
+  box-shadow: 0 0 15px rgba(16, 185, 129, 0.2);
+}
+
+.btn-copy-mini {
+  background: transparent;
+  border: 1px solid #cbd5e1;
+  border-radius: 4px;
+  padding: 1px 4px;
+  font-size: 11px;
+  cursor: pointer;
+  margin-left: 4px;
+  transition: all 0.15s ease;
+}
+
+.btn-copy-mini:hover {
+  background: #e2e8f0;
+  border-color: #94a3b8;
+}
+
+.sm-dossier-card {
+  transition: all 0.2s ease;
+}
+
+

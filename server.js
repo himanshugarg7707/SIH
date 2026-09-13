@@ -772,36 +772,85 @@ const MIME_TYPES = {
   '.ico':  'image/x-icon'
 };
 
+// ── In-Memory Caution Orders & SM-LP Coordination Store ───────────────────────
+const cautionOrdersStore = [
+  {
+    orderId: "T409-2026-0811",
+    formType: "T/409 (Divisional Caution Order)",
+    stationCode: "GGN",
+    stationName: "Gurugram Junction",
+    trainNumber: "12015",
+    trainName: "Ajmer Shatabdi Express",
+    locoNumber: "WAP-7 #30245 (TKD Shed)",
+    locoPilotName: "Shri Rajesh Kumar",
+    alpName: "Shri Amit Verma",
+    section: "RE-GGN (Down Line)",
+    milepostStart: "Km 54/2",
+    milepostEnd: "Km 54/8",
+    restrictedSpeedKmH: 30,
+    normalSpeedKmH: 110,
+    cause: "P-Way Ultrasonic Flaw MT-1042 — Emergency Fishplates & Ballast Tamping Block",
+    specialInstructions: "Whistle continuously on approach. Be prepared to stop short of red banner flag / hand danger signal at Km 54/5.",
+    dispatchedBy: "Station Master Shri S.K. Sharma (GGN Panel)",
+    dispatchedAt: new Date(Date.now() - 15 * 60 * 1000).toISOString(),
+    status: "ACKNOWLEDGED_BY_LP",
+    acknowledgedAt: new Date(Date.now() - 12 * 60 * 1000).toISOString(),
+    complianceScore: "100% (CRS Standard Met)"
+  },
+  {
+    orderId: "T409-2026-0812",
+    formType: "T/409 (Divisional Caution Order)",
+    stationCode: "GHH",
+    stationName: "Garhi Harsaru",
+    trainNumber: "12916",
+    trainName: "Ashram Superfast Express",
+    locoNumber: "WAP-7 #30412 (BRC Shed)",
+    locoPilotName: "Shri Suresh Meena",
+    alpName: "Shri R.P. Yadav",
+    section: "RE-GGN (Up Main Line)",
+    milepostStart: "Km 53/9",
+    milepostEnd: "Km 54/6",
+    restrictedSpeedKmH: 45,
+    normalSpeedKmH: 120,
+    cause: "Track Machine Ballast Regulator (BRC-09) Siding Clearance",
+    specialInstructions: "Observe caution aspect on Home Signal. Loop Line 2 clearance authorized.",
+    dispatchedBy: "Station Master Shri D.P. Rao (GHH Desk)",
+    dispatchedAt: new Date(Date.now() - 5 * 60 * 1000).toISOString(),
+    status: "TRANSMITTED_TO_CAB",
+    acknowledgedAt: null,
+    complianceScore: "PENDING_CAB_ACK"
+  }
+];
+
+// Helper to parse JSON body
+function parseJsonBody(req) {
+  return new Promise((resolve, reject) => {
+    let body = '';
+    req.on('data', chunk => {
+      body += chunk.toString();
+      if (body.length > 1e6) { // 1MB limit
+        req.destroy();
+        reject(new Error('Request entity too large'));
+      }
+    });
+    req.on('end', () => {
+      try {
+        resolve(body ? JSON.parse(body) : {});
+      } catch (e) {
+        reject(e);
+      }
+    });
+    req.on('error', reject);
+  });
+}
+
 // ── HTTP Request Handler ─────────────────────────────────────────────────────
 export async function handleRequest(req, res) {
   const parsedUrl = new URL(req.url, `http://${req.headers.host || 'localhost'}`);
   const pathname = parsedUrl.pathname;
 
   // CORS headers
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, x-rapidapi-key');
-
-  if (req.method === 'OPTIONS') {
-    res.writeHead(204);
-    res.end();
-    return;
-  }
-
-  // ── API: Health & Status ───────────────────────────────────────────────────
-  if (pathname === '/api/health') {
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    res.end(JSON.stringify({
-      status: 'ok',
-      timestamp: new Date().toISOString(),
-      rapidApiConfigured: !!RAPIDAPI_KEY,
-      cacheEntries: apiCache.size,
-      version: '3.0.0-SIH'
-    }));
-    return;
-  }
-
-  // ── API: Get / Save RapidAPI Key Configuration ──────────────────────────────
+    // ── API: Get / Save RapidAPI Key Configuration ──────────────────────────────
   if (pathname === '/api/settings/api-key') {
     if (req.method === 'GET') {
       res.writeHead(200, { 'Content-Type': 'application/json' });
@@ -850,6 +899,96 @@ export async function handleRequest(req, res) {
       });
       return;
     }
+  }
+
+  // ── API: Caution Orders List ───────────────────────────────────────────────
+  if (pathname === '/api/caution-orders' && req.method === 'GET') {
+    const trainNumber = parsedUrl.searchParams.get('trainNumber');
+    const stationCode = parsedUrl.searchParams.get('stationCode');
+    let results = cautionOrdersStore;
+    if (trainNumber) {
+      results = results.filter(o => o.trainNumber === trainNumber);
+    }
+    if (stationCode) {
+      results = results.filter(o => o.stationCode === stationCode.toUpperCase());
+    }
+    res.writeHead(200, { 'Content-Type': 'application/json' });
+    res.end(JSON.stringify({ success: true, count: results.length, data: results }));
+    return;
+  }
+
+  // ── API: Dispatch Caution Order (Station Master -> Loco Pilot) ─────────────
+  if (pathname === '/api/caution-orders/dispatch' && req.method === 'POST') {
+    try {
+      const payload = await parseJsonBody(req);
+      const newOrder = {
+        orderId: `T409-${new Date().getFullYear()}-${String(Math.floor(1000 + Math.random() * 9000))}`,
+        formType: payload.formType || "T/409 (Divisional Caution Order)",
+        stationCode: (payload.stationCode || "GGN").toUpperCase(),
+        stationName: payload.stationName || "Gurugram Junction",
+        trainNumber: payload.trainNumber || "12015",
+        trainName: payload.trainName || "Express Train",
+        locoNumber: payload.locoNumber || "WAP-7 #30245",
+        locoPilotName: payload.locoPilotName || "Shri Rajesh Kumar (LP)",
+        alpName: payload.alpName || "Shri Amit Verma (ALP)",
+        section: payload.section || "RE-GGN (Down Line)",
+        milepostStart: payload.milepostStart || "Km 54/2",
+        milepostEnd: payload.milepostEnd || "Km 54/8",
+        restrictedSpeedKmH: parseInt(payload.restrictedSpeedKmH || '30', 10),
+        normalSpeedKmH: parseInt(payload.normalSpeedKmH || '110', 10),
+        cause: payload.cause || "Emergency Track Maintenance Possession",
+        specialInstructions: payload.specialInstructions || "Strict compliance required. Acknowledge immediately on Cab DMI.",
+        dispatchedBy: payload.dispatchedBy || "Station Master (Panel Desk)",
+        dispatchedAt: new Date().toISOString(),
+        status: "TRANSMITTED_TO_CAB",
+        acknowledgedAt: null,
+        complianceScore: "PENDING_CAB_ACK"
+      };
+
+      cautionOrdersStore.unshift(newOrder);
+
+      res.writeHead(201, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({
+        success: true,
+        message: `Caution Order ${newOrder.orderId} successfully transmitted to Loco Pilot Cab DMI!`,
+        data: newOrder
+      }));
+    } catch (err) {
+      res.writeHead(400, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ success: false, error: err.message }));
+    }
+    return;
+  }
+
+  // ── API: Acknowledge Caution Order (Loco Pilot Cab DMI) ────────────────────
+  if (pathname === '/api/caution-orders/acknowledge' && req.method === 'POST') {
+    try {
+      const payload = await parseJsonBody(req);
+      const orderId = payload.orderId;
+      const order = cautionOrdersStore.find(o => o.orderId === orderId);
+
+      if (!order) {
+        res.writeHead(404, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ success: false, error: `Caution Order ${orderId} not found.` }));
+        return;
+      }
+
+      order.status = "ACKNOWLEDGED_BY_LP";
+      order.acknowledgedAt = new Date().toISOString();
+      order.acknowledgedBy = payload.locoPilotName || order.locoPilotName;
+      order.complianceScore = "100% (CRS Standard Met)";
+
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({
+        success: true,
+        message: `Caution Order ${orderId} legally acknowledged by Loco Pilot! Speed restriction locked into Cab DMI.`,
+        data: order
+      }));
+    } catch (err) {
+      res.writeHead(400, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ success: false, error: err.message }));
+    }
+    return;
   }
 
   // ── API: Single Train Live Status ──────────────────────────────────────────

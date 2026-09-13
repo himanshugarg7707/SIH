@@ -2044,6 +2044,11 @@ const RailMap = {
             <span>Time to Track Defect:</span>
             <span class="tph-arrival-time">${t.timeToArrivalMin} mins (ETA ${t.arrivalEta})</span>
           </div>
+          <div style="margin-top: 8px; display: flex; justify-content: flex-end;">
+            <button type="button" class="btn btn-sm btn-outline-danger" style="font-size: 11px; padding: 3px 8px; font-weight: 700;" onclick="event.stopPropagation(); if (typeof switchTab === 'function') switchTab('tab-sm-lp'); if (typeof SM_LP_COORDINATOR !== 'undefined') { SM_LP_COORDINATOR.selectTrainForDispatch('${t.trainNumber}'); SM_LP_COORDINATOR.prefillWithCorridorDefect(); }">
+              📄 Dispatch T/409 Caution to Driver →
+            </button>
+          </div>
         `;
 
         card.addEventListener('click', () => {
