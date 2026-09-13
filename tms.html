@@ -390,6 +390,31 @@
 
     function confirmPushToRailOptAI() {
       const defectId = document.getElementById("modalDefectId").value;
+      const location = document.getElementById("modalLocation").value;
+      const desc = document.getElementById("modalDefectDesc").value;
+      const windowVal = document.getElementById("modalWindow").value;
+
+      try {
+        const key = "railopt_ingested_blocks";
+        const existing = JSON.parse(localStorage.getItem(key) || "[]");
+        existing.push({
+          id: defectId,
+          source: "TMS",
+          asset: location,
+          location: location,
+          section: "CHD-LDH-04",
+          task: desc,
+          scope: desc,
+          window: windowVal,
+          duration: "3.0h",
+          priority: "High",
+          timestamp: Date.now()
+        });
+        localStorage.setItem(key, JSON.stringify(existing));
+      } catch (e) {
+        console.error("Storage error:", e);
+      }
+
       alert(`Success! Defect [${defectId}] synchronized with RailOptAI Operations Core.\nRedirecting to Block Planner tab.`);
       window.location.href = "index.html#planner";
     }

@@ -382,6 +382,31 @@
 
     function confirmPowerBlock() {
       const permitId = document.getElementById("modalPermitId").value;
+      const section = document.getElementById("modalOheSection").value;
+      const scope = document.getElementById("modalTrdScope").value;
+      const windowVal = document.getElementById("modalOheWindow").value;
+
+      try {
+        const key = "railopt_ingested_blocks";
+        const existing = JSON.parse(localStorage.getItem(key) || "[]");
+        existing.push({
+          id: permitId,
+          source: "TDMS",
+          asset: section,
+          location: section,
+          section: "CHD-LDH-04",
+          task: scope,
+          scope: scope,
+          window: windowVal,
+          duration: "3.0h",
+          priority: "High",
+          timestamp: Date.now()
+        });
+        localStorage.setItem(key, JSON.stringify(existing));
+      } catch (e) {
+        console.error("Storage error:", e);
+      }
+
       alert(`Success! TRD 25kV Power Block Permit [${permitId}] scheduled.\nTransferred to RailOptAI Block Planner for joint possession.`);
       window.location.href = "index.html#planner";
     }

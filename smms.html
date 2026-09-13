@@ -369,6 +369,31 @@
 
     function confirmSignalBlock() {
       const memoId = document.getElementById("modalMemoId").value;
+      const gear = document.getElementById("modalGear").value;
+      const scope = document.getElementById("modalScope").value;
+      const windowVal = document.getElementById("modalTime").value;
+
+      try {
+        const key = "railopt_ingested_blocks";
+        const existing = JSON.parse(localStorage.getItem(key) || "[]");
+        existing.push({
+          id: memoId,
+          source: "SMMS",
+          asset: gear,
+          location: gear,
+          section: "CHD-LDH-04",
+          task: scope,
+          scope: scope,
+          window: windowVal,
+          duration: "2.0h",
+          priority: "High",
+          timestamp: Date.now()
+        });
+        localStorage.setItem(key, JSON.stringify(existing));
+      } catch (e) {
+        console.error("Storage error:", e);
+      }
+
       alert(`Success! Disconnection Memo [${memoId}] registered.\nBundling with RailOptAI AI Task Bundling engine.`);
       window.location.href = "index.html#bundling";
     }

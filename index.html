@@ -961,76 +961,6 @@
         <div id="monthlyPlannerContainer" style="display: none;">
           <!-- Dynamically populated by renderMonthlyPlanner() in app.js -->
         </div>
-          
-          <!-- Legend Bar -->
-          <div class="gantt-legend-bar">
-            <div class="legend-items">
-              <div class="legend-item">
-                <div class="legend-swatch swatch-block"></div>
-                <span>Active AI Maintenance Block</span>
-              </div>
-              <div class="legend-item">
-                <div class="legend-swatch swatch-train"></div>
-                <span>Scheduled Train Movement</span>
-              </div>
-              <div class="legend-item">
-                <div class="legend-swatch swatch-delay"></div>
-                <span>Train Delay / Conflict Marker</span>
-              </div>
-              <div class="legend-item">
-                <div class="legend-swatch swatch-safe"></div>
-                <span>Shifted Safe Window</span>
-              </div>
-            </div>
-            <div style="font-size: 11.5px; color: var(--text-muted);">
-              Section: <strong>CHD-LDH-04</strong> • Timebase: 00:00 — 08:00 IST
-            </div>
-          </div>
-
-          <!-- Timeline Container -->
-          <div class="gantt-table-container">
-            
-            <!-- Horizontal Hour Ruler -->
-            <div class="timeline-ruler">
-              <div class="ruler-corner">Corridor Track</div>
-              <div class="time-slot">00:00</div>
-              <div class="time-slot">01:00</div>
-              <div class="time-slot">02:00</div>
-              <div class="time-slot">03:00</div>
-              <div class="time-slot">04:00</div>
-              <div class="time-slot">05:00</div>
-              <div class="time-slot">06:00</div>
-              <div class="time-slot">07:00</div>
-            </div>
-
-            <!-- Department and Train Movement Rows -->
-            <div id="ganttRowsContainer">
-              <!-- Rendered via JS -->
-            </div>
-
-          </div>
-
-        </div>
-
-        <!-- Interactive Callout -->
-        <div style="background: white; border: 1px solid var(--border-light); border-radius: var(--radius-lg); padding: 18px 22px; display: flex; align-items: center; justify-content: space-between; box-shadow: var(--shadow-sm);">
-          <div style="display: flex; align-items: center; gap: 14px;">
-            <div style="width: 40px; height: 40px; border-radius: 8px; background: #E0F2FE; color: #0284C7; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
-              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5">
-                <circle cx="12" cy="12" r="10"></circle>
-                <line x1="12" y1="16" x2="12" y2="12"></line>
-                <line x1="12" y1="8" x2="12.01" y2="8"></line>
-              </svg>
-            </div>
-            <div>
-              <h4 style="font-size: 14px; font-weight: 700; color: var(--ir-navy);">Observation: Blocks Are Built Around Trains</h4>
-              <p style="font-size: 12.5px; color: var(--text-secondary);">
-                Notice how <strong>BLOCK B-021 (02:00—05:00)</strong> encapsulates rail inspection, geometry check, and signaling test directly after Train 12424 passes at 02:20, and wraps up before morning express surges.
-              </p>
-            </div>
-          </div>
-          <button class="btn-secondary quick-tab-link" data-tab="tab-replanning">Test Train Delay Simulation →</button>
-        </div>
 
       </section>
 
@@ -1130,60 +1060,93 @@
       </section>
 
       <!-- ====================================================================
-           5. SMART TASK BUNDLING VIEW
+           5. SMART TASK BUNDLING VIEW (SIH26027 TRI-DEPARTMENT SHADOW BLOCKS)
            ==================================================================== -->
       <section class="tab-pane" id="tab-bundling">
         
         <div style="margin-bottom: 18px;">
-          <h2 style="font-size: 20px; font-weight: 800; color: var(--ir-navy);">Smart Task Bundling Engine</h2>
-          <p style="font-size: 13px; color: var(--text-secondary);">Combine compatible civil, signaling, and traction work into a single unified block to minimize track possession frequency.</p>
+          <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px;">
+            <div>
+              <h2 style="font-size: 20px; font-weight: 800; color: var(--ir-navy);">Smart Task Bundling Engine (Tri-Department Shadow Co-Scheduling)</h2>
+              <p style="font-size: 13px; color: var(--text-secondary);">Combine compatible civil (TMS), signaling (SMMS), and traction (TDMS) work into a single unified block to eliminate multi-day track possession silos and maximize line uptime.</p>
+            </div>
+            <span class="badge badge-info" style="font-size: 12px; padding: 6px 12px;">⚡ SIH26027 Coordinated Block Engine</span>
+          </div>
+        </div>
+
+        <!-- Line Availability Comparison Metric Card -->
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; margin-bottom: 22px;">
+          <div style="background: linear-gradient(135deg, #EFF6FF 0%, #DBEAFE 100%); border: 1px solid #BFDBFE; border-radius: 12px; padding: 18px 20px;">
+            <div style="font-size: 12px; font-weight: 700; color: #1E40AF; text-transform: uppercase; letter-spacing: 0.5px;">Manual Silo Planning (Without RailOptAI)</div>
+            <div style="font-size: 26px; font-weight: 800; color: #1E3A8A; margin: 6px 0 4px;">6.5 Hours Downtime</div>
+            <div style="font-size: 12px; color: #3B82F6;">3 Separate Block Closures (Track 2.0h + S&T 1.5h + TRD 3.0h) causing 4 train detentions.</div>
+          </div>
+
+          <div style="background: linear-gradient(135deg, #ECFDF5 0%, #D1FAE5 100%); border: 1px solid #A7F3D0; border-radius: 12px; padding: 18px 20px;">
+            <div style="font-size: 12px; font-weight: 700; color: #065F46; text-transform: uppercase; letter-spacing: 0.5px;">AI Co-Scheduled Shadow Block</div>
+            <div style="font-size: 26px; font-weight: 800; color: #047857; margin: 6px 0 4px;">2.5 Hours Single Block</div>
+            <div style="font-size: 12px; color: #059669;"><strong>+4.0 Hours (+61.5%)</strong> Line Uptime Saved! 1 unified window (02:00–04:30) with 0 train conflicts.</div>
+          </div>
         </div>
 
         <div class="task-bundle-card">
           <div class="bundle-header-row">
             <div class="bundle-title-group">
-              <h3>Smart Task Bundle: Bundle B-021</h3>
-              <span class="bundle-subtitle">Section: <strong>CHD-LDH-04</strong> • High-Density Main Line Corridor</span>
+              <h3>Integrated Shadow Bundle: BUNDLE-TRIAD-021</h3>
+              <span class="bundle-subtitle">Section: <strong>CHD-LDH-04 (Up Main)</strong> • High-Density Ambala–Ludhiana Freight &amp; Passenger Corridor</span>
             </div>
-            <span class="badge badge-info">3 tasks → 1 maintenance block</span>
+            <span class="badge badge-info">4 Tri-Dept Tasks → 1 Consolidated Shadow Block</span>
           </div>
 
-          <!-- Connected Tasks Flow -->
+          <!-- Connected Tasks Flow (TMS + SMMS + TDMS) -->
           <div class="bundle-flow-container">
-            <div class="connected-tasks-list">
+            <div class="connected-tasks-list" style="grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); display: grid; gap: 12px;">
               
-              <!-- Task 1 -->
+              <!-- Task 1: TMS P-Way -->
               <div class="bundle-task-node">
-                <span class="node-dept-tag" style="color: #0369A1; background: #E0F2FE; padding: 2px 8px; border-radius: 4px;">Track</span>
-                <h5>Rail joint inspection</h5>
+                <span class="node-dept-tag" style="color: #0369A1; background: #E0F2FE; padding: 2px 8px; border-radius: 4px; font-weight: 700;">🛤️ TMS (Track)</span>
+                <h5>Rail joint flaw & USFD testing</h5>
                 <div class="node-meta">
-                  <span>Task: MT-1042</span> • <span>Duration: 2h</span>
+                  <span>Task: MT-1042</span> • <span>Duration: 2.0h</span>
                 </div>
+                <div style="font-size: 11px; color: var(--text-muted); margin-top: 4px;">Team T-01 • Ultrasonic Flaw Detection</div>
               </div>
 
-              <!-- Task 2 -->
+              <!-- Task 2: TMS P-Way -->
               <div class="bundle-task-node">
-                <span class="node-dept-tag" style="color: #0369A1; background: #E0F2FE; padding: 2px 8px; border-radius: 4px;">Track</span>
-                <h5>Track geometry inspection</h5>
+                <span class="node-dept-tag" style="color: #0369A1; background: #E0F2FE; padding: 2px 8px; border-radius: 4px; font-weight: 700;">🛤️ TMS (Track)</span>
+                <h5>Point 112A geometry adjustment</h5>
                 <div class="node-meta">
                   <span>Task: MT-1044</span> • <span>Duration: 1.5h</span>
                 </div>
+                <div style="font-size: 11px; color: var(--text-muted); margin-top: 4px;">Team T-02 • Cross-level packing</div>
               </div>
 
-              <!-- Task 3 -->
+              <!-- Task 3: SMMS S&T -->
               <div class="bundle-task-node">
-                <span class="node-dept-tag" style="color: #6D28D9; background: #F5F3FF; padding: 2px 8px; border-radius: 4px;">S&amp;T</span>
-                <h5>Signal equipment check</h5>
+                <span class="node-dept-tag" style="color: #6D28D9; background: #F5F3FF; padding: 2px 8px; border-radius: 4px; font-weight: 700;">🚦 SMMS (S&amp;T)</span>
+                <h5>Digital Axle Counter calibration</h5>
                 <div class="node-meta">
-                  <span>Task: MT-1048</span> • <span>Duration: 1h</span>
+                  <span>Task: MT-1048</span> • <span>Duration: 1.0h</span>
                 </div>
+                <div style="font-size: 11px; color: var(--text-muted); margin-top: 4px;">Team S-03 • Signal Interlocking Check</div>
+              </div>
+
+              <!-- Task 4: TDMS TRD -->
+              <div class="bundle-task-node">
+                <span class="node-dept-tag" style="color: #B45309; background: #FEF3C7; padding: 2px 8px; border-radius: 4px; font-weight: 700;">⚡ TDMS (Traction)</span>
+                <h5>25kV OHE Stagger &amp; Dropper Check</h5>
+                <div class="node-meta">
+                  <span>Task: MT-1063</span> • <span>Duration: 2.5h</span>
+                </div>
+                <div style="font-size: 11px; color: var(--text-muted); margin-top: 4px;">Team TRD-01 • Tower Wagon TW-12</div>
               </div>
 
             </div>
 
             <div style="text-align: center; margin-top: 14px;">
-              <span class="bundle-connector-tag">
-                ⚡ Simultaneous Track &amp; S&amp;T Possession • Co-scheduled in Parallel
+              <span class="bundle-connector-tag" style="background: #ECFDF5; color: #065F46; border: 1px solid #A7F3D0; font-weight: 700; padding: 6px 14px; border-radius: 20px;">
+                ⚡ Tri-Department Shadow Possession (P-Way + S&amp;T + TRD) • Co-scheduled in Parallel (02:00 – 04:30)
               </span>
             </div>
           </div>
@@ -1192,18 +1155,18 @@
           <div class="bundle-benefits-grid">
             
             <div class="benefit-pill-card">
-              <div class="benefit-val">2h block time saved</div>
-              <div class="benefit-detail">Avoids 3 separate shutdowns; frees line capacity</div>
+              <div class="benefit-val">+4.0h Line Uptime Saved</div>
+              <div class="benefit-detail">Eliminated 3 separate section blockages; freed corridor capacity</div>
             </div>
 
             <div class="benefit-pill-card">
-              <div class="benefit-val">3 train conflicts avoided</div>
-              <div class="benefit-detail">Zero secondary detention on Shatabdi &amp; Kalka Exp</div>
+              <div class="benefit-val">0 Train Conflicts</div>
+              <div class="benefit-detail">Shatabdi &amp; BOXN Freight cleared with full safety headway</div>
             </div>
 
             <div class="benefit-pill-card">
-              <div class="benefit-val">91% resource utilization</div>
-              <div class="benefit-detail">Concurrent deployment of Track T-01 &amp; S&amp;T S-03</div>
+              <div class="benefit-val">94.2% Optimization Score</div>
+              <div class="benefit-detail">Concurrent deployment of T-01, S-03 &amp; TRD Tower Wagon</div>
             </div>
 
           </div>
@@ -1213,33 +1176,42 @@
             <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5">
               <polyline points="20 6 9 17 4 12"></polyline>
             </svg>
-            Apply Bundle
+            Apply Tri-Department Bundle to COA Master Plan
           </button>
         </div>
 
       </section>
 
       <!-- ====================================================================
-           6. TRAIN SCHEDULE VIEW
+           6. TRAIN SCHEDULE & COA CORRIDOR HEADROOM VIEW (SIH26027)
            ==================================================================== -->
       <section class="tab-pane" id="tab-schedule">
         
         <div style="margin-bottom: 18px;">
-          <h2 style="font-size: 20px; font-weight: 800; color: var(--ir-navy);">Indian Railways Train Schedule &amp; Headway</h2>
-          <p style="font-size: 13px; color: var(--text-secondary);">Real-time passenger and freight train occupancy used by RailOptAI to calculate conflict-free windows.</p>
+          <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px;">
+            <div>
+              <h2 style="font-size: 20px; font-weight: 800; color: var(--ir-navy);">COA Integrated Corridor Feed &amp; Train Headway</h2>
+              <p style="font-size: 13px; color: var(--text-secondary);">Real-time passenger and goods freight rake forecast ingested from Control Office Application (COA) to compute conflict-free block headroom.</p>
+            </div>
+            <div style="display: flex; gap: 8px;">
+              <span class="badge badge-info" style="font-size: 11px;">COA Feed: Live WebSocket</span>
+              <span class="badge" style="background: #ECFDF5; color: #065F46; border: 1px solid #A7F3D0; font-size: 11px;">Headroom: 150 min (02:00–04:30)</span>
+            </div>
+          </div>
         </div>
 
         <div class="table-responsive">
           <table class="enterprise-table">
             <thead>
               <tr>
-                <th>Train</th>
+                <th>Train / Rake</th>
+                <th>Category</th>
                 <th>Route</th>
                 <th>Section</th>
                 <th>Arrival</th>
                 <th>Departure</th>
                 <th>Status</th>
-                <th>Delay</th>
+                <th>COA Corridor Headroom</th>
               </tr>
             </thead>
             <tbody>
@@ -1247,70 +1219,105 @@
               <tr id="trainRow12424">
                 <td>
                   <strong>12424</strong><br>
-                  <span style="font-size: 11.5px; color: var(--text-secondary);">Amritsar Shatabdi Exp</span>
+                  <span style="font-size: 11.5px; color: var(--text-secondary);">Amritsar Shatabdi Express</span>
                 </td>
+                <td><span class="badge" style="background: #EFF6FF; color: #1E40AF; font-size: 11px;">Premium Coaching</span></td>
                 <td>New Delhi → Amritsar</td>
                 <td><span class="code-mono">CHD-LDH-04</span></td>
-                <td><span class="code-mono">02:00</span></td>
-                <td><span class="code-mono">02:20</span></td>
-                <td id="train12424StatusCell"><span class="status-badge status-scheduled">Running</span></td>
-                <td id="train12424DelayCell">—</td>
+                <td><span class="code-mono">01:38</span></td>
+                <td><span class="code-mono">01:55</span></td>
+                <td id="train12424StatusCell"><span class="status-badge status-scheduled">Running Normal</span></td>
+                <td><span class="badge" style="background: #ECFDF5; color: #047857; font-size: 11px;">Clear (Window starts 02:00)</span></td>
               </tr>
 
               <!-- Row 2: Train 14631 -->
               <tr>
                 <td>
                   <strong>14631</strong><br>
-                  <span style="font-size: 11.5px; color: var(--text-secondary);">Dehradun → Amritsar Exp</span>
+                  <span style="font-size: 11.5px; color: var(--text-secondary);">Dehradun → Amritsar Express</span>
                 </td>
+                <td><span class="badge" style="background: #F1F5F9; color: #334155; font-size: 11px;">Mail / Express</span></td>
                 <td>Delhi → Amritsar</td>
                 <td><span class="code-mono">CHD-LDH-04</span></td>
                 <td><span class="code-mono">03:20</span></td>
                 <td><span class="code-mono">03:45</span></td>
-                <td><span class="status-badge" style="background: #FEF3C7; color: #92400E;">Delayed</span></td>
-                <td><span style="color: var(--signal-amber); font-weight: 700;">10 min</span></td>
+                <td><span class="status-badge" style="background: #FEF3C7; color: #92400E;">Delayed 10m</span></td>
+                <td><span class="badge" style="background: #FEF3C7; color: #B45309; font-size: 11px;">Shifted to Down Main Loop</span></td>
               </tr>
 
-              <!-- Row 3: Train 12013 -->
+              <!-- Row 3: BOXN-881 Coal Freight Rake -->
+              <tr style="background: #FFFBEB;">
+                <td>
+                  <strong>BOXN-881</strong><br>
+                  <span style="font-size: 11.5px; color: var(--text-secondary);">Loaded Thermal Coal Freight (58 Wagons)</span>
+                </td>
+                <td><span class="badge" style="background: #FEF3C7; color: #92400E; font-size: 11px; font-weight: 700;">Freight (Coal BOXN)</span></td>
+                <td>Dhanbad (DHN) → Ropar Power Plant (RPAR)</td>
+                <td><span class="code-mono">CHD-LDH-04</span></td>
+                <td><span class="code-mono">04:45</span></td>
+                <td><span class="code-mono">05:15</span></td>
+                <td><span class="status-badge status-scheduled">COA Regulated</span></td>
+                <td><span class="badge" style="background: #ECFDF5; color: #047857; font-size: 11px;">Stabled at Rajpura Siding</span></td>
+              </tr>
+
+              <!-- Row 4: CONCOR-419 Container Freight Rake -->
+              <tr>
+                <td>
+                  <strong>CONCOR-419</strong><br>
+                  <span style="font-size: 11.5px; color: var(--text-secondary);">Container Freight Express (45 BLC Wagons)</span>
+                </td>
+                <td><span class="badge" style="background: #EFF6FF; color: #1E40AF; font-size: 11px; font-weight: 700;">Freight (Container BLC)</span></td>
+                <td>Tughlakabad (TKD) → Dhandari Kalan (DDL)</td>
+                <td><span class="code-mono">CHD-LDH-05</span></td>
+                <td><span class="code-mono">05:00</span></td>
+                <td><span class="code-mono">05:30</span></td>
+                <td><span class="status-badge status-scheduled">Running</span></td>
+                <td><span class="badge" style="background: #ECFDF5; color: #047857; font-size: 11px;">Clear Corridor</span></td>
+              </tr>
+
+              <!-- Row 5: Train 12013 -->
               <tr>
                 <td>
                   <strong>12013</strong><br>
                   <span style="font-size: 11.5px; color: var(--text-secondary);">New Delhi → Amritsar Shatabdi</span>
                 </td>
+                <td><span class="badge" style="background: #EFF6FF; color: #1E40AF; font-size: 11px;">Premium Coaching</span></td>
                 <td>New Delhi → Amritsar</td>
                 <td><span class="code-mono">CHD-LDH-05</span></td>
                 <td><span class="code-mono">05:30</span></td>
                 <td><span class="code-mono">05:50</span></td>
                 <td><span class="status-badge status-scheduled">Running</span></td>
-                <td>—</td>
+                <td><span class="badge" style="background: #ECFDF5; color: #047857; font-size: 11px;">Clear Corridor</span></td>
               </tr>
 
-              <!-- Row 4: Train 22461 -->
+              <!-- Row 6: Train 22461 -->
               <tr>
                 <td>
                   <strong>22461</strong><br>
-                  <span style="font-size: 11.5px; color: var(--text-secondary);">Katra Vande Bharat</span>
+                  <span style="font-size: 11.5px; color: var(--text-secondary);">Shri Mata Vaishno Devi Katra Vande Bharat</span>
                 </td>
+                <td><span class="badge" style="background: #FDF2F8; color: #9D174D; font-size: 11px; font-weight: 700;">Vande Bharat Superfast</span></td>
                 <td>New Delhi → Katra</td>
                 <td><span class="code-mono">LDH-UMB-02</span></td>
                 <td><span class="code-mono">06:15</span></td>
                 <td><span class="code-mono">06:25</span></td>
                 <td><span class="status-badge status-scheduled">Running</span></td>
-                <td>—</td>
+                <td><span class="badge" style="background: #ECFDF5; color: #047857; font-size: 11px;">Protected Priority Slot</span></td>
               </tr>
 
-              <!-- Row 5: Train 12925 -->
+              <!-- Row 7: Train 12925 -->
               <tr>
                 <td>
                   <strong>12925</strong><br>
-                  <span style="font-size: 11.5px; color: var(--text-secondary);">Paschim Superfast Exp</span>
+                  <span style="font-size: 11.5px; color: var(--text-secondary);">Paschim Superfast Express</span>
                 </td>
+                <td><span class="badge" style="background: #F1F5F9; color: #334155; font-size: 11px;">Superfast Express</span></td>
                 <td>Mumbai Central → Amritsar</td>
                 <td><span class="code-mono">CHD-LDH-04</span></td>
                 <td><span class="code-mono">06:40</span></td>
                 <td><span class="code-mono">07:05</span></td>
                 <td><span class="status-badge status-scheduled">Running</span></td>
-                <td>—</td>
+                <td><span class="badge" style="background: #ECFDF5; color: #047857; font-size: 11px;">Normal Headway</span></td>
               </tr>
             </tbody>
           </table>

@@ -767,6 +767,7 @@ function initDashboard() {
    ========================================================================== */
 function initMaintenanceTasks() {
   const searchInput = document.getElementById("taskSearchInput");
+  const filterSource = document.getElementById("filterSource");
   const filterDept = document.getElementById("filterDept");
   const filterPriority = document.getElementById("filterPriority");
   const filterRisk = document.getElementById("filterRisk");
@@ -779,6 +780,7 @@ function initMaintenanceTasks() {
     if (!tbody) return;
 
     const searchTerm = (searchInput?.value || "").toLowerCase().trim();
+    const sourceVal = filterSource?.value || "all";
     const deptVal = filterDept?.value || "all";
     const prioVal = filterPriority?.value || "all";
     const riskVal = filterRisk?.value || "all";
@@ -790,15 +792,17 @@ function initMaintenanceTasks() {
         t.id.toLowerCase().includes(searchTerm) || 
         t.task.toLowerCase().includes(searchTerm) ||
         t.asset.toLowerCase().includes(searchTerm) ||
+        (t.source && t.source.toLowerCase().includes(searchTerm)) ||
         t.section.toLowerCase().includes(searchTerm);
 
+      const matchSource = sourceVal === "all" || (t.source && t.source.toUpperCase() === sourceVal.toUpperCase());
       const matchDept = deptVal === "all" || t.department.toLowerCase() === deptVal.toLowerCase();
       const matchPrio = prioVal === "all" || t.priority.toLowerCase() === prioVal.toLowerCase();
       const matchRisk = riskVal === "all" || t.risk.toLowerCase() === riskVal.toLowerCase();
       const matchSec = secVal === "all" || t.section.toLowerCase() === secVal.toLowerCase();
       const matchStatus = statusVal === "all" || t.status.toLowerCase() === statusVal.toLowerCase();
 
-      return matchSearch && matchDept && matchPrio && matchRisk && matchSec && matchStatus;
+      return matchSearch && matchSource && matchDept && matchPrio && matchRisk && matchSec && matchStatus;
     });
 
     tbody.innerHTML = "";
@@ -806,7 +810,7 @@ function initMaintenanceTasks() {
     if (filtered.length === 0) {
       tbody.innerHTML = `
         <tr>
-          <td colspan="10" style="text-align: center; padding: 32px; color: var(--text-muted);">
+          <td colspan="12" style="text-align: center; padding: 32px; color: var(--text-muted);">
             No maintenance tasks match the selected filter criteria.
           </td>
         </tr>`;
@@ -816,18 +820,33 @@ function initMaintenanceTasks() {
     filtered.forEach(t => {
       const tr = document.createElement("tr");
 
+      // Source badge class
+      const src = t.source || "TMS";
+      let srcBadge = "badge-portal-pway";
+      let srcLabel = "🛤️ TMS";
+      if (src === "SMMS") {
+        srcBadge = "badge-portal-st";
+        srcLabel = "🚦 SMMS";
+      } else if (src === "TDMS") {
+        srcBadge = "badge-portal-trd";
+        srcLabel = "⚡ TDMS";
+      }
+
       // Department badge class
       const deptClass = t.department === "Track" ? "dept-track" : (t.department === "S&T" ? "dept-st" : "dept-traction");
       const prioClass = t.priority === "High" ? "priority-high" : (t.priority === "Medium" ? "priority-medium" : "priority-low");
       const riskClass = t.risk === "High" ? "risk-high" : (t.risk === "Medium" ? "risk-medium" : "risk-low");
       const statusClass = `status-${t.status.toLowerCase()}`;
+      const aiScore = t.criticalityScore || (t.priority === "High" ? 92 : (t.priority === "Medium" ? 82 : 72));
 
       tr.innerHTML = `
-        <td><span class="code-mono">${t.id}</span></td>
+        <td><span class="code-mono font-bold">${t.id}</span></td>
+        <td><span class="badge ${srcBadge}" style="font-weight:700; font-size:11px; padding:3px 8px;">${srcLabel}</span></td>
         <td><span class="dept-pill ${deptClass}">${t.department}</span></td>
         <td><strong>${t.asset}</strong></td>
         <td><span class="code-mono" style="font-size: 11.5px;">${t.section}</span></td>
-        <td style="max-width: 260px;">${t.task}</td>
+        <td style="max-width: 240px;">${t.task}</td>
+        <td><span class="criticality-badge high" style="font-weight:800; font-size:11px;">⚡ ${aiScore}/100</span></td>
         <td><span class="priority-badge ${prioClass}">${t.priority}</span></td>
         <td><span class="risk-tag ${riskClass}">● ${t.risk}</span></td>
         <td><span class="code-mono">${t.duration}</span></td>
@@ -836,7 +855,7 @@ function initMaintenanceTasks() {
       `;
 
       tr.style.cursor = "pointer";
-      tr.title = "Click to view task details and AI compatibility";
+      tr.title = "Click to view task details, SIH26027 source metadata and AI compatibility";
       tr.addEventListener("click", () => openTaskModal(t));
 
       tbody.appendChild(tr);
@@ -848,7 +867,7 @@ function initMaintenanceTasks() {
   }
 
   // Attach filter listeners
-  [searchInput, filterDept, filterPriority, filterRisk, filterSection, filterStatus].forEach(el => {
+  [searchInput, filterSource, filterDept, filterPriority, filterRisk, filterSection, filterStatus].forEach(el => {
     if (el) {
       el.addEventListener("input", renderRows);
       el.addEventListener("change", renderRows);
@@ -858,6 +877,7 @@ function initMaintenanceTasks() {
   if (resetBtn) {
     resetBtn.addEventListener("click", () => {
       if (searchInput) searchInput.value = "";
+      if (filterSource) filterSource.value = "all";
       if (filterDept) filterDept.value = "all";
       if (filterPriority) filterPriority.value = "all";
       if (filterRisk) filterRisk.value = "all";
@@ -1459,3 +1479,269 @@ window.showToast = function(message, type = "info") {
     setTimeout(() => toast.remove(), 300);
   }, 4000);
 };
+
+/* ==========================================================================
+   Multi-Time Horizons Switcher & Dynamic Renderers (SIH26027 Requirement 4)
+   ========================================================================== */
+window.switchHorizon = function(horizon) {
+  const dailyContainer = document.getElementById("dailyPlannerContainer");
+  const weeklyContainer = document.getElementById("weeklyPlannerContainer");
+  const monthlyContainer = document.getElementById("monthlyPlannerContainer");
+
+  const dailyBtn = document.getElementById("horizonDailyBtn");
+  const weeklyBtn = document.getElementById("horizonWeeklyBtn");
+  const monthlyBtn = document.getElementById("horizonMonthlyBtn");
+
+  [dailyBtn, weeklyBtn, monthlyBtn].forEach(b => b && b.classList.remove("active"));
+
+  if (dailyContainer) dailyContainer.style.display = "none";
+  if (weeklyContainer) weeklyContainer.style.display = "none";
+  if (monthlyContainer) monthlyContainer.style.display = "none";
+
+  if (horizon === "weekly") {
+    if (weeklyBtn) weeklyBtn.classList.add("active");
+    if (weeklyContainer) {
+      weeklyContainer.style.display = "block";
+      renderWeeklyPlanner();
+    }
+  } else if (horizon === "monthly") {
+    if (monthlyBtn) monthlyBtn.classList.add("active");
+    if (monthlyContainer) {
+      monthlyContainer.style.display = "block";
+      renderMonthlyPlanner();
+    }
+  } else {
+    // default daily
+    if (dailyBtn) dailyBtn.classList.add("active");
+    if (dailyContainer) dailyContainer.style.display = "block";
+  }
+};
+
+function renderWeeklyPlanner() {
+  const container = document.getElementById("weeklyPlannerContainer");
+  if (!container) return;
+
+  const weeklyData = RAIL_DATA.multiHorizons?.weekly;
+  if (!weeklyData) return;
+
+  const rowsHtml = weeklyData.days.map(d => {
+    const isShadow = d.shadowDepts.includes("Shadow");
+    const statusClass = d.status === "Approved" ? "status-scheduled" : (d.status === "AI Optimized" ? "status-bundled" : "status-pending");
+    return `
+      <tr style="${isShadow ? 'background: #ECFDF5;' : ''}">
+        <td><strong>${d.day}</strong></td>
+        <td>
+          <strong>${d.machine}</strong><br>
+          <span style="font-size: 11px; color: var(--text-muted);">${d.dept}</span>
+        </td>
+        <td><span class="code-mono">${d.section}</span></td>
+        <td><span class="code-mono" style="font-weight: 700; color: #1E3A8A;">${d.blockTime}</span></td>
+        <td>
+          <span class="badge ${isShadow ? 'badge-portal-pway' : 'badge-portal-trd'}" style="font-size: 11px; font-weight: 700;">
+            ${d.shadowDepts}
+          </span>
+        </td>
+        <td>
+          ${d.trainsAffected === 0 
+            ? '<span style="color: #059669; font-weight: 700; font-size: 12px;">✓ 0 (Full Headway)</span>' 
+            : '<span style="color: #D97706; font-weight: 700; font-size: 12px;">⚠️ 1 Rake Regulated</span>'}
+        </td>
+        <td><span class="status-badge ${statusClass}">${d.status}</span></td>
+      </tr>
+    `;
+  }).join("");
+
+  container.innerHTML = `
+    <div class="weekly-container">
+      <div class="weekly-header">
+        <div class="weekly-title">
+          <h4>${weeklyData.label}</h4>
+          <p>${weeklyData.subtitle} • Period: <strong>${weeklyData.period}</strong></p>
+        </div>
+        <div style="display: flex; gap: 8px;">
+          <span class="badge badge-info" style="font-size: 11px;">Machine Fleet: 3 Deployed</span>
+          <span class="badge" style="background: #ECFDF5; color: #065F46; border: 1px solid #A7F3D0; font-size: 11px;">Capacity Saved: ${weeklyData.metrics.capacitySaved}</span>
+        </div>
+      </div>
+
+      <!-- Weekly KPI Summary Strip -->
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; margin-bottom: 18px;">
+        <div style="background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 8px; padding: 12px 14px;">
+          <div style="font-size: 11px; color: var(--text-muted); font-weight: 700;">COORDINATED POSSESSION</div>
+          <div style="font-size: 20px; font-weight: 800; color: #1E3A8A;">${weeklyData.metrics.totalPossessionHours}</div>
+          <div style="font-size: 11px; color: #64748B;">Down from ${weeklyData.metrics.uncoordinatedHours} manual</div>
+        </div>
+        <div style="background: #ECFDF5; border: 1px solid #A7F3D0; border-radius: 8px; padding: 12px 14px;">
+          <div style="font-size: 11px; color: #065F46; font-weight: 700;">LINE AVAILABILITY BOOST</div>
+          <div style="font-size: 20px; font-weight: 800; color: #047857;">+12.0 Hours (+38%)</div>
+          <div style="font-size: 11px; color: #059669;">Zero passenger punctuality loss</div>
+        </div>
+        <div style="background: #EFF6FF; border: 1px solid #BFDBFE; border-radius: 8px; padding: 12px 14px;">
+          <div style="font-size: 11px; color: #1E40AF; font-weight: 700;">AVG HEADWAY BUFFER</div>
+          <div style="font-size: 20px; font-weight: 800; color: #1D4ED8;">${weeklyData.metrics.avgHeadwayBuffer}</div>
+          <div style="font-size: 11px; color: #3B82F6;">Freight throughput maximized</div>
+        </div>
+      </div>
+
+      <div class="table-responsive">
+        <table class="enterprise-table">
+          <thead>
+            <tr>
+              <th>Day & Date</th>
+              <th>Deployed Track Machine</th>
+              <th>Corridor Section</th>
+              <th>Sanctioned Window</th>
+              <th>Shadow Coordination</th>
+              <th>Freight / Train Impact</th>
+              <th>BDMS Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${rowsHtml}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  `;
+}
+
+function renderMonthlyPlanner() {
+  const container = document.getElementById("monthlyPlannerContainer");
+  if (!container) return;
+
+  const monthlyData = RAIL_DATA.multiHorizons?.monthly;
+  if (!monthlyData) return;
+
+  const rowsHtml = monthlyData.weeks.map(w => `
+    <tr>
+      <td><strong>${w.week}</strong></td>
+      <td><span class="code-mono" style="font-weight:700;">${w.targetTKM} TKM</span></td>
+      <td><span class="code-mono" style="font-weight:700; color: #059669;">${w.completedTKM} TKM</span></td>
+      <td><span class="badge" style="background: #ECFDF5; color: #047857; font-weight: 700;">${w.compliance}</span></td>
+      <td><strong>${w.shadowBlocks} Mega Blocks</strong></td>
+      <td><span class="code-mono" style="font-weight: 800; color: #1E3A8A;">${w.lineUptime}</span></td>
+      <td><span class="status-badge ${w.status === 'On Track' ? 'status-scheduled' : 'status-bundled'}">${w.status}</span></td>
+    </tr>
+  `).join("");
+
+  container.innerHTML = `
+    <div class="monthly-container">
+      <div class="monthly-header">
+        <div class="monthly-title">
+          <h4>${monthlyData.label}</h4>
+          <p>${monthlyData.subtitle} • <strong>${monthlyData.period}</strong></p>
+        </div>
+        <div style="display: flex; gap: 8px;">
+          <span class="badge badge-info" style="font-size: 11px;">USFD Target: ${monthlyData.kpis.totalUSFDCoverage}</span>
+          <span class="badge" style="background: #ECFDF5; color: #065F46; border: 1px solid #A7F3D0; font-size: 11px;">Relay Testing: ${monthlyData.kpis.interlockingRelayTests}</span>
+        </div>
+      </div>
+
+      <!-- Monthly Availability Comparison Banner -->
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; margin-bottom: 20px;">
+        <div style="background: linear-gradient(135deg, #EFF6FF 0%, #DBEAFE 100%); border: 1px solid #BFDBFE; border-radius: 12px; padding: 18px 20px;">
+          <div style="font-size: 12px; font-weight: 700; color: #1E40AF; text-transform: uppercase;">Manual Monthly Possession Downtime</div>
+          <div style="font-size: 26px; font-weight: 800; color: #1E3A8A; margin: 6px 0 4px;">${monthlyData.kpis.plannedDowntimeManual}</div>
+          <div style="font-size: 12px; color: #3B82F6;">Uncoordinated silo disconnections across 18 subdivisions.</div>
+        </div>
+
+        <div style="background: linear-gradient(135deg, #ECFDF5 0%, #D1FAE5 100%); border: 1px solid #A7F3D0; border-radius: 12px; padding: 18px 20px;">
+          <div style="font-size: 12px; font-weight: 700; color: #065F46; text-transform: uppercase;">RailOptAI Coordinated Downtime</div>
+          <div style="font-size: 26px; font-weight: 800; color: #047857; margin: 6px 0 4px;">${monthlyData.kpis.optimizedDowntimeRailOptAI}</div>
+          <div style="font-size: 12px; color: #059669;"><strong>${monthlyData.kpis.netLineCapacitySaved}</strong> saved for high-value train runs.</div>
+        </div>
+      </div>
+
+      <div class="table-responsive">
+        <table class="enterprise-table">
+          <thead>
+            <tr>
+              <th>Cycle Period</th>
+              <th>Target Track KM</th>
+              <th>Actual Completed</th>
+              <th>Compliance %</th>
+              <th>Shadow Mega Blocks</th>
+              <th>Line Availability %</th>
+              <th>Divisional Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${rowsHtml}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  `;
+}
+
+/* ==========================================================================
+   Live Cross-Portal Ingestion Sync (TMS, SMMS, TDMS -> RailOptAI Core)
+   ========================================================================== */
+function checkIngestedBlocksFromPortals() {
+  try {
+    const raw = localStorage.getItem("railopt_ingested_blocks");
+    if (!raw) return;
+
+    const list = JSON.parse(raw);
+    if (!Array.isArray(list) || list.length === 0) return;
+
+    let addedCount = 0;
+    list.forEach(item => {
+      const exists = appState.tasks.some(t => t.id === item.id || t.sourceCode === item.id);
+      if (!exists) {
+        appState.tasks.unshift({
+          id: item.id || `SYNC-${Date.now().toString().slice(-4)}`,
+          source: item.source || "TMS",
+          sourceBadge: item.source === "SMMS" ? "badge-portal-st" : (item.source === "TDMS" ? "badge-portal-trd" : "badge-portal-pway"),
+          sourceCode: item.id,
+          department: item.source === "SMMS" ? "S&T" : (item.source === "TDMS" ? "Traction" : "Track"),
+          asset: item.asset || item.location || "Corridor Segment",
+          section: item.section || "CHD-LDH-04",
+          task: item.task || item.scope || "Scheduled Maintenance Defect",
+          priority: item.priority || "High",
+          risk: "High",
+          criticalityScore: 95,
+          safetyUrgency: "Immediate (24h)",
+          duration: item.duration || "2.5h",
+          durationHours: 2.5,
+          deadline: "Immediate",
+          status: "Pending",
+          teamRequired: `${item.source} Rapid Response Gang`,
+          equipmentRequired: "Standard Tool Fleet",
+          compatibleWith: ["MT-1042", "MT-1044"],
+          rdsoStandard: "CRIS RailNet Live Ingest",
+          notes: `Ingested dynamically from ${item.source} portal on ${new Date(item.timestamp || Date.now()).toLocaleTimeString()}`
+        });
+        addedCount++;
+      }
+    });
+
+    if (addedCount > 0) {
+      // Re-render tasks and update UI
+      initMaintenanceTasks();
+      const lastItem = list[list.length - 1];
+      showToast(`Live Telemetry: Ingested ${addedCount} new block demands from ${lastItem.source} Portal!`, "success");
+
+      // Update triad last poll time
+      const pollTimeEl = document.getElementById("triadLastPollTime");
+      if (pollTimeEl) {
+        pollTimeEl.textContent = `Polled: ${new Date().toLocaleTimeString()} (Active)`;
+      }
+    }
+  } catch (err) {
+    console.error("Error checking ingested blocks:", err);
+  }
+}
+
+// Hook cross-window storage event for real-time synchronization
+window.addEventListener("storage", (e) => {
+  if (e.key === "railopt_ingested_blocks") {
+    checkIngestedBlocksFromPortals();
+  }
+});
+
+// Run once on load
+setTimeout(() => {
+  checkIngestedBlocksFromPortals();
+}, 600);
+
