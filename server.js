@@ -58,7 +58,7 @@ function setCache(key, data, ttlMs = CACHE_TTL_MS) {
 
 // ── Known Geographic Stations Database for Accurate Ground Coordinates ───────
 const STATION_COORDS = {
-  // Delhi – Gurugram – Rewari Section
+  // Northern Railway: Delhi – Gurugram – Rewari Section
   DLI:  { name: "Old Delhi", code: "DLI", lat: 28.6619, lng: 77.2274 },
   NDLS: { name: "New Delhi", code: "NDLS", lat: 28.6417, lng: 77.2194 },
   DEE:  { name: "Delhi Sarai Rohilla", code: "DEE", lat: 28.6657, lng: 77.1866 },
@@ -70,13 +70,54 @@ const STATION_COORDS = {
   KIP:  { name: "Khalilpur", code: "KIP", lat: 28.2580, lng: 76.7110 },
   RE:   { name: "Rewari Junction", code: "RE", lat: 28.1968, lng: 76.6190 },
 
-  // Ambala – Sirhind – Ludhiana Section
+  // Northern Railway: Ambala – Sirhind – Ludhiana Section
   UMB:  { name: "Ambala Cantt", code: "UMB", lat: 30.3577, lng: 76.7960 },
   UBC:  { name: "Ambala City", code: "UBC", lat: 30.3780, lng: 76.7720 },
   RPJ:  { name: "Rajpura Junction", code: "RPJ", lat: 30.4839, lng: 76.5936 },
   SIR:  { name: "Sirhind Junction", code: "SIR", lat: 30.6270, lng: 76.3814 },
   CDG:  { name: "Chandigarh", code: "CDG", lat: 30.6920, lng: 76.7879 },
-  LDH:  { name: "Ludhiana Junction", code: "LDH", lat: 30.8901, lng: 75.8573 }
+  LDH:  { name: "Ludhiana Junction", code: "LDH", lat: 30.8901, lng: 75.8573 },
+
+  // Eastern Railway: Howrah – Barddhaman Section
+  HWH:  { name: "Howrah Junction", code: "HWH", lat: 22.5830, lng: 88.3426 },
+  SRP:  { name: "Serampore", code: "SRP", lat: 22.7523, lng: 88.3444 },
+  BDC:  { name: "Bandel Junction", code: "BDC", lat: 22.9234, lng: 88.3845 },
+  BWN:  { name: "Barddhaman Junction", code: "BWN", lat: 23.2324, lng: 87.8615 },
+
+  // Western Railway: Mumbai Central – Surat Section
+  MMCT: { name: "Mumbai Central", code: "MMCT", lat: 18.9696, lng: 72.8193 },
+  BVI:  { name: "Borivali", code: "BVI", lat: 19.2290, lng: 72.8570 },
+  PLG:  { name: "Palghar", code: "PLG", lat: 19.6968, lng: 72.7667 },
+  DRD:  { name: "Dahanu Road", code: "DRD", lat: 19.9740, lng: 72.7310 },
+  ST:   { name: "Surat", code: "ST", lat: 21.2044, lng: 72.8406 },
+
+  // Southern Railway: Chennai Central – Katpadi Section
+  MAS:  { name: "Chennai Central", code: "MAS", lat: 13.0827, lng: 80.2707 },
+  PER:  { name: "Perambur", code: "PER", lat: 13.1090, lng: 80.2240 },
+  TRL:  { name: "Tiruvallur", code: "TRL", lat: 13.1430, lng: 79.9070 },
+  AJJ:  { name: "Arakkonam Junction", code: "AJJ", lat: 13.0805, lng: 79.6698 },
+  KPD:  { name: "Katpadi Junction", code: "KPD", lat: 12.9716, lng: 79.1325 },
+
+  // Central Railway: Mumbai CSMT – Kalyan Section
+  CSMT: { name: "Mumbai CSMT", code: "CSMT", lat: 18.9400, lng: 72.8353 },
+  DR:   { name: "Dadar Central", code: "DR", lat: 19.0178, lng: 72.8478 },
+  CLA:  { name: "Kurla Junction", code: "CLA", lat: 19.0657, lng: 72.8793 },
+  TNA:  { name: "Thane", code: "TNA", lat: 19.1860, lng: 72.9750 },
+  KYN:  { name: "Kalyan Junction", code: "KYN", lat: 19.2354, lng: 73.1299 },
+
+  // South Central Railway: Secunderabad – Kazipet Section
+  SC:   { name: "Secunderabad Junction", code: "SC", lat: 17.4344, lng: 78.5017 },
+  MLY:  { name: "Moula Ali", code: "MLY", lat: 17.4620, lng: 78.5580 },
+  BG:   { name: "Bhongir", code: "BG", lat: 17.5100, lng: 78.8900 },
+  ZN:   { name: "Jangaon", code: "ZN", lat: 17.7240, lng: 79.1620 },
+  KZJ:  { name: "Kazipet Junction", code: "KZJ", lat: 17.9784, lng: 79.5218 },
+
+  // Northeast Frontier Railway: Guwahati – Alipurduar Section
+  GHY:  { name: "Guwahati", code: "GHY", lat: 26.1830, lng: 91.7530 },
+  KYQ:  { name: "Kamakhya Junction", code: "KYQ", lat: 26.1550, lng: 91.7050 },
+  RNY:  { name: "Rangiya Junction", code: "RNY", lat: 26.4350, lng: 91.6320 },
+  BPRD: { name: "Barpeta Road", code: "BPRD", lat: 26.5020, lng: 90.9630 },
+  APDJ: { name: "Alipurduar Junction", code: "APDJ", lat: 26.4880, lng: 89.5240 }
 };
 
 // ── Corridor Fleet Definition ────────────────────────────────────────────────
@@ -217,6 +258,230 @@ const CORRIDOR_CONFIG = {
         nominalDelay: 15,
         speedKmH: 115,
         distanceToProblemKm: 22.4
+      }
+    ]
+  },
+
+  "HWH-BWN": {
+    name: "Howrah → Barddhaman (Eastern Railway / Howrah Division)",
+    zone: "ER",
+    division: "Howrah",
+    problemPoint: {
+      id: "PROB-HWH-BWN-64",
+      type: "Weld Fissure & Point Overhaul",
+      milepost: "Km 64/2 Up Main Line (Near Bandel Junction)",
+      lat: 22.9234,
+      lng: 88.3845,
+      proposedBlockWindow: "01:30 — 04:30 hrs",
+      blockStartMin: 1 * 60 + 30,
+      blockEndMin: 4 * 60 + 30,
+      urgency: "CRITICAL",
+      description: "Alumino-thermic weld failure detected on Up Main Track between Bandel and Barddhaman. Emergency 3h block possession required."
+    },
+    trackStations: ["HWH", "SRP", "BDC", "BWN"],
+    trains: [
+      {
+        trainNumber: "12301",
+        trainName: "Howrah Rajdhani Express",
+        type: "Rajdhani",
+        route: "Howrah (HWH) → New Delhi (NDLS)",
+        direction: "UP",
+        currentStationCode: "SRP",
+        currentStationName: "Serampore",
+        nextStationCode: "BDC",
+        nextStationName: "Bandel",
+        nominalDelay: 0,
+        speedKmH: 120,
+        distanceToProblemKm: 19.8
+      },
+      {
+        trainNumber: "13005",
+        trainName: "Amritsar Mail",
+        type: "Express",
+        route: "Howrah (HWH) → Amritsar (ASR)",
+        direction: "UP",
+        currentStationCode: "HWH",
+        currentStationName: "Howrah Junction",
+        nextStationCode: "SRP",
+        nextStationName: "Serampore",
+        nominalDelay: 10,
+        speedKmH: 95,
+        distanceToProblemKm: 38.2
+      }
+    ]
+  },
+
+  "BCT-ST": {
+    name: "Mumbai Central → Surat (Western Railway / Mumbai Division)",
+    zone: "WR",
+    division: "Mumbai Central",
+    problemPoint: {
+      id: "PROB-BCT-ST-92",
+      type: "25kV OHE Catenary Wire Sag",
+      milepost: "Km 92/4 Up Line (Near Palghar)",
+      lat: 19.6968,
+      lng: 72.7667,
+      proposedBlockWindow: "02:15 — 04:45 hrs",
+      blockStartMin: 2 * 60 + 15,
+      blockEndMin: 4 * 60 + 45,
+      urgency: "CRITICAL",
+      description: "Excess catenary sag on 25kV traction wire. Tower wagon possession required to re-tension droppers."
+    },
+    trackStations: ["MMCT", "BVI", "PLG", "DRD", "ST"],
+    trains: [
+      {
+        trainNumber: "12951",
+        trainName: "Mumbai Rajdhani Express",
+        type: "Rajdhani",
+        route: "Mumbai Central (MMCT) → New Delhi (NDLS)",
+        direction: "UP",
+        currentStationCode: "BVI",
+        currentStationName: "Borivali",
+        nextStationCode: "PLG",
+        nextStationName: "Palghar",
+        nominalDelay: 0,
+        speedKmH: 130,
+        distanceToProblemKm: 52.0
+      }
+    ]
+  },
+
+  "MAS-KPD": {
+    name: "Chennai Central → Katpadi (Southern Railway / Chennai Division)",
+    zone: "SR",
+    division: "Chennai",
+    problemPoint: {
+      id: "PROB-MAS-KPD-78",
+      type: "Electronic Interlocking Relay Failure",
+      milepost: "Km 78/6 (Arakkonam Junction)",
+      lat: 13.0805,
+      lng: 79.6698,
+      proposedBlockWindow: "01:00 — 03:30 hrs",
+      blockStartMin: 1 * 60,
+      blockEndMin: 3 * 60 + 30,
+      urgency: "CRITICAL",
+      description: "Axle counter reset failure on cross-over point 104 at Arakkonam Jn. S&T and P-Way joint disconnection required."
+    },
+    trackStations: ["MAS", "PER", "TRL", "AJJ", "KPD"],
+    trains: [
+      {
+        trainNumber: "20607",
+        trainName: "Mysuru Vande Bharat Express",
+        type: "Vande Bharat",
+        route: "Chennai Central (MAS) → Mysuru (MYS)",
+        direction: "DOWN",
+        currentStationCode: "PER",
+        currentStationName: "Perambur",
+        nextStationCode: "AJJ",
+        nextStationName: "Arakkonam",
+        nominalDelay: 0,
+        speedKmH: 110,
+        distanceToProblemKm: 58.0
+      }
+    ]
+  },
+
+  "CSMT-KYN": {
+    name: "Mumbai CSMT → Kalyan (Central Railway / Mumbai Division)",
+    zone: "CR",
+    division: "Mumbai",
+    problemPoint: {
+      id: "PROB-CSMT-KYN-34",
+      type: "Suburban Track Expansion Joint Defect",
+      milepost: "Km 34/2 (Near Thane Jn)",
+      lat: 19.1860,
+      lng: 72.9750,
+      proposedBlockWindow: "01:15 — 04:00 hrs",
+      blockStartMin: 1 * 60 + 15,
+      blockEndMin: 4 * 60,
+      urgency: "CRITICAL",
+      description: "Switch expansion joint (SEJ-8) bolt shear on Fast Line between Thane and Diva. Immediate tamping required."
+    },
+    trackStations: ["CSMT", "DR", "CLA", "TNA", "KYN"],
+    trains: [
+      {
+        trainNumber: "12137",
+        trainName: "Punjab Mail",
+        type: "Superfast",
+        route: "Mumbai CSMT (CSMT) → Firozpur (FZR)",
+        direction: "UP",
+        currentStationCode: "DR",
+        currentStationName: "Dadar",
+        nextStationCode: "TNA",
+        nextStationName: "Thane",
+        nominalDelay: 5,
+        speedKmH: 90,
+        distanceToProblemKm: 22.0
+      }
+    ]
+  },
+
+  "SC-KZJ": {
+    name: "Secunderabad → Kazipet (South Central Railway / Secunderabad Division)",
+    zone: "SCR",
+    division: "Secunderabad",
+    problemPoint: {
+      id: "PROB-SC-KZJ-88",
+      type: "Track Ballast Deficiency & Cross-Level",
+      milepost: "Km 88/0 (Near Jangaon)",
+      lat: 17.7240,
+      lng: 79.1620,
+      proposedBlockWindow: "02:00 — 04:30 hrs",
+      blockStartMin: 2 * 60,
+      blockEndMin: 4 * 60 + 30,
+      urgency: "CRITICAL",
+      description: "Severe ballast deficiency requiring CSM machine tamping over 800m track bed."
+    },
+    trackStations: ["SC", "MLY", "BG", "ZN", "KZJ"],
+    trains: [
+      {
+        trainNumber: "12723",
+        trainName: "Telangana Express",
+        type: "Superfast",
+        route: "Hyderabad (HYB) → New Delhi (NDLS)",
+        direction: "UP",
+        currentStationCode: "MLY",
+        currentStationName: "Moula Ali",
+        nextStationCode: "ZN",
+        nextStationName: "Jangaon",
+        nominalDelay: 0,
+        speedKmH: 110,
+        distanceToProblemKm: 68.0
+      }
+    ]
+  },
+
+  "GHY-APDJ": {
+    name: "Guwahati → Alipurduar (Northeast Frontier Railway / Alipurduar Division)",
+    zone: "NFR",
+    division: "Alipurduar",
+    problemPoint: {
+      id: "PROB-GHY-APDJ-114",
+      type: "Sub-grade Erosion & Point Detection",
+      milepost: "Km 114/8 (Near Rangiya Junction)",
+      lat: 26.4350,
+      lng: 91.6320,
+      proposedBlockWindow: "01:30 — 04:30 hrs",
+      blockStartMin: 1 * 60 + 30,
+      blockEndMin: 4 * 60 + 30,
+      urgency: "CRITICAL",
+      description: "Monsoon sub-grade packing and point machine PM-04 stroke alignment at Rangiya Jn."
+    },
+    trackStations: ["GHY", "KYQ", "RNY", "BPRD", "APDJ"],
+    trains: [
+      {
+        trainNumber: "12423",
+        trainName: "Dibrugarh Rajdhani Express",
+        type: "Rajdhani",
+        route: "Dibrugarh (DBRG) → New Delhi (NDLS)",
+        direction: "UP",
+        currentStationCode: "KYQ",
+        currentStationName: "Kamakhya",
+        nextStationCode: "RNY",
+        nextStationName: "Rangiya",
+        nominalDelay: 10,
+        speedKmH: 105,
+        distanceToProblemKm: 32.0
       }
     ]
   }

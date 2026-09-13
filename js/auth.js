@@ -33,67 +33,84 @@ const AUTH = {
     { empId: "NR-MB-DRM-1004", password: "railopt2026", zone: "NR", zoneName: "Northern Railway", division: "Moradabad", role: "DRM", roleTitle: "Divisional Railway Manager", roleLevel: 2, corridor: "RE-GGN", sectionName: "Moradabad Division Operations", name: "Shri H.C. Sharma", isPanIndia: false },
 
     // Eastern Railway (Locked to ER)
-    { empId: "ER-HWH-GM-0001", password: "railopt2026", zone: "ER", zoneName: "Eastern Railway", division: "Howrah", role: "GM", roleTitle: "General Manager", roleLevel: 1, corridor: "RE-GGN", sectionName: "Howrah Main Corridor", name: "Shri D.K. Banerjee", isPanIndia: false },
-    { empId: "ER-HWH-DRM-1001", password: "railopt2026", zone: "ER", zoneName: "Eastern Railway", division: "Howrah", role: "DRM", roleTitle: "Divisional Railway Manager", roleLevel: 2, corridor: "RE-GGN", sectionName: "Howrah Division Operations", name: "Shri S. Chatterjee", isPanIndia: false },
-    { empId: "ER-HWH-SSE-4501", password: "railopt2026", zone: "ER", zoneName: "Eastern Railway", division: "Howrah", role: "SSE", roleTitle: "Senior Section Engineer (P-Way)", roleLevel: 4, corridor: "RE-GGN", sectionName: "Howrah Section (P-Way)", name: "Shri P. Roy", isPanIndia: false },
+    { empId: "ER-HWH-GM-0001", password: "railopt2026", zone: "ER", zoneName: "Eastern Railway", division: "Howrah", role: "GM", roleTitle: "General Manager", roleLevel: 1, corridor: "HWH-BWN", sectionName: "Howrah – Barddhaman Main Line (KM 64.2)", name: "Shri D.K. Banerjee", isPanIndia: false },
+    { empId: "ER-HWH-DRM-1001", password: "railopt2026", zone: "ER", zoneName: "Eastern Railway", division: "Howrah", role: "DRM", roleTitle: "Divisional Railway Manager", roleLevel: 2, corridor: "HWH-BWN", sectionName: "Howrah Division Operations", name: "Shri S. Chatterjee", isPanIndia: false },
+    { empId: "ER-HWH-SSE-4501", password: "railopt2026", zone: "ER", zoneName: "Eastern Railway", division: "Howrah", role: "SSE", roleTitle: "Senior Section Engineer (P-Way)", roleLevel: 4, corridor: "HWH-BWN", sectionName: "Howrah Section (P-Way)", name: "Shri P. Roy", isPanIndia: false },
 
     // Southern Railway (Locked to SR)
-    { empId: "SR-MAS-GM-0001", password: "railopt2026", zone: "SR", zoneName: "Southern Railway", division: "Chennai", role: "GM", roleTitle: "General Manager", roleLevel: 1, corridor: "RE-GGN", sectionName: "Chennai Division Operations", name: "Shri K. Ramachandran", isPanIndia: false },
-    { empId: "SR-MAS-DRM-1001", password: "railopt2026", zone: "SR", zoneName: "Southern Railway", division: "Chennai", role: "DRM", roleTitle: "Divisional Railway Manager", roleLevel: 2, corridor: "RE-GGN", sectionName: "Chennai Division Operations", name: "Shri V. Subramanian", isPanIndia: false },
-    { empId: "SR-MAS-SSE-4501", password: "railopt2026", zone: "SR", zoneName: "Southern Railway", division: "Chennai", role: "SSE", roleTitle: "Senior Section Engineer (P-Way)", roleLevel: 4, corridor: "RE-GGN", sectionName: "Chennai Section (P-Way)", name: "Shri T. Krishnan", isPanIndia: false },
+    { empId: "SR-MAS-GM-0001", password: "railopt2026", zone: "SR", zoneName: "Southern Railway", division: "Chennai", role: "GM", roleTitle: "General Manager", roleLevel: 1, corridor: "MAS-KPD", sectionName: "Chennai Central – Katpadi Section (KM 78.6)", name: "Shri K. Ramachandran", isPanIndia: false },
+    { empId: "SR-MAS-DRM-1001", password: "railopt2026", zone: "SR", zoneName: "Southern Railway", division: "Chennai", role: "DRM", roleTitle: "Divisional Railway Manager", roleLevel: 2, corridor: "MAS-KPD", sectionName: "Chennai Division Operations", name: "Shri V. Subramanian", isPanIndia: false },
+    { empId: "SR-MAS-SSE-4501", password: "railopt2026", zone: "SR", zoneName: "Southern Railway", division: "Chennai", role: "SSE", roleTitle: "Senior Section Engineer (P-Way)", roleLevel: 4, corridor: "MAS-KPD", sectionName: "Chennai Section (P-Way)", name: "Shri T. Krishnan", isPanIndia: false },
 
     // Western Railway (Locked to WR)
-    { empId: "WR-BCT-GM-0001", password: "railopt2026", zone: "WR", zoneName: "Western Railway", division: "Mumbai Central", role: "GM", roleTitle: "General Manager", roleLevel: 1, corridor: "RE-GGN", sectionName: "Mumbai Central Operations", name: "Shri A.M. Desai", isPanIndia: false },
-    { empId: "WR-BCT-DRM-1001", password: "railopt2026", zone: "WR", zoneName: "Western Railway", division: "Mumbai Central", role: "DRM", roleTitle: "Divisional Railway Manager", roleLevel: 2, corridor: "RE-GGN", sectionName: "Mumbai Central Operations", name: "Shri R.S. Patil", isPanIndia: false },
-    { empId: "WR-ADI-SSE-4501", password: "railopt2026", zone: "WR", zoneName: "Western Railway", division: "Ahmedabad", role: "SSE", roleTitle: "Senior Section Engineer (P-Way)", roleLevel: 4, corridor: "RE-GGN", sectionName: "Ahmedabad Section (P-Way)", name: "Shri N.K. Patel", isPanIndia: false },
+    { empId: "WR-BCT-GM-0001", password: "railopt2026", zone: "WR", zoneName: "Western Railway", division: "Mumbai Central", role: "GM", roleTitle: "General Manager", roleLevel: 1, corridor: "BCT-ST", sectionName: "Mumbai Central – Surat Section (KM 92.4)", name: "Shri A.M. Desai", isPanIndia: false },
+    { empId: "WR-BCT-DRM-1001", password: "railopt2026", zone: "WR", zoneName: "Western Railway", division: "Mumbai Central", role: "DRM", roleTitle: "Divisional Railway Manager", roleLevel: 2, corridor: "BCT-ST", sectionName: "Mumbai Central Operations", name: "Shri R.S. Patil", isPanIndia: false },
+    { empId: "WR-ADI-SSE-4501", password: "railopt2026", zone: "WR", zoneName: "Western Railway", division: "Ahmedabad", role: "SSE", roleTitle: "Senior Section Engineer (P-Way)", roleLevel: 4, corridor: "BCT-ST", sectionName: "Ahmedabad Section (P-Way)", name: "Shri N.K. Patel", isPanIndia: false },
 
     // Central Railway (Locked to CR)
-    { empId: "CR-CSMT-GM-0001", password: "railopt2026", zone: "CR", zoneName: "Central Railway", division: "Mumbai", role: "GM", roleTitle: "General Manager", roleLevel: 1, corridor: "RE-GGN", sectionName: "Mumbai Division Operations", name: "Shri S.P. More", isPanIndia: false },
-    { empId: "CR-PUNE-DRM-1001", password: "railopt2026", zone: "CR", zoneName: "Central Railway", division: "Pune", role: "DRM", roleTitle: "Divisional Railway Manager", roleLevel: 2, corridor: "RE-GGN", sectionName: "Pune Division Operations", name: "Shri V.V. Kulkarni", isPanIndia: false },
+    { empId: "CR-CSMT-GM-0001", password: "railopt2026", zone: "CR", zoneName: "Central Railway", division: "Mumbai", role: "GM", roleTitle: "General Manager", roleLevel: 1, corridor: "CSMT-KYN", sectionName: "Mumbai CSMT – Kalyan Suburban Corridor (KM 34.2)", name: "Shri S.P. More", isPanIndia: false },
+    { empId: "CR-PUNE-DRM-1001", password: "railopt2026", zone: "CR", zoneName: "Central Railway", division: "Pune", role: "DRM", roleTitle: "Divisional Railway Manager", roleLevel: 2, corridor: "CSMT-KYN", sectionName: "Pune Division Operations", name: "Shri V.V. Kulkarni", isPanIndia: false },
 
     // South Central Railway (Locked to SCR)
-    { empId: "SCR-SC-GM-0001", password: "railopt2026", zone: "SCR", zoneName: "South Central Railway", division: "Secunderabad", role: "GM", roleTitle: "General Manager", roleLevel: 1, corridor: "RE-GGN", sectionName: "Secunderabad Operations", name: "Shri M. Reddy", isPanIndia: false },
+    { empId: "SCR-SC-GM-0001", password: "railopt2026", zone: "SCR", zoneName: "South Central Railway", division: "Secunderabad", role: "GM", roleTitle: "General Manager", roleLevel: 1, corridor: "SC-KZJ", sectionName: "Secunderabad – Kazipet Section (KM 88.0)", name: "Shri M. Reddy", isPanIndia: false },
 
     // South Western Railway (Locked to SWR)
-    { empId: "SWR-UBL-GM-0001", password: "railopt2026", zone: "SWR", zoneName: "South Western Railway", division: "Hubballi", role: "GM", roleTitle: "General Manager", roleLevel: 1, corridor: "RE-GGN", sectionName: "Hubballi Operations", name: "Shri K. Gowda", isPanIndia: false },
-    { empId: "SWR-SBC-DRM-1001", password: "railopt2026", zone: "SWR", zoneName: "South Western Railway", division: "Bengaluru", role: "DRM", roleTitle: "Divisional Railway Manager", roleLevel: 2, corridor: "RE-GGN", sectionName: "Bengaluru Division Operations", name: "Shri H.N. Reddy", isPanIndia: false },
+    { empId: "SWR-UBL-GM-0001", password: "railopt2026", zone: "SWR", zoneName: "South Western Railway", division: "Hubballi", role: "GM", roleTitle: "General Manager", roleLevel: 1, corridor: "MAS-KPD", sectionName: "Hubballi Operations", name: "Shri K. Gowda", isPanIndia: false },
+    { empId: "SWR-SBC-DRM-1001", password: "railopt2026", zone: "SWR", zoneName: "South Western Railway", division: "Bengaluru", role: "DRM", roleTitle: "Divisional Railway Manager", roleLevel: 2, corridor: "MAS-KPD", sectionName: "Bengaluru Division Operations", name: "Shri H.N. Reddy", isPanIndia: false },
 
     // South Eastern Railway (Locked to SER)
-    { empId: "SER-KGP-GM-0001", password: "railopt2026", zone: "SER", zoneName: "South Eastern Railway", division: "Kharagpur", role: "GM", roleTitle: "General Manager", roleLevel: 1, corridor: "RE-GGN", sectionName: "Kharagpur Operations", name: "Shri A. Das", isPanIndia: false },
+    { empId: "SER-KGP-GM-0001", password: "railopt2026", zone: "SER", zoneName: "South Eastern Railway", division: "Kharagpur", role: "GM", roleTitle: "General Manager", roleLevel: 1, corridor: "HWH-BWN", sectionName: "Kharagpur Operations", name: "Shri A. Das", isPanIndia: false },
 
     // North Eastern Railway (Locked to NER)
     { empId: "NER-GKP-GM-0001", password: "railopt2026", zone: "NER", zoneName: "North Eastern Railway", division: "Gorakhpur", role: "GM", roleTitle: "General Manager", roleLevel: 1, corridor: "RE-GGN", sectionName: "Gorakhpur Operations", name: "Shri R.P. Yadav", isPanIndia: false },
 
     // Northeast Frontier Railway (Locked to NFR)
-    { empId: "NFR-GHY-GM-0001", password: "railopt2026", zone: "NFR", zoneName: "Northeast Frontier Railway", division: "Rangiya", role: "GM", roleTitle: "General Manager", roleLevel: 1, corridor: "RE-GGN", sectionName: "Rangiya Operations", name: "Shri B. Bora", isPanIndia: false },
+    { empId: "NFR-GHY-GM-0001", password: "railopt2026", zone: "NFR", zoneName: "Northeast Frontier Railway", division: "Rangiya", role: "GM", roleTitle: "General Manager", roleLevel: 1, corridor: "GHY-APDJ", sectionName: "Guwahati – Alipurduar Section (KM 114.8)", name: "Shri B. Bora", isPanIndia: false },
 
     // North Western Railway (Locked to NWR)
     { empId: "NWR-JP-GM-0001", password: "railopt2026", zone: "NWR", zoneName: "North Western Railway", division: "Jaipur", role: "GM", roleTitle: "General Manager", roleLevel: 1, corridor: "RE-GGN", sectionName: "Jaipur Operations", name: "Shri L.K. Meena", isPanIndia: false },
     { empId: "NWR-JP-SSE-4501", password: "railopt2026", zone: "NWR", zoneName: "North Western Railway", division: "Jaipur", role: "SSE", roleTitle: "Senior Section Engineer (P-Way)", roleLevel: 4, corridor: "RE-GGN", sectionName: "Jaipur Section (P-Way)", name: "Shri D. Sharma", isPanIndia: false },
 
     // West Central Railway (Locked to WCR)
-    { empId: "WCR-JBP-GM-0001", password: "railopt2026", zone: "WCR", zoneName: "West Central Railway", division: "Jabalpur", role: "GM", roleTitle: "General Manager", roleLevel: 1, corridor: "RE-GGN", sectionName: "Jabalpur Operations", name: "Shri A. Tiwari", isPanIndia: false },
+    { empId: "WCR-JBP-GM-0001", password: "railopt2026", zone: "WCR", zoneName: "West Central Railway", division: "Jabalpur", role: "GM", roleTitle: "General Manager", roleLevel: 1, corridor: "BCT-ST", sectionName: "Jabalpur Operations", name: "Shri A. Tiwari", isPanIndia: false },
 
     // North Central Railway (Locked to NCR)
     { empId: "NCR-PRYJ-GM-0001", password: "railopt2026", zone: "NCR", zoneName: "North Central Railway", division: "Prayagraj", role: "GM", roleTitle: "General Manager", roleLevel: 1, corridor: "RE-GGN", sectionName: "Prayagraj Operations", name: "Shri S.N. Mishra", isPanIndia: false },
 
     // South East Central Railway (Locked to SECR)
-    { empId: "SECR-BSP-GM-0001", password: "railopt2026", zone: "SECR", zoneName: "South East Central Railway", division: "Bilaspur", role: "GM", roleTitle: "General Manager", roleLevel: 1, corridor: "RE-GGN", sectionName: "Bilaspur Operations", name: "Shri R. Verma", isPanIndia: false },
+    { empId: "SECR-BSP-GM-0001", password: "railopt2026", zone: "SECR", zoneName: "South East Central Railway", division: "Bilaspur", role: "GM", roleTitle: "General Manager", roleLevel: 1, corridor: "SC-KZJ", sectionName: "Bilaspur Operations", name: "Shri R. Verma", isPanIndia: false },
 
     // East Central Railway (Locked to ECR)
-    { empId: "ECR-HJP-GM-0001", password: "railopt2026", zone: "ECR", zoneName: "East Central Railway", division: "Danapur", role: "GM", roleTitle: "General Manager", roleLevel: 1, corridor: "RE-GGN", sectionName: "Danapur Operations", name: "Shri K. Prasad", isPanIndia: false },
+    { empId: "ECR-HJP-GM-0001", password: "railopt2026", zone: "ECR", zoneName: "East Central Railway", division: "Danapur", role: "GM", roleTitle: "General Manager", roleLevel: 1, corridor: "HWH-BWN", sectionName: "Danapur Operations", name: "Shri K. Prasad", isPanIndia: false },
 
     // East Coast Railway (Locked to ECoR)
-    { empId: "ECoR-BBS-GM-0001", password: "railopt2026", zone: "ECoR", zoneName: "East Coast Railway", division: "Khurda Road", role: "GM", roleTitle: "General Manager", roleLevel: 1, corridor: "RE-GGN", sectionName: "Khurda Road Operations", name: "Shri P. Mohapatra", isPanIndia: false },
+    { empId: "ECoR-BBS-GM-0001", password: "railopt2026", zone: "ECoR", zoneName: "East Coast Railway", division: "Khurda Road", role: "GM", roleTitle: "General Manager", roleLevel: 1, corridor: "HWH-BWN", sectionName: "Khurda Road Operations", name: "Shri P. Mohapatra", isPanIndia: false },
 
     // Metro Railway Kolkata (Locked to MR)
-    { empId: "MR-KOL-GM-0001", password: "railopt2026", zone: "MR", zoneName: "Metro Railway Kolkata", division: "Kolkata Metro", role: "GM", roleTitle: "General Manager", roleLevel: 1, corridor: "RE-GGN", sectionName: "Kolkata Metro Lines", name: "Shri A. Mukherjee", isPanIndia: false },
+    { empId: "MR-KOL-GM-0001", password: "railopt2026", zone: "MR", zoneName: "Metro Railway Kolkata", division: "Kolkata Metro", role: "GM", roleTitle: "General Manager", roleLevel: 1, corridor: "HWH-BWN", sectionName: "Kolkata Metro Lines", name: "Shri A. Mukherjee", isPanIndia: false },
 
     // Konkan Railway (Locked to KR)
-    { empId: "KR-NMUM-GM-0001", password: "railopt2026", zone: "KR", zoneName: "Konkan Railway", division: "Ratnagiri", role: "GM", roleTitle: "General Manager", roleLevel: 1, corridor: "RE-GGN", sectionName: "Konkan Route Operations", name: "Shri V. Naik", isPanIndia: false }
+    { empId: "KR-NMUM-GM-0001", password: "railopt2026", zone: "KR", zoneName: "Konkan Railway", division: "Ratnagiri", role: "GM", roleTitle: "General Manager", roleLevel: 1, corridor: "CSMT-KYN", sectionName: "Konkan Route Operations", name: "Shri V. Naik", isPanIndia: false }
   ],
 
   // ── Authentication Methods ─────────────────────────────────────────────────
+
+  getZoneDefaultCorridor(zone, division) {
+    if (zone === "NR") return division === "Ambala" ? "UMB-SIR" : "RE-GGN";
+    if (zone === "ER") return "HWH-BWN";
+    if (zone === "WR") return "BCT-ST";
+    if (zone === "SR") return "MAS-KPD";
+    if (zone === "CR") return "CSMT-KYN";
+    if (zone === "SCR") return "SC-KZJ";
+    if (zone === "NFR") return "GHY-APDJ";
+    if (zone === "SWR") return "MAS-KPD";
+    if (zone === "SER") return "HWH-BWN";
+    if (zone === "WCR") return "BCT-ST";
+    if (zone === "SECR") return "SC-KZJ";
+    if (zone === "ECR" || zone === "ECoR" || zone === "MR") return "HWH-BWN";
+    if (zone === "KR") return "CSMT-KYN";
+    return "RE-GGN";
+  },
 
   /**
    * Resolve employee details by ID for live auto-detection on login
@@ -111,6 +128,7 @@ const AUTH = {
     const roleObj = ZONES_DATA.roles.find(r => r.code === match.role);
     const zoneObj = ZONES_DATA.zones.find(z => z.code === match.zone);
     const isPanIndia = Boolean(match.isPanIndia || match.zone === "ALL");
+    const defaultCorridor = this.getZoneDefaultCorridor(match.zone, match.division);
 
     return {
       empId: match.empId,
@@ -121,7 +139,7 @@ const AUTH = {
       roleCode: match.role,
       roleTitle: match.roleTitle || (roleObj ? roleObj.title : match.role),
       roleLevel: match.roleLevel !== undefined ? match.roleLevel : (roleObj ? roleObj.level : 4),
-      corridor: match.corridor || (match.division === "Ambala" ? "UMB-SIR" : "RE-GGN"),
+      corridor: match.corridor || defaultCorridor,
       sectionName: match.sectionName || `${match.division} Division Section`,
       isPanIndia: isPanIndia,
       avatarInitial: match.name.split(' ').pop().charAt(0) || 'R'
@@ -186,7 +204,7 @@ const AUTH = {
         roleCode: match.role,
         roleTitle: match.roleTitle || (role ? role.title : match.role),
         roleLevel: match.roleLevel !== undefined ? match.roleLevel : (role ? role.level : 4),
-        corridor: match.corridor || (match.division === "Ambala" ? "UMB-SIR" : "RE-GGN"),
+        corridor: match.corridor || this.getZoneDefaultCorridor(match.zone, match.division),
         sectionName: match.sectionName || `${match.division} Division Section`,
         isPanIndia: isPanIndia,
         permissions: ZONES_DATA.permissions[match.role] || {},
@@ -282,7 +300,7 @@ const AUTH = {
           session.authorizedZone = match.zone;
           session.authorizedZoneName = match.zone === "ALL" ? "Pan-India (All 18 Zones)" : (authZoneObj ? authZoneObj.name : match.zone);
           session.permissions = ZONES_DATA.permissions[match.role] || ZONES_DATA.permissions.SSE || {};
-          session.corridor = session.corridor || match.corridor || (match.division === "Ambala" ? "UMB-SIR" : "RE-GGN");
+          session.corridor = match.corridor || this.getZoneDefaultCorridor(match.zone, match.division);
           session.sectionName = session.sectionName || match.sectionName || `${match.division} Division Section`;
 
           // If a non-Pan-India ID has drifted into another zone, lock them back to their home zone

@@ -580,9 +580,46 @@ const RailMap = {
     }
   },
 
+  // ── Sync Active Section with Authenticated User Session ────────────────────
+  syncSessionCorridor() {
+    if (typeof AUTH === "undefined" || typeof AUTH.getSession !== "function") return;
+    const s = AUTH.getSession();
+    if (!s) return;
+
+    let targetSection = null;
+    if (s.corridor && s.corridor !== "ALL" && this.DEFAULT_DATA[s.corridor]) {
+      targetSection = s.corridor;
+    } else if (s.zone) {
+      const zoneMap = {
+        "NR": s.division === "Ambala" ? "UMB-SIR" : "RE-GGN",
+        "ER": "HWH-BWN",
+        "WR": "BCT-ST",
+        "SR": "MAS-KPD",
+        "CR": "CSMT-KYN",
+        "SCR": "SC-KZJ",
+        "NFR": "GHY-APDJ"
+      };
+      if (zoneMap[s.zone] && this.DEFAULT_DATA[zoneMap[s.zone]]) {
+        targetSection = zoneMap[s.zone];
+      }
+    }
+
+    this.populateCorridorDropdown();
+
+    if (targetSection && targetSection !== this.activeSection && this.DEFAULT_DATA[targetSection]) {
+      this.activeSection = targetSection;
+      const selector = document.getElementById("mapSectionSelector");
+      if (selector) selector.value = targetSection;
+      if (this.map) {
+        this.loadSection(targetSection);
+      }
+    }
+  },
+
   // ── Initialize Map ─────────────────────────────────────────────────────────
   init(containerId) {
     if (this.map) {
+      this.syncSessionCorridor();
       this.map.invalidateSize();
       return;
     }
@@ -590,7 +627,7 @@ const RailMap = {
     const container = document.getElementById(containerId);
     if (!container) return;
 
-    // Default center on Delhi – Gurugram – Rewari corridor
+    // Default center
     const center = [28.43, 76.92];
     const zoom = 10;
 
@@ -616,19 +653,31 @@ const RailMap = {
     this.layers.trainPointers = L.layerGroup().addTo(this.map);
     this.layers.vectors = L.layerGroup().addTo(this.map);
 
-    // Synchronize initial activeSection with session corridor/division
+    // Synchronize initial activeSection with session corridor/division/zone
     if (typeof AUTH !== "undefined" && typeof AUTH.getSession === "function") {
       const s = AUTH.getSession();
-      if (s && s.corridor === "UMB-SIR") {
-        this.activeSection = "UMB-SIR";
-      } else if (s && s.corridor === "RE-GGN") {
-        this.activeSection = "RE-GGN";
-      } else if (s && s.division === "Ambala") {
-        this.activeSection = "UMB-SIR";
-      } else if (s && s.division === "Delhi") {
-        this.activeSection = "RE-GGN";
+      if (s) {
+        if (s.corridor && s.corridor !== "ALL" && this.DEFAULT_DATA[s.corridor]) {
+          this.activeSection = s.corridor;
+        } else if (s.zone) {
+          const zoneMap = {
+            "NR": s.division === "Ambala" ? "UMB-SIR" : "RE-GGN",
+            "ER": "HWH-BWN",
+            "WR": "BCT-ST",
+            "SR": "MAS-KPD",
+            "CR": "CSMT-KYN",
+            "SCR": "SC-KZJ",
+            "NFR": "GHY-APDJ"
+          };
+          if (zoneMap[s.zone] && this.DEFAULT_DATA[zoneMap[s.zone]]) {
+            this.activeSection = zoneMap[s.zone];
+          }
+        }
       }
     }
+
+    // Populate dropdown first to ensure activeSection matches user options
+    this.populateCorridorDropdown();
 
     // Initial baseline data setup
     this.currentData = JSON.parse(JSON.stringify(this.DEFAULT_DATA[this.activeSection] || this.DEFAULT_DATA["RE-GGN"]));
