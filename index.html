@@ -2046,13 +2046,13 @@
 
           <!-- View Mode Toggle Buttons -->
           <div class="sm-view-switcher" style="display: flex; gap: 8px; background: #e2e8f0; padding: 4px; border-radius: var(--radius-md);">
-            <button type="button" class="btn btn-sm sm-view-toggle-btn active" data-view-mode="sm-desk">
+            <button type="button" class="btn btn-sm sm-view-toggle-btn active" data-view-mode="sm-desk" onclick="SM_LP_COORDINATOR.switchViewMode('sm-desk')">
               🏢 Station Master Desk
             </button>
-            <button type="button" class="btn btn-sm sm-view-toggle-btn" data-view-mode="driver-cab">
+            <button type="button" class="btn btn-sm sm-view-toggle-btn" data-view-mode="driver-cab" onclick="SM_LP_COORDINATOR.switchViewMode('driver-cab')">
               🚆 Loco Pilot Cab HUD (DMI)
             </button>
-            <button type="button" class="btn btn-sm sm-view-toggle-btn" data-view-mode="audit-log">
+            <button type="button" class="btn btn-sm sm-view-toggle-btn" data-view-mode="audit-log" onclick="SM_LP_COORDINATOR.switchViewMode('audit-log')">
               📜 CRS Digital Audit Log
             </button>
           </div>
@@ -2507,12 +2507,12 @@
 <div class="toast-container" id="toastContainer"></div>
 
 <!-- Scripts -->
-<script src="js/zones-data.js?v=3.1"></script>
-<script src="js/auth.js?v=3.1"></script>
-<script src="js/data.js?v=3.1"></script>
-<script src="js/railmap.js?v=3.1"></script>
-<script src="js/sm-lp-coordinator.js?v=3.1"></script>
-<script src="js/app.js?v=3.1"></script>
+<script src="js/zones-data.js?v=3.2"></script>
+<script src="js/auth.js?v=3.2"></script>
+<script src="js/data.js?v=3.2"></script>
+<script src="js/railmap.js?v=3.2"></script>
+<script src="js/sm-lp-coordinator.js?v=3.2"></script>
+<script src="js/app.js?v=3.2"></script>
 
 </body>
 </html>

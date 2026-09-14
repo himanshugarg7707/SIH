@@ -223,7 +223,7 @@ const SM_LP_COORDINATOR = {
     const viewButtons = document.querySelectorAll('.sm-view-toggle-btn');
     viewButtons.forEach(btn => {
       btn.addEventListener('click', (e) => {
-        const mode = btn.dataset.viewMode;
+        const mode = btn.getAttribute('data-view-mode') || btn.dataset?.viewMode;
         if (mode) {
           this.switchViewMode(mode);
         }
@@ -262,7 +262,8 @@ const SM_LP_COORDINATOR = {
     
     // Update button states
     document.querySelectorAll('.sm-view-toggle-btn').forEach(btn => {
-      btn.classList.toggle('active', btn.dataset.viewMode === mode);
+      const btnMode = btn.getAttribute('data-view-mode') || btn.dataset?.viewMode;
+      btn.classList.toggle('active', btnMode === mode);
     });
 
     // Toggle panels
@@ -270,14 +271,19 @@ const SM_LP_COORDINATOR = {
     const cabPanel = document.getElementById('locoPilotCabPanel');
     const auditPanel = document.getElementById('crsAuditPanel');
 
-    if (smPanel) smPanel.style.display = mode === 'sm-desk' ? 'block' : 'none';
+    if (smPanel) smPanel.style.display = (mode === 'sm-desk' ? 'block' : 'none');
     if (cabPanel) {
-      cabPanel.style.display = mode === 'driver-cab' ? 'block' : 'none';
+      cabPanel.style.display = (mode === 'driver-cab' ? 'block' : 'none');
       if (mode === 'driver-cab') {
         this.renderLocoPilotCab();
       }
     }
-    if (auditPanel) auditPanel.style.display = mode === 'audit-log' ? 'block' : 'none';
+    if (auditPanel) {
+      auditPanel.style.display = (mode === 'audit-log' ? 'block' : 'none');
+      if (mode === 'audit-log') {
+        this.renderAuditLedger();
+      }
+    }
   },
 
   // ── Audio Alert Synthesis for Loco Pilot Cab ────────────────────────────────
@@ -327,10 +333,10 @@ const SM_LP_COORDINATOR = {
 
   playVhfTransmission() {
     this.playCabAlertChime();
-    const targetTrain = this.trainsDb[this.selectedTrainNumber] || this.trainsDb['12015'];
+    const targetTrain = this.trainsDb[this.selectedTrainNumber] || this.trainsDb['12015'] || Object.values(this.trainsDb)[0];
     const vhfOutput = document.getElementById('smVhfTranscriptLog');
     
-    if (vhfOutput) {
+    if (vhfOutput && targetTrain) {
       const nowTime = new Date().toLocaleTimeString('en-IN', { hour12: false });
       const message = `
         <div class="vhf-log-item">
@@ -344,7 +350,7 @@ const SM_LP_COORDINATOR = {
       vhfOutput.innerHTML = message + vhfOutput.innerHTML;
     }
 
-    if (window.showToast) {
+    if (window.showToast && targetTrain) {
       window.showToast(`📻 VHF Radio Callout transmitted to Train ${targetTrain.number} on 150.150 MHz!`, 'info');
     }
   },
@@ -396,9 +402,9 @@ const SM_LP_COORDINATOR = {
   },
 
   syncTrainFormDetails() {
-    const targetTrain = this.trainsDb[this.selectedTrainNumber] || this.trainsDb['12015'];
+    const targetTrain = this.trainsDb[this.selectedTrainNumber] || this.trainsDb['12015'] || Object.values(this.trainsDb)[0];
     const lpDisplay = document.getElementById('smSelectedLpInfo');
-    if (lpDisplay) {
+    if (lpDisplay && targetTrain) {
       lpDisplay.innerHTML = `
         <div class="sm-train-brief">
           <div><strong>Train:</strong> ${targetTrain.number} - ${targetTrain.name}</div>
@@ -411,7 +417,14 @@ const SM_LP_COORDINATOR = {
 
   // ── Station Master Desk Rendering ───────────────────────────────────────────
   renderStationDesk() {
-    const stationObj = this.stationsList.find(s => s.code === this.activeStation) || this.stationsList[0];
+    const stationObj = (this.stationsList && this.stationsList.find(s => s.code === this.activeStation)) || (this.stationsList && this.stationsList[0]) || {
+      name: 'Gurugram Junction',
+      code: 'GGN',
+      panelType: 'Electronic Interlocking (EI)',
+      dutyStationMaster: 'Shri Satish K. Sharma',
+      designation: 'Station Superintendent (SS)',
+      cugMobile: '+91 97176 38401'
+    };
     
     // Update Station Details Badge & Contact Bar
     const stnBadge = document.getElementById('smCurrentStationBadge');
@@ -419,9 +432,9 @@ const SM_LP_COORDINATOR = {
       stnBadge.innerHTML = `
         <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
           <span>📍 <strong>${stationObj.name}</strong></span>
-          <span class="badge badge-info">${stationObj.panelType}</span>
+          <span class="badge badge-info">${stationObj.panelType || 'EI'}</span>
           <span style="font-size: 12px; color: #1e3a8a; background: #dbeafe; padding: 2px 8px; border-radius: 4px; font-weight: 700;">
-            👨‍✈️ Duty SM: ${stationObj.dutyStationMaster} (${stationObj.designation.split('/')[0]})
+            👨‍✈️ Duty SM: ${stationObj.dutyStationMaster} (${(stationObj.designation || '').split('/')[0]})
           </span>
           <span style="font-size: 12px; color: #047857; background: #d1fae5; padding: 2px 8px; border-radius: 4px; font-weight: 700;">
             📱 CUG: ${stationObj.cugMobile}
@@ -439,13 +452,13 @@ const SM_LP_COORDINATOR = {
 
     let html = '';
     Object.values(this.trainsDb).forEach(train => {
-      const activeOrder = this.cautionOrders.find(o => o.trainNumber === train.number);
+      const activeOrder = Array.isArray(this.cautionOrders) ? this.cautionOrders.find(o => o.trainNumber === train.number) : null;
       const isAcknowledged = activeOrder && activeOrder.status === 'ACKNOWLEDGED_BY_LP';
       const isTransmitted = activeOrder && activeOrder.status === 'TRANSMITTED_TO_CAB';
       
       let statusBadge = `<span class="badge badge-success">CLEAR ROUTE</span>`;
       if (isAcknowledged) {
-        statusBadge = `<span class="badge badge-info" style="background:#0284c7;">✅ T/409 ACKNOWLEDGED (30 KM/H)</span>`;
+        statusBadge = `<span class="badge badge-info" style="background:#0284c7;">✅ T/409 ACKNOWLEDGED (${activeOrder.restrictedSpeedKmH || 30} KM/H)</span>`;
       } else if (isTransmitted) {
         statusBadge = `<span class="badge badge-warning" style="background:#d97706; animation: pulse 1.5s infinite;">⚠️ T/409 TRANSMITTED (PENDING ACK)</span>`;
       } else if (train.distToDefectKm < 15) {
@@ -468,10 +481,10 @@ const SM_LP_COORDINATOR = {
             <div><strong>Live Speed:</strong> ${train.currentSpeed} km/h &nbsp;|&nbsp; <strong>Distance to Defect:</strong> ${train.distToDefectKm} km</div>
           </div>
           <div class="sm-train-actions">
-            <button type="button" class="btn btn-sm btn-primary" onclick="SM_LP_COORDINATOR.selectTrainForDispatch('${train.number}')">
+            <button type="button" class="btn btn-sm btn-primary" onclick="event.stopPropagation(); SM_LP_COORDINATOR.selectTrainForDispatch('${train.number}')">
               📄 Prepare T/409
             </button>
-            <button type="button" class="btn btn-sm btn-outline-info" onclick="SM_LP_COORDINATOR.viewDriverCab('${train.number}')">
+            <button type="button" class="btn btn-sm btn-outline-info" onclick="event.stopPropagation(); SM_LP_COORDINATOR.viewDriverCab('${train.number}')">
               🚆 View Loco Cab DMI
             </button>
           </div>
@@ -488,6 +501,7 @@ const SM_LP_COORDINATOR = {
     const trainSelect = document.getElementById('smTargetTrain');
     if (trainSelect) trainSelect.value = trainNumber;
     this.renderStationDesk();
+    this.renderLocoPilotCab();
     if (window.showToast) {
       window.showToast(`Selected Train ${trainNumber} for Form T/409 Caution Dispatch`, 'info');
     }
@@ -495,13 +509,15 @@ const SM_LP_COORDINATOR = {
 
   viewDriverCab(trainNumber) {
     this.selectedTrainNumber = trainNumber;
+    const trainSelect = document.getElementById('smTargetTrain');
+    if (trainSelect) trainSelect.value = trainNumber;
     this.switchViewMode('driver-cab');
   },
 
   // ── Dispatch Caution Order Action ───────────────────────────────────────────
   async handleDispatchCautionOrder() {
-    const targetTrain = this.trainsDb[this.selectedTrainNumber] || this.trainsDb['12015'];
-    const stationObj = this.stationsList.find(s => s.code === this.activeStation) || this.stationsList[0];
+    const targetTrain = this.trainsDb[this.selectedTrainNumber] || this.trainsDb['12015'] || Object.values(this.trainsDb)[0];
+    const stationObj = (this.stationsList && this.stationsList.find(s => s.code === this.activeStation)) || (this.stationsList && this.stationsList[0]) || { code: 'GGN', name: 'Gurugram Junction' };
 
     const milepostStart = document.getElementById('t409MilepostStart')?.value || 'Km 54/2';
     const milepostEnd = document.getElementById('t409MilepostEnd')?.value || 'Km 54/8';
@@ -554,9 +570,18 @@ const SM_LP_COORDINATOR = {
 
   // ── Loco Pilot Cab DMI Rendering ────────────────────────────────────────────
   renderLocoPilotCab() {
-    const targetTrain = this.trainsDb[this.selectedTrainNumber] || this.trainsDb['12015'];
-    const activeOrder = this.cautionOrders.find(o => o.trainNumber === targetTrain.number);
-    const currentSm = this.stationsList.find(s => s.code === this.activeStation) || this.stationsList[0];
+    const targetTrain = this.trainsDb[this.selectedTrainNumber] || this.trainsDb['12015'] || Object.values(this.trainsDb)[0];
+    if (!targetTrain) return;
+
+    const activeOrder = Array.isArray(this.cautionOrders) ? this.cautionOrders.find(o => o.trainNumber === targetTrain.number) : null;
+    const currentSm = (this.stationsList && this.stationsList.find(s => s.code === this.activeStation)) || (this.stationsList && this.stationsList[0]) || {
+      name: 'Gurugram Junction',
+      code: 'GGN',
+      dutyStationMaster: 'Shri Satish K. Sharma',
+      cugMobile: '+91 97176 38401',
+      rlyAutoPhone: '030-22441',
+      vhfChannel: '150.150 MHz'
+    };
 
     // Update Loco Pilot header info
     const cabHeader = document.getElementById('cabTrainHeader');
@@ -588,8 +613,12 @@ const SM_LP_COORDINATOR = {
     if (currentSpeedDisplay) currentSpeedDisplay.textContent = targetTrain.currentSpeed;
     if (distanceDisplay) distanceDisplay.textContent = `${targetTrain.distToDefectKm} KM`;
 
+    const vhfFreq = currentSm.vhfChannel ? currentSm.vhfChannel.split(' ')[0] : '150.150 MHz';
+
     if (activeOrder) {
       const isAck = activeOrder.status === 'ACKNOWLEDGED_BY_LP';
+      const ackTime = activeOrder.acknowledgedAt ? new Date(activeOrder.acknowledgedAt).toLocaleTimeString('en-IN') : 'Just now';
+      const dispatchTime = activeOrder.dispatchedAt ? new Date(activeOrder.dispatchedAt).toLocaleString('en-IN') : 'Just now';
       
       if (speedTargetDisplay) {
         speedTargetDisplay.textContent = `${activeOrder.restrictedSpeedKmH} KM/H`;
@@ -602,8 +631,8 @@ const SM_LP_COORDINATOR = {
           banner.innerHTML = `
             <div class="cab-alert-icon">✅</div>
             <div class="cab-alert-content">
-              <h4>CAUTION ORDER ${activeOrder.orderId} ACTIVE & LOCKED IN KAVACH</h4>
-              <p>Restricted Speed: <strong>${activeOrder.restrictedSpeedKmH} km/h</strong> between ${activeOrder.milepostStart} and ${activeOrder.milepostEnd}. Acknowledged at ${new Date(activeOrder.acknowledgedAt).toLocaleTimeString('en-IN')}.</p>
+              <h4>CAUTION ORDER ${activeOrder.orderId} ACTIVE &amp; LOCKED IN KAVACH</h4>
+              <p>Restricted Speed: <strong>${activeOrder.restrictedSpeedKmH} km/h</strong> between ${activeOrder.milepostStart} and ${activeOrder.milepostEnd}. Acknowledged at ${ackTime}.</p>
             </div>
           `;
         } else {
@@ -626,7 +655,7 @@ const SM_LP_COORDINATOR = {
               <span style="font-size: 20px;">📞</span>
               <div>
                 <div style="font-size: 12px; font-weight: 800; color: #38bdf8;">DIRECT CAB HOTLINE TO STATION MASTER: ${currentSm.name}</div>
-                <div style="font-size: 11.5px; color: #94a3b8;">Duty SM: <strong>${currentSm.dutyStationMaster}</strong> &nbsp;|&nbsp; CUG: <strong style="color:#34d399;">${currentSm.cugMobile}</strong> &nbsp;|&nbsp; Rly Ext: <strong>${currentSm.rlyAutoPhone}</strong> &nbsp;|&nbsp; VHF: <strong>${currentSm.vhfChannel.split(' ')[0]}</strong></div>
+                <div style="font-size: 11.5px; color: #94a3b8;">Duty SM: <strong>${currentSm.dutyStationMaster}</strong> &nbsp;|&nbsp; CUG: <strong style="color:#34d399;">${currentSm.cugMobile}</strong> &nbsp;|&nbsp; Rly Ext: <strong>${currentSm.rlyAutoPhone}</strong> &nbsp;|&nbsp; VHF: <strong>${vhfFreq}</strong></div>
               </div>
             </div>
             <div style="display: flex; gap: 8px;">
@@ -655,7 +684,7 @@ const SM_LP_COORDINATOR = {
               <div class="t409-field full"><span>Location (Between Km):</span> <strong>${activeOrder.milepostStart} &nbsp;TO&nbsp; ${activeOrder.milepostEnd}</strong></div>
               <div class="t409-field full"><span>Cause of Restriction:</span> <strong>${activeOrder.cause}</strong></div>
               <div class="t409-field full"><span>Special Working Instructions:</span> <em>${activeOrder.specialInstructions}</em></div>
-              <div class="t409-field full"><span>Dispatched By:</span> <strong>${activeOrder.dispatchedBy}</strong> at ${new Date(activeOrder.dispatchedAt).toLocaleString('en-IN')}</div>
+              <div class="t409-field full"><span>Dispatched By:</span> <strong>${activeOrder.dispatchedBy}</strong> at ${dispatchTime}</div>
             </div>
           </div>
         `;
@@ -666,20 +695,23 @@ const SM_LP_COORDINATOR = {
           ackBtnContainer.innerHTML = `
             <div class="cab-ack-badge">
               <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
-              <span>Digitally Signed & Acknowledged by LP ${activeOrder.locoPilotName} (CRS Standard Compliance Met)</span>
+              <span>Digitally Signed &amp; Acknowledged by LP ${activeOrder.locoPilotName} (CRS Standard Compliance Met)</span>
             </div>
           `;
         } else {
           ackBtnContainer.innerHTML = `
             <button type="button" class="btn btn-lg btn-danger btn-ack-caution" onclick="SM_LP_COORDINATOR.acknowledgeOrder('${activeOrder.orderId}')">
-              ✍️ ACKNOWLEDGE & APPLY ${activeOrder.restrictedSpeedKmH} KM/H TARGET (LP ${targetTrain.locoPilot})
+              ✍️ ACKNOWLEDGE &amp; APPLY ${activeOrder.restrictedSpeedKmH} KM/H TARGET (LP ${targetTrain.locoPilot})
             </button>
           `;
         }
       }
 
     } else {
-      if (speedTargetDisplay) speedTargetDisplay.textContent = `${targetTrain.normalSpeed} KM/H`;
+      if (speedTargetDisplay) {
+        speedTargetDisplay.textContent = `${targetTrain.normalSpeed} KM/H`;
+        speedTargetDisplay.style.color = '#10b981';
+      }
       if (banner) {
         banner.className = 'cab-alert-banner normal-state';
         banner.innerHTML = `
@@ -698,7 +730,7 @@ const SM_LP_COORDINATOR = {
               <span style="font-size: 20px;">📞</span>
               <div>
                 <div style="font-size: 12px; font-weight: 800; color: #38bdf8;">DIRECT CAB HOTLINE TO STATION MASTER: ${currentSm.name}</div>
-                <div style="font-size: 11.5px; color: #94a3b8;">Duty SM: <strong>${currentSm.dutyStationMaster}</strong> &nbsp;|&nbsp; CUG: <strong style="color:#34d399;">${currentSm.cugMobile}</strong> &nbsp;|&nbsp; Rly Ext: <strong>${currentSm.rlyAutoPhone}</strong> &nbsp;|&nbsp; VHF: <strong>${currentSm.vhfChannel.split(' ')[0]}</strong></div>
+                <div style="font-size: 11.5px; color: #94a3b8;">Duty SM: <strong>${currentSm.dutyStationMaster}</strong> &nbsp;|&nbsp; CUG: <strong style="color:#34d399;">${currentSm.cugMobile}</strong> &nbsp;|&nbsp; Rly Ext: <strong>${currentSm.rlyAutoPhone}</strong> &nbsp;|&nbsp; VHF: <strong>${vhfFreq}</strong></div>
               </div>
             </div>
             <div style="display: flex; gap: 8px;">
@@ -712,39 +744,6 @@ const SM_LP_COORDINATOR = {
           </div>
           <div class="empty-state"><p>No active Form T/409 caution orders for Train ${targetTrain.number}.</p></div>
         `;
-      }
-
-      if (ackBtnContainer) {
-        if (isAck) {
-          ackBtnContainer.innerHTML = `
-            <div class="cab-ack-badge">
-              <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
-              <span>Digitally Signed & Acknowledged by LP ${activeOrder.locoPilotName} (CRS Standard Compliance Met)</span>
-            </div>
-          `;
-        } else {
-          ackBtnContainer.innerHTML = `
-            <button type="button" class="btn btn-lg btn-danger btn-ack-caution" onclick="SM_LP_COORDINATOR.acknowledgeOrder('${activeOrder.orderId}')">
-              ✍️ ACKNOWLEDGE & APPLY ${activeOrder.restrictedSpeedKmH} KM/H TARGET (LP ${targetTrain.locoPilot})
-            </button>
-          `;
-        }
-      }
-
-    } else {
-      if (speedTargetDisplay) speedTargetDisplay.textContent = `${targetTrain.normalSpeed} KM/H`;
-      if (banner) {
-        banner.className = 'cab-alert-banner normal-state';
-        banner.innerHTML = `
-          <div class="cab-alert-icon">🟢</div>
-          <div class="cab-alert-content">
-            <h4>CAB DMI TELEMETRY — NORMAL LINE CLEAR</h4>
-            <p>No active speed restrictions dispatched for Train ${targetTrain.number} on current block section.</p>
-          </div>
-        `;
-      }
-      if (orderDetails) {
-        orderDetails.innerHTML = `<div class="empty-state"><p>No active Form T/409 caution orders for Train ${targetTrain.number}.</p></div>`;
       }
       if (ackBtnContainer) ackBtnContainer.innerHTML = '';
     }
@@ -925,12 +924,16 @@ const SM_LP_COORDINATOR = {
       </div>
     `;
 
+    modal.classList.add('open');
     modal.classList.add('active');
   },
 
   closeSmContactModal() {
     const modal = document.getElementById('smContactDirectoryModal');
-    if (modal) modal.classList.remove('active');
+    if (modal) {
+      modal.classList.remove('open');
+      modal.classList.remove('active');
+    }
   },
 
   selectStationAndOpenDesk(stationCode) {

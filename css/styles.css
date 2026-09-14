@@ -2655,7 +2655,8 @@ html, body {
   transition: opacity var(--transition-fast);
 }
 
-.modal-overlay.open {
+.modal-overlay.open,
+.modal-overlay.active {
   opacity: 1;
   pointer-events: auto;
 }
@@ -2674,7 +2675,8 @@ html, body {
   transition: transform var(--transition-smooth);
 }
 
-.modal-overlay.open .modal-window {
+.modal-overlay.open .modal-window,
+.modal-overlay.active .modal-window {
   transform: translateY(0) scale(1);
 }
 
